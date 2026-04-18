@@ -1,0 +1,18 @@
+# core_data (514K+ files, too large for git)
+core_data/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Temp files
+*.html
+!viewer/index.html
+*.png
+*.txt
+*.json.bak
+
+# IDE
+.vscode/
+.idea/

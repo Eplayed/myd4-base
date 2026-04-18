@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D4 数据库 - 本地查看器</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-dark: #0f0f12;
+            --bg-card: #1a1a1f;
+            --bg-hover: #252530;
+            --bg-input: #252530;
+            --text-primary: #e8e8ec;
+            --text-secondary: #8b8b96;
+            --accent: #ff6b35;
+            --accent-blue: #4a9eff;
+            --accent-gold: #ffd700;
+            --accent-purple: #a855f7;
+            --border: #2a2a35;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a1f 0%, #252530 100%);
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header h1 { 
+            font-size: 20px; 
+            background: linear-gradient(90deg, #ff6b35, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header .badge { 
+            background: linear-gradient(90deg, #ff6b35, #ffd700);
+            color: #000; 
+            padding: 3px 10px; 
+            border-radius: 20px; 
+            font-size: 12px; 
+            font-weight: 600;
+        }
+        .tabs {
+            display: flex;
+            gap: 4px;
+            padding: 12px 24px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+        }
+        .tab {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .tab:hover { background: var(--bg-hover); color: var(--text-primary); }
+        .tab.active { background: var(--accent); color: #000; font-weight: 600; }
+        
+        .toolbar {
+            padding: 12px 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .filter-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        .filter-select {
+            padding: 8px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 13px;
+            cursor: pointer;
+            min-width: 110px;
+        }
+        .filter-select:hover { border-color: var(--accent); }
+        .filter-select:focus { outline: none; border-color: var(--accent); }
+        .search {
+            flex: 1;
+            min-width: 180px;
+            max-width: 280px;
+            padding: 8px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+        .search:focus { outline: none; border-color: var(--accent); }
+        .stats { 
+            color: var(--text-secondary); 
+            font-size: 13px;
+            margin-left: auto;
+        }
+        .reset-btn {
+            padding: 8px 14px;
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .reset-btn:hover { opacity: 0.9; }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 14px;
+            padding: 20px 24px;
+        }
+        .grid.affix-mode {
+            display: block;
+            padding: 16px;
+        }
+        /* Affix table layout */
+        .affix-layout {
+            display: flex;
+            gap: 16px;
+            padding: 0;
+            width: 100%;
+        }
+        .affix-layout > * { flex: 1; }
+        .affix-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .affix-panel-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            padding: 10px 14px;
+            background: var(--bg-hover);
+            border-bottom: 1px solid var(--border);
+        }
+        .affix-count {
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-left: 6px;
+        }
+        .affix-header-row {
+            display: flex;
+            padding: 6px 12px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+        .affix-header-row span:first-child { flex: 1; }
+        .affix-header-row span:last-child { flex: 1.5; }
+        .affix-rows {
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+        .affix-row {
+            display: flex;
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            font-size: 13px;
+            transition: background 0.15s;
+        }
+        .affix-row:hover { background: var(--bg-hover); }
+        .affix-row--main {
+            display: flex;
+            align-items: center;
+        }
+        .affix-row--main .affix-name-cell {
+            flex: 1;
+            min-width: 0;
+        }
+        .affix-row--main .affix-desc-cell {
+            flex: 1.5;
+            min-width: 0;
+        }
+        .affix-header-row span:first-child {
+            width: 20px;
+            flex-shrink: 0;
+        }
+        .affix-header-row span:nth-child(2) {
+            flex: 1;
+        }
+        .affix-header-row span:last-child {
+            flex: 1.5;
+        }
+        .affix-name-text {
+            font-weight: 500;
+            color: var(--text-primary);
+            word-break: break-all;
+        }
+        .affix-class {
+            font-size: 10px;
+            color: var(--accent-blue);
+            font-weight: 400;
+        }
+        .affix-empty {
+            padding: 20px 12px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+        .c_random { color: #4a9eff; font-weight: 500; }
+        .c_maroon { color: #ff6b35; }
+
+        /* Affix expand/collapse */
+        .affix-group { border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .affix-row--main { cursor: pointer; }
+        .affix-toggle {
+            width: 20px;
+            color: var(--text-secondary);
+            font-size: 10px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        .affix-toggle.open { transform: rotate(90deg); }
+        .affix-sub-list { background: rgba(0,0,0,0.15); }
+        .affix-row--sub {
+            font-size: 12px;
+            padding: 6px 12px 6px 32px;
+        }
+        .affix-ipower {
+            width: 70px;
+            color: var(--text-secondary);
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+        .affix-row--equip {
+            padding: 6px 12px 6px 32px;
+            background: var(--bg-hover);
+        }
+        .affix-equip {
+            color: var(--text-secondary);
+            font-size: 11px;
+        }
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            gap: 12px;
+        }
+        .card:hover { 
+            border-color: var(--accent); 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        .card.legendary:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: var(--border);
+        }
+        .card.mythic {
+            border-color: var(--accent-gold);
+            background: linear-gradient(135deg, #1a1a1f 0%, #2a2520 100%);
+        }
+        .card.legendary {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: default;
+        }
+        .card.legendary .card-tags { justify-content: center; }
+        .card.legendary .card-desc { text-align: left; }
+        
+        /* Skill card */
+        .card.skill-card {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+        }
+        .card.skill-card .card-tags { justify-content: center; flex-wrap: wrap; }
+        .card.skill-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        .card-image {
+            width: 72px;
+            height: 72px;
+            background: var(--bg-hover);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .card-image .placeholder {
+            font-size: 28px;
+            opacity: 0.5;
+        }
+        .card-image.square {
+            width: 80px;
+            height: 80px;
+            margin-top: 4px;
+        }
+        .card-aspect-sub {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin: 2px 0 4px;
+        }
+        .card-content { flex: 1; min-width: 0; }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .card-title { 
+            font-size: 14px; 
+            font-weight: 600; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card.mythic .card-title { color: var(--accent-gold); }
+        .card-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+        .card-badge.type { background: var(--bg-hover); color: var(--text-secondary); }
+        .card-badge.class { background: rgba(74, 158, 255, 0.15); color: var(--accent-blue); }
+        .card-badge.mythic { background: rgba(255, 215, 0, 0.2); color: var(--accent-gold); }
+        .card-badge.boss { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+        .card-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin: 6px 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+        .card-footer {
+            display: flex;
+            gap: 12px;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+        .modal.active { display: flex; justify-content: center; }
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 16px;
+            max-width: 800px;
+            width: 100%;
+            padding: 24px;
+            position: relative;
+        }
+        .modal.mythic .modal-content { border: 2px solid var(--accent-gold); }
+        .modal-close {
+            position: absolute;
+            top: 16px; right: 16px;
+            background: none; border: none;
+            color: var(--text-secondary);
+            font-size: 28px;
+            cursor: pointer;
+        }
+        .modal-close:hover { color: var(--text-primary); }
+        .modal-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .modal-image {
+            width: 100px;
+            height: 100px;
+            background: var(--bg-hover);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .modal-title-section { flex: 1; }
+        .modal-title { font-size: 22px; margin-bottom: 8px; }
+        .modal.mythic .modal-title { color: var(--accent-gold); }
+        .modal-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+        .modal-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+        .modal-section { margin-bottom: 16px; }
+        .modal-label { 
+            font-size: 11px; 
+            color: var(--text-secondary); 
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .modal-value { font-size: 14px; line-height: 1.6; }
+        .modal-affixes {
+            background: var(--bg-hover);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        .modal-affix {
+            margin-bottom: 8px;
+            padding-left: 12px;
+            border-left: 2px solid var(--accent);
+        }
+        .modal-affix:last-child { margin-bottom: 0; }
+        .modal-affix.mythic { border-left-color: var(--accent-gold); }
+        
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+        }
+        .loading::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        .empty {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+        }
+        
+        /* 构筑模拟器 */
+        .planner-container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            height: calc(100vh - 140px);
+            background: var(--bg-primary);
+        }
+        .planner-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 15px 20px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .planner-header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--text-primary);
+        }
+        .planner-class-selector select {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--bg-hover);
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+        .planner-reset-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid var(--accent);
+            background: transparent;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .planner-reset-btn:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+        .planner-body {
+            display: flex;
+            gap: 20px;
+            flex: 1;
+            overflow: hidden;
+        }
+        .planner-gear {
+            display: flex;
+            gap: 40px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            width: 400px;
+            flex-shrink: 0;
+        }
+        .gear-left, .gear-right {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .gear-right {
+            justify-content: flex-start;
+        }
+        .gear-slot {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-hover);
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .gear-slot:hover {
+            border-color: var(--accent);
+            background: rgba(74, 158, 255, 0.1);
+        }
+        .gear-slot.filled {
+            border-style: solid;
+            border-color: var(--accent-gold);
+        }
+        .slot-icon {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .slot-item {
+            position: absolute;
+            inset: 4px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .planner-stats {
+            flex: 1;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .planner-stats h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+        .stats-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: var(--bg-hover);
+            border-radius: 6px;
+        }
+        .stat-name {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+        .stat-value {
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        /* Item picker in modal */
+        .item-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .item-picker-card {
+            padding: 10px;
+            background: var(--bg-hover);
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .item-picker-card:hover {
+            background: rgba(74, 158, 255, 0.2);
+        }
+        .item-picker-card .item-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 8px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .item-picker-card .item-name {
+            font-size: 12px;
+            color: var(--text-primary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <h1>🔥 D4 数据库</h1>
+            <span class="badge">S12</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-secondary);">数据来源: d2core.com</div>
+    </header>
+
+    <nav class="tabs" id="tabs">
+        <button class="tab active" data-tab="uniqueItem">暗金</button>
+        <button class="tab" data-tab="aspect">威能</button>
+        <button class="tab" data-tab="affix">词缀</button>
+        <button class="tab" data-tab="skill">技能</button>
+        <button class="tab" data-tab="rune">符文</button>
+        <button class="tab" data-tab="gem">宝石</button>
+        <button class="tab" data-tab="elixir">药剂</button>
+        <button class="tab" data-tab="summon">召唤</button>
+        <button class="tab" data-tab="builds">构筑BD</button>
+        <button class="tab" data-tab="planner">模拟器</button>
+    </nav>
+
+    <div class="toolbar" id="toolbar">
+        <!-- uniqueItem filters -->
+        <div class="filter-group tf tf-uniqueItem">
+            <span class="filter-label">职业:</span>
+            <select class="filter-select" id="filterClass"><option value="">全部</option></select>
+        </div>
+        <div class="filter-group tf tf-uniqueItem">
+            <span class="filter-label">装备:</span>
+            <select class="filter-select" id="filterEquipType"><option value="">全部</option></select>
+        </div>
+        <div class="filter-group tf tf-uniqueItem">
+            <span class="filter-label">BOSS:</span>
+            <select class="filter-select" id="filterBoss"><option value="">全部</option></select>
+        </div>
+        <!-- aspect filters -->
+        <div class="filter-group tf tf-aspect" style="display:none;">
+            <span class="filter-label">职业:</span>
+            <select class="filter-select" id="filterAspectClass"><option value="">全部</option></select>
+        </div>
+        <div class="filter-group tf tf-aspect" style="display:none;">
+            <span class="filter-label">来源:</span>
+            <select class="filter-select" id="filterAspectSource"><option value="">全部</option></select>
+        </div>
+        <div class="filter-group tf tf-aspect" style="display:none;">
+            <span class="filter-label">类型:</span>
+            <select class="filter-select" id="filterAspectType"><option value="">全部</option></select>
+        </div>
+        <!-- affix filters -->
+        <div class="filter-group tf tf-affix" style="display:none;">
+            <span class="filter-label">职业:</span>
+            <select class="filter-select" id="filterAffixClass"><option value="">全部</option></select>
+        </div>
+        <div class="filter-group tf tf-affix" style="display:none;">
+            <span class="filter-label">装备:</span>
+            <select class="filter-select" id="filterAffixEquip"><option value="">全部</option></select>
+        </div>
+        <!-- skill filters -->
+        <div class="filter-group tf tf-skill" style="display:none;">
+            <span class="filter-label">职业:</span>
+            <select class="filter-select" id="filterSkillClass"><option value="">全部</option></select>
+        </div>
+        <div class="filter-group tf tf-skill" style="display:none;">
+            <span class="filter-label">类型:</span>
+            <select class="filter-select" id="filterSkillType"><option value="">全部</option></select>
+        </div>
+        <div class="filter-group tf tf-skill" style="display:none;">
+            <span class="filter-label">标签:</span>
+            <select class="filter-select" id="filterSkillTag"><option value="">全部</option></select>
+        </div>
+        <!-- planner filters -->
+        <div class="filter-group tf tf-planner" style="display:none;">
+            <span class="filter-label">职业:</span>
+            <select class="filter-select" id="filterPlannerClass">
+                <option value="">选择职业</option>
+                <option value="Barbarian">野蛮人</option>
+                <option value="Druid">德鲁伊</option>
+                <option value="Necromancer">死灵法师</option>
+                <option value="Sorcerer">巫师</option>
+                <option value="Rogue">游侠</option>
+                <option value="Paladin">圣骑士</option>
+                <option value="Spiritborn">魂灵</option>
+            </select>
+        </div>
+        <!-- common -->
+        <input type="text" class="search" id="search" placeholder="搜索...">
+        <button class="reset-btn" id="resetBtn">重置</button>
+        <span class="stats" id="stats"></span>
+    </div>
+
+    <main class="grid" id="grid"><div class="loading">加载中</div></main>
+    
+    <!-- 构筑模拟器 -->
+    <div class="planner-container" id="planner" style="display:none;">
+        <div class="planner-header">
+            <h2>构筑模拟器</h2>
+            <div class="planner-class-selector">
+                <select id="plannerClass">
+                    <option value="">选择职业</option>
+                    <option value="Barbarian">野蛮人</option>
+                    <option value="Druid">德鲁伊</option>
+                    <option value="Necromancer">死灵法师</option>
+                    <option value="Sorcerer">巫师</option>
+                    <option value="Rogue">游侠</option>
+                    <option value="Paladin">圣骑士</option>
+                    <option value="Spiritborn">魂灵</option>
+                </select>
+            </div>
+            <button class="planner-reset-btn" onclick="resetPlanner()">重置</button>
+        </div>
+        
+        <div class="planner-body">
+            <!-- 装备槽 -->
+            <div class="planner-gear">
+                <div class="gear-left">
+                    <div class="gear-slot" data-slot="Helm" onclick="openItemPicker('Helm')">
+                        <div class="slot-icon">头盔</div>
+                        <div class="slot-item"></div>
+                    </div>
+                    <div class="gear-slot" data-slot="ChestArmor" onclick="openItemPicker('ChestArmor')">
+                        <div class="slot-icon">胸甲</div>
+                        <div class="slot-item"></div>
+                    </div>
+                    <div class="gear-slot" data-slot="Gloves" onclick="openItemPicker('Gloves')">
+                        <div class="slot-icon">手套</div>
+                        <div class="slot-item"></div>
+                    </div>
+                    <div class="gear-slot" data-slot="Legs" onclick="openItemPicker('Legs')">
+                        <div class="slot-icon">裤子</div>
+                        <div class="slot-item"></div>
+                    </div>
+                    <div class="gear-slot" data-slot="Boots" onclick="openItemPicker('Boots')">
+                        <div class="slot-icon">靴子</div>
+                        <div class="slot-item"></div>
+                    </div>
+                    <div class="gear-slot" data-slot="MainHand" onclick="openItemPicker('MainHand')">
+                        <div class="slot-icon">主手</div>
+                        <div class="slot-item"></div>
+                    </div>
+                    <div class="gear-slot" data-slot="OffHand" onclick="openItemPicker('OffHand')">
+                        <div class="slot-icon">副手</div>
+                        <div class="slot-item"></div>
+                    </div>
+                </div>
+                <div class="gear-right">
+                    <div class="gear-slot" data-slot="Amulet" onclick="openItemPicker('Amulet')">
+                        <div class="slot-icon">护符</div>
+                        <div class="slot-item"></div>
+                    </div>
+                    <div class="gear-slot" data-slot="Ring1" onclick="openItemPicker('Ring')">
+                        <div class="slot-icon">戒指1</div>
+                        <div class="slot-item"></div>
+                    </div>
+                    <div class="gear-slot" data-slot="Ring2" onclick="openItemPicker('Ring')">
+                        <div class="slot-icon">戒指2</div>
+                        <div class="slot-item"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 属性面板 -->
+            <div class="planner-stats">
+                <h3>属性统计</h3>
+                <div class="stats-list" id="plannerStats">
+                    <div class="stat-row"><span class="stat-name">生命</span><span class="stat-value">0</span></div>
+                    <div class="stat-row"><span class="stat-name">护甲</span><span class="stat-value">0</span></div>
+                    <div class="stat-row"><span class="stat-name">力量</span><span class="stat-value">0</span></div>
+                    <div class="stat-row"><span class="stat-name">敏捷</span><span class="stat-value">0</span></div>
+                    <div class="stat-row"><span class="stat-name">智力</span><span class="stat-value">0</span></div>
+                    <div class="stat-row"><span class="stat-name">意力</span><span class="stat-value">0</span></div>
+                    <div class="stat-row"><span class="stat-name">暴击几率</span><span class="stat-value">0%</span></div>
+                    <div class="stat-row"><span class="stat-name">暴击伤害</span><span class="stat-value">0%</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="viewer_data.js"></script>
+    <script>
+        const DATA_FILES = {
+            uniqueItem: 'data/uniqueItem_zhCN.json',
+            aspect: 'data/aspect_zhCN.json',
+            affix: 'data/affix_zhCN.json',
+            skill: 'data/skills_zhCN.json',
+            rune: 'data/rune_zhCN.json',
+            gem: 'data/gem_zhCN.json',
+            elixir: 'data/elixir_zhCN.json',
+            summon: 'data/summon_zhCN.json',
+            builds: 'builds_data.json',
+            planner: null  // 内置模拟器
+        };
+
+        let currentTab = 'uniqueItem';
+        let allData = {};
+        let filteredData = [];
+        let filters = {
+            // uniqueItem
+            class: '', equipType: '', boss: '',
+            // aspect
+            aspectClass: '', aspectSource: '', aspectType: '',
+            // affix
+            affixClass: '', affixEquip: '',
+            // skill
+            skillClass: '', skillType: '', skillTag: '',
+            // common
+            search: ''
+        };
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelector('.tab.active').classList.remove('active');
+                tab.classList.add('active');
+                currentTab = tab.dataset.tab;
+                updateFilterVisibility();
+                loadData(currentTab);
+            });
+        });
+
+        // Update filter visibility based on tab
+        function updateFilterVisibility() {
+            document.querySelectorAll('.tf').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tf-' + currentTab).forEach(el => el.style.display = 'flex');
+        }
+
+        // Get item image URL
+        function getItemImageUrl(iconId, tab) {
+            if (!iconId) return null;
+            // Skills use .png, others use .webp
+            const ext = (tab === 'skill' || tab === 'rune' || tab === 'gem' || tab === 'elixir' || tab === 'summon') ? 'png' : 'webp';
+            return `https://cloudstorage.d2core.com/data_img/d4/${tab}/${iconId}.${ext}?imageView2/2/ignore-error/1/w/200/q/80`;
+        }
+
+        // Load data from embedded JS
+        function loadData(tab) {
+            // Planner tab - show planner UI
+            if (tab === 'planner') {
+                document.getElementById('grid').style.display = 'none';
+                document.getElementById('planner').style.display = 'flex';
+                document.getElementById('stats').textContent = '';
+                return;
+            }
+            
+            // Hide planner, show grid
+            document.getElementById('grid').style.display = 'grid';
+            document.getElementById('planner').style.display = 'none';
+            
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '<div class="loading">加载中</div>';
+            document.getElementById('stats').textContent = '';
+
+            // Use embedded data
+            if (window.D4DATA && window.D4DATA[tab]) {
+                allData[tab] = window.D4DATA[tab];
+            } else if (DATA_FILES[tab]) {
+                // Fallback to fetch
+                fetch(DATA_FILES[tab]).then(r => r.json()).then(data => {
+                    allData[tab] = data;
+                    initFilters();
+                    applyFilters();
+                }).catch(e => {
+                    grid.innerHTML = '<div class="empty">加载失败: ' + e.message + '</div>';
+                });
+                return;
+            }
+
+            initFilters();
+            applyFilters();
+        }
+
+        // Initialize filters for current tab
+        function initFilters() {
+            const data = allData[currentTab] || [];
+
+            // uniqueItem filters
+            const clsSel = document.getElementById('filterClass');
+            const eqpSel = document.getElementById('filterEquipType');
+            const bosSel = document.getElementById('filterBoss');
+            clsSel.innerHTML = '<option value="">全部</option>';
+            eqpSel.innerHTML = '<option value="">全部</option>';
+            bosSel.innerHTML = '<option value="">全部</option>';
+
+            const uiClasses = new Set(), uiEquip = new Set(), uiBoss = new Set();
+            // aspect filters
+            const aClsSel = document.getElementById('filterAspectClass');
+            const aSrcSel = document.getElementById('filterAspectSource');
+            const aTypSel = document.getElementById('filterAspectType');
+            aClsSel.innerHTML = '<option value="">全部</option>';
+            aSrcSel.innerHTML = '<option value="">全部</option>';
+            aTypSel.innerHTML = '<option value="">全部</option>';
+            // affix filters
+            const afClsSel = document.getElementById('filterAffixClass');
+            const afEqpSel = document.getElementById('filterAffixEquip');
+            afClsSel.innerHTML = '<option value="">全部</option>';
+            afEqpSel.innerHTML = '<option value="">全部</option>';
+            // skill filters
+            const skClsSel = document.getElementById('filterSkillClass');
+            const skTypSel = document.getElementById('filterSkillType');
+            const skTagSel = document.getElementById('filterSkillTag');
+            skClsSel.innerHTML = '<option value="">全部</option>';
+            skTypSel.innerHTML = '<option value="">全部</option>';
+            skTagSel.innerHTML = '<option value="">全部</option>';
+
+            const aClasses = new Set(), aSources = new Set(), aTypes = new Set();
+            const afClasses = new Set(), afEquips = new Set();
+
+            const charTypeMap = {
+                'Barbarian':'野蛮人','Druid':'德鲁伊','Necromancer':'死灵法师',
+                'Sorcerer':'巫师','Rogue':'游侠','Paladin':'圣骑士',
+                'Spiritborn':'魂灵','Generic':'通用',null:'通用'
+            };
+            const itemTypeMap = {
+                'Amulet':'护符','Amulet2':'护符2',
+                'Boots':'靴子','ChestArmor':'胸甲','Gloves':'手套',
+                'Helm':'头盔','Legs':'裤子','Ring':'戒指','Ring2':'戒指2',
+                'Shield':'盾牌','ShieldHTH':'盾',
+                'Axe':'单手斧','Axe2H':'双手斧','Bow':'弓',
+                'Crossbow':'弩','Crossbow2H':'双手弩',
+                'Dagger':'匕首','DaggerOffHand':'匕首副手',
+                'Mace':'钉锤','Mace2H':'双手钉锤','Mace2HDruid':'德鲁伊钉锤',
+                'Polearm':'长柄','Quarterstaff':'长杖',
+                'Scythe':'镰刀','Scythe2H':'双手镰刀',
+                'Staff':'法杖','StaffDruid':'德鲁伊杖','StaffSorcerer':'巫师杖',
+                'Sword':'单手剑','Sword2H':'双手剑','Wand':'魔杖',
+                'Glaive':'剑刃戟','Flail':'连枷',
+                'DruidOffhand':'德鲁伊副手','Focus':'聚能器','FocusBookOffHand':'副手书',
+            };
+
+            data.forEach(item => {
+                // uniqueItem
+                if (item.charName) item.charName.split(',').forEach(c => uiClasses.add(c.trim()));
+                if (item.equipTypeName) uiEquip.add(item.equipTypeName);
+                if (item.dropBoss) item.dropBoss.forEach(b => uiBoss.add(b));
+
+                // aspect
+                if (item.charName) item.charName.split(',').forEach(c => aClasses.add(c.trim()));
+                if (item.source) aSources.add(item.source);
+                if (item.aspectTypeName) aTypes.add(item.aspectTypeName);
+
+                // affix
+                if (item.charType) {
+                    item.charType.forEach(c => {
+                        const name = charTypeMap[c] || c;
+                        afClasses.add(name);
+                    });
+                }
+                if (item.itemType) {
+                    item.itemType.forEach(t => {
+                        const name = itemTypeMap[t] || t;
+                        afEquips.add(name);
+                    });
+                }
+            });
+
+            uiClasses.forEach(c => { clsSel.innerHTML += `<option value="${c}">${c}</option>`; });
+            uiEquip.forEach(t => { eqpSel.innerHTML += `<option value="${t}">${t}</option>`; });
+            uiBoss.forEach(b => { bosSel.innerHTML += `<option value="${b}">${b}</option>`; });
+
+            aClasses.forEach(c => { aClsSel.innerHTML += `<option value="${c}">${c}</option>`; });
+            aSources.forEach(s => {
+                const label = s === 'Codex' ? '📕 宝典' : s === 'Legendary' ? '⚔️ 传奇' : s;
+                aSrcSel.innerHTML += `<option value="${s}">${label}</option>`;
+            });
+            aTypes.forEach(t => { aTypSel.innerHTML += `<option value="${t}">${t}</option>`; });
+
+            afClasses.forEach(c => { afClsSel.innerHTML += `<option value="${c}">${c}</option>`; });
+            afEquips.forEach(t => { afEqpSel.innerHTML += `<option value="${t}">${t}</option>`; });
+
+            // skill filters
+            const sClasses = new Set(), sTags = new Set();
+            data.forEach(item => {
+                if (item.charName) sClasses.add(item.charName);
+                if (item.tags) item.tags.forEach(t => sTags.add(t));
+            });
+            sClasses.forEach(c => { skClsSel.innerHTML += `<option value="${c}">${c}</option>`; });
+            skTypSel.innerHTML += `<option value="active">主动技能</option>`;
+            skTypSel.innerHTML += `<option value="passive">被动技能</option>`;
+            sTags.forEach(t => { skTagSel.innerHTML += `<option value="${t}">${t}</option>`; });
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const data = allData[currentTab] || [];
+            filteredData = data.filter(item => {
+                // uniqueItem filters
+                if (currentTab === 'uniqueItem') {
+                    if (filters.class && item.charName && !item.charName.includes(filters.class)) return false;
+                    if (filters.equipType && item.equipTypeName !== filters.equipType) return false;
+                    if (filters.boss && item.dropBoss && !item.dropBoss.includes(filters.boss)) return false;
+                }
+                // aspect filters
+                if (currentTab === 'aspect') {
+                    if (filters.aspectClass && item.charName && !item.charName.includes(filters.aspectClass)) return false;
+                    if (filters.aspectSource && item.source !== filters.aspectSource) return false;
+                    if (filters.aspectType && item.aspectTypeName !== filters.aspectType) return false;
+                }
+                // affix filters
+                if (currentTab === 'affix') {
+                    const charTypeMap = {
+                        '野蛮人':'Barbarian','德鲁伊':'Druid','死灵法师':'Necromancer',
+                        '巫师':'Sorcerer','游侠':'Rogue','圣骑士':'Paladin',
+                        '魂灵':'Spiritborn','通用':'Generic'
+                    };
+                    if (filters.affixClass && item.charType) {
+                        const mapped = charTypeMap[filters.affixClass];
+                        if (!item.charType.includes(mapped) && !item.charType.includes(null)) return false;
+                    }
+                    if (filters.affixEquip) {
+                        const itemTypeMap = {
+                            '护符':'Amulet','护符2':'Amulet2',
+                            '靴子':'Boots','胸甲':'ChestArmor','手套':'Gloves',
+                            '头盔':'Helm','裤子':'Legs','戒指':'Ring','戒指2':'Ring2',
+                            '盾牌':'Shield','盾':'ShieldHTH',
+                            '单手斧':'Axe','双手斧':'Axe2H','弓':'Bow',
+                            '弩':'Crossbow','双手弩':'Crossbow2H',
+                            '匕首':'Dagger','匕首副手':'DaggerOffHand',
+                            '钉锤':'Mace','双手钉锤':'Mace2H','德鲁伊钉锤':'Mace2HDruid',
+                            '长柄':'Polearm','长杖':'Quarterstaff',
+                            '镰刀':'Scythe','双手镰刀':'Scythe2H',
+                            '法杖':'Staff','德鲁伊杖':'StaffDruid','巫师杖':'StaffSorcerer',
+                            '单手剑':'Sword','双手剑':'Sword2H','魔杖':'Wand',
+                            '剑刃戟':'Glaive','连枷':'Flail',
+                            '德鲁伊副手':'DruidOffhand','聚能器':'Focus','副手书':'FocusBookOffHand',
+                        };
+                        const mapped = itemTypeMap[filters.affixEquip];
+                        if (!item.itemType || !item.itemType.includes(mapped)) return false;
+                    }
+                }
+                // skill filters
+                if (currentTab === 'skill') {
+                    if (filters.skillClass && item.charName !== filters.skillClass) return false;
+                    if (filters.skillType && item.active !== (filters.skillType === 'active')) return false;
+                    if (filters.skillTag) {
+                        const tags = item.tags || [];
+                        if (!tags.includes(filters.skillTag)) return false;
+                    }
+                }
+                // common search
+                if (filters.search) {
+                    const q = filters.search.toLowerCase();
+                    if (!JSON.stringify(item).toLowerCase().includes(q)) return false;
+                }
+                return true;
+            });
+            renderGrid();
+        }
+
+        // Render grid
+        function renderGrid() {
+            const grid = document.getElementById('grid');
+            document.getElementById('stats').textContent = `共 ${filteredData.length} 条`;
+
+            if (filteredData.length === 0) {
+                grid.innerHTML = '<div class="empty">暂无数据</div>';
+                return;
+            }
+
+            // Affix: table layout with Normal/Tempered columns
+            if (currentTab === 'affix') {
+                grid.classList.add('affix-mode');
+                renderAffixTable();
+                return;
+            }
+
+            grid.classList.remove('affix-mode');
+            grid.innerHTML = filteredData.slice(0, 200).map((item, i) => renderCard(item, i)).join('');
+            grid.querySelectorAll('.card').forEach((card, i) => {
+                if (currentTab === 'uniqueItem' || currentTab === 'builds') {
+                    card.addEventListener('click', () => showModal(filteredData[i]));
+                }
+            });
+        }
+
+        // Render affix table layout
+        function renderAffixTable() {
+            const grid = document.getElementById('grid');
+            const normal = filteredData.filter(i => !i.tempered);
+            const tempered = filteredData.filter(i => i.tempered);
+
+            const charTypeMap = {
+                'Barbarian':'野蛮人','Druid':'德鲁伊','Necromancer':'死灵法师',
+                'Sorcerer':'巫师','Rogue':'游侠','Paladin':'圣骑士',
+                'Spiritborn':'魂灵','Generic':'通用',null:'通用'
+            };
+            const itemTypeMap = {
+                'Helm':'头盔','ChestArmor':'胸甲','Legs':'裤子','Gloves':'手套',
+                'Boots':'靴子','Amulet':'护符','Ring':'戒指','Shield':'盾牌',
+                'ShieldHTH':'盾','Ring2':'戒指2','Amulet2':'护符2',
+                'Axe':'单手斧','Axe2H':'双手斧','Bow':'弓','Crossbow':'弩',
+                'Crossbow2H':'双手弩','Dagger':'匕首','DaggerOffHand':'匕首副手',
+                'Mace':'钉锤','Mace2H':'双手钉锤','Mace2HDruid':'德鲁伊钉锤',
+                'Polearm':'长柄','Quarterstaff':'长杖','Scythe':'镰刀','Scythe2H':'双手镰刀',
+                'Staff':'法杖','StaffDruid':'德鲁伊杖','StaffSorcerer':'巫师杖',
+                'Sword':'单手剑','Sword2H':'双手剑','Wand':'魔杖','Glaive':'剑刃戟',
+                'Flail':'连枷','DruidOffhand':'德鲁伊副手','Focus':'聚能器','FocusBookOffHand':'副手书',
+            };
+
+            // Normal affix with expandable sub-rows
+            function renderNormalRow(item, index) {
+                const name = (item.prefix || item.name || '-').trim();
+                const rawDesc = (item.desc || '');
+                const effectList = item.effectList || [];
+                const hasSubRows = effectList.length > 1;
+                const itemTypes = item.itemType || [];
+
+                // Parse main desc for display
+                const coloredDesc = rawDesc
+                    .replace(/\{[^}]+\}/g, '')
+                    .replace(/<[^>]+>/g, '')
+                    .replace(/(\[.*?\])/g, '<span class="c_random">$1</span>');
+
+                // Build sub-rows for each effect range
+                const subRowsHtml = effectList.map(eff => {
+                    const ipowerLabel = eff.greater ? `800+` :
+                        eff.ipower >= 500 ? `${eff.ipower} - 499` :
+                        eff.ipower >= 350 ? `${eff.ipower} - 349` :
+                        eff.ipower >= 200 ? `${eff.ipower} - 199` :
+                        `1 - ${eff.ipower}`;
+                    const min = eff.min !== undefined ? eff.min : '';
+                    const max = eff.max !== undefined ? eff.max : '';
+                    const rangeText = min && max ? `[${min} - ${max}]` : (min || max || '');
+                    const rangeHtml = rangeText ? `<span class="c_random">${rangeText}</span>` : '';
+                    // Reconstruct desc with this range
+                    let subDesc = rawDesc;
+                    if (min !== undefined && max !== undefined) {
+                        subDesc = subDesc.replace(/\{[^}]+\}/g, `[${min} - ${max}]`);
+                    }
+                    subDesc = subDesc.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '');
+                    subDesc = subDesc.replace(/(\[.*?\])/g, '<span class="c_random">$1</span>');
+                    return `<div class="affix-row affix-row--sub">
+                        <div class="affix-ipower">${ipowerLabel}</div>
+                        <div class="affix-desc-cell">${subDesc}</div>
+                    </div>`;
+                }).join('');
+
+                // Equipment types
+                const equipTypes = itemTypes.map(t => itemTypeMap[t] || t).join(', ');
+                const equipHtml = equipTypes ? `<div class="affix-row affix-row--equip">
+                    <div class="affix-ipower"></div>
+                    <div class="affix-equip">${equipTypes}</div>
+                </div>` : '';
+
+                const expanded = localStorage.getItem('affix_expanded_' + index) === 'true';
+                const expandBtn = hasSubRows ? `<span class="affix-toggle ${expanded ? 'open' : ''}" onclick="toggleAffixRow(${index}, event)">▶</span>` : '';
+
+                return `<div class="affix-group">
+                    <div class="affix-row affix-row--main">
+                        ${expandBtn}
+                        <div class="affix-name-cell">
+                            <span class="affix-name-text">${name}</span>
+                        </div>
+                        <div class="affix-desc-cell">${coloredDesc}</div>
+                    </div>
+                    <div class="affix-sub-list" style="display:${expanded ? 'block' : 'none'}">
+                        ${subRowsHtml}
+                        ${equipHtml}
+                    </div>
+                </div>`;
+            }
+
+            function renderTemperedRow(item) {
+                const rawDesc = (item.desc || '').replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '').trim();
+                const coloredDesc = rawDesc.replace(/(\[.*?\])/g, '<span class="c_random">$1</span>');
+                return `<div class="affix-row affix-row--tempered">
+                    <div class="affix-name-cell">
+                        <span class="affix-name-text">${coloredDesc}</span>
+                    </div>
+                </div>`;
+            }
+
+            function renderGrouped(items, isTempered) {
+                if (items.length === 0) return '<div class="affix-empty">暂无数据</div>';
+                if (isTempered) {
+                    return items.map(renderTemperedRow).join('');
+                } else {
+                    return items.map((item, i) => renderNormalRow(item, i)).join('');
+                }
+            }
+
+            const html = `
+                <div class="affix-layout">
+                    <div class="affix-panel">
+                        <div class="affix-panel-title">普通词缀 <span class="affix-count">${normal.length}</span></div>
+                        <div class="affix-header-row">
+                            <span style="width:20px"></span><span>词缀</span><span>属性</span>
+                        </div>
+                        <div class="affix-rows">${renderGrouped(normal, false)}</div>
+                    </div>
+                    <div class="affix-panel">
+                        <div class="affix-panel-title">回火词缀 <span class="affix-count">${tempered.length}</span></div>
+                        <div class="affix-header-row">
+                            <span>词缀</span>
+                        </div>
+                        <div class="affix-rows">${renderGrouped(tempered, true)}</div>
+                    </div>
+                </div>
+`;
+            grid.innerHTML = html;
+        }
+
+        // Render card
+        function renderCard(item, i) {
+            const isMythic = item.isMythic;
+            const isLegendary = currentTab === 'aspect';
+            const isSkill = currentTab === 'skill';
+            const iconUrl = getItemImageUrl(item.icon, currentTab);
+            
+            const badges = [];
+            if (currentTab === 'uniqueItem') {
+                if (item.equipTypeName) badges.push(`<span class="card-badge type">${item.equipTypeName}</span>`);
+                if (item.charName) item.charName.split(',').forEach(c => badges.push(`<span class="card-badge class">${c.trim()}</span>`));
+                if (isMythic) badges.push(`<span class="card-badge mythic">神话</span>`);
+            } else if (currentTab === 'aspect') {
+                if (item.source === 'Codex') badges.push(`<span class="card-badge" style="background:rgba(74,158,255,0.15);color:#4a9eff;">能量法典</span>`);
+                if (item.source === 'Legendary') badges.push(`<span class="card-badge" style="background:rgba(255,107,53,0.15);color:#ff6b35;">传奇威能</span>`);
+            } else if (isSkill) {
+                if (item.charName) badges.push(`<span class="card-badge class">${item.charName}</span>`);
+                if (item.tags && item.tags.length > 0) {
+                    item.tags.slice(0, 3).forEach(tag => {
+                        badges.push(`<span class="card-badge" style="background:rgba(74,158,255,0.1);color:#7ab8ff;">${tag}</span>`);
+                    });
+                }
+            } else {
+                if (item.charName) item.charName.split(',').forEach(c => badges.push(`<span class="card-badge class">${c.trim()}</span>`));
+            }
+            
+            // Aspect: show first affix as desc, uniqueItem: show flavor or first affix, skill: show desc
+            let desc = '';
+            if (currentTab === 'aspect') {
+                desc = (item.affixesDesc || '').replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '').slice(0, 100);
+            } else if (isSkill) {
+                // Skill description formatting
+                const descLines = (item.desc || []).slice(0, 3).map(line => {
+                    return line.replace(/\{([^}]+)\}/g, (_, tag) => {
+                        if (tag.startsWith('c_label')) return '<span class="c_label">';
+                        if (tag.startsWith('c_resource')) return '<span class="c_resource">';
+                        if (tag.startsWith('c_number')) return '<span class="c_number">';
+                        if (tag.startsWith('c_important')) return '<span class="c_important">';
+                        if (tag === '/c') return '</span>';
+                        return '';
+                    });
+                }).join('');
+                desc = descLines.replace(/<span class="c_label">/g, '<span style="color:#ff9f43;font-size:11px;">')
+                               .replace(/<span class="c_resource">/g, '<span style="color:#00d2d3;font-size:11px;">')
+                               .replace(/<span class="c_number">/g, '<span style="color:#4a9eff;font-size:11px;">')
+                               .replace(/<span class="c_important">/g, '<span style="color:#ff6b35;font-size:11px;">')
+                               .replace(/<\/span>/g, '</span>');
+            } else {
+                desc = item.flavor || (item.affixesDesc?.[0] || '').replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '').slice(0, 100);
+            }
+
+            // Aspect subtitle: 职业 · 类型
+            const aspectSubtitle = item.charName && item.aspectTypeName
+                ? `<div class="card-aspect-sub">${item.charName} · ${item.aspectTypeName}</div>` : '';
+
+            const footer = [];
+            if (currentTab === 'uniqueItem' && item.dropBoss && item.dropBoss.length > 0) {
+                footer.push(`<span style="color:var(--accent-purple);">💀 ${item.dropBoss[0]}${item.dropBoss.length > 1 ? '...' : ''}</span>`);
+            }
+            if (currentTab === 'builds') {
+                footer.push(`👍 ${item.likes || 0} 💬 ${item.comments || 0}`);
+            }
+            // Skill: show active/passive + damage type + requirements
+            if (isSkill) {
+                const activeType = item.active ? '主动' : '被动';
+                footer.push(`<span style="color:var(--accent-blue);font-size:11px;">${activeType}</span>`);
+                if (item.damageType) {
+                    footer.push(`<span style="color:var(--accent);font-size:11px;">${item.damageType}</span>`);
+                }
+                if (item.ranks) {
+                    footer.push(`<span style="color:var(--text-secondary);font-size:11px;">${item.ranks}级</span>`);
+                }
+                if (item.requirements) {
+                    footer.push(`<span style="color:var(--text-secondary);font-size:10px;">${item.requirements}</span>`);
+                }
+            }
+
+            // Skill cards are clickable
+            const clickable = isSkill || currentTab === 'uniqueItem' || currentTab === 'builds';
+
+            return `
+                <div class="card ${isMythic ? 'mythic' : ''} ${isLegendary ? 'legendary' : ''} ${isSkill ? 'skill-card' : ''}" ${clickable ? `onclick="showModal(filteredData[${i}])"` : ''}>
+                    <div class="card-image ${isLegendary || isSkill ? 'square' : ''}">
+                        ${iconUrl ? `<img src="${iconUrl}" alt="" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=placeholder>⚔️</span>'">` : '<span class="placeholder">⚔️</span>'}
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-title">${item.name || item.title || '-'}</div>
+                        </div>
+                        ${aspectSubtitle}
+                        <div class="card-tags">${badges.join('')}</div>
+                        <div class="card-desc">${desc || '-'}</div>
+                        ${footer.length ? `<div class="card-footer">${footer.join(' · ')}</div>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show modal
+        function showModal(item) {
+            const modal = document.getElementById('modal');
+            const body = document.getElementById('modalBody');
+            const isMythic = item.isMythic;
+            modal.className = `modal active ${isMythic ? 'mythic' : ''}`;
+            
+            const iconUrl = getItemImageUrl(item.icon, currentTab);
+            
+            let html = `
+                <div class="modal-header">
+                    <div class="modal-image">
+                        ${iconUrl ? `<img src="${iconUrl}" alt="" onerror="this.style.display='none'">` : ''}
+                    </div>
+                    <div class="modal-title-section">
+                        <h2 class="modal-title">${item.name || item.title || '-'}</h2>
+                        ${item.key ? `<div class="modal-subtitle">${item.key}</div>` : ''}
+                        <div class="modal-tags">
+                            ${currentTab === 'uniqueItem' && item.equipTypeName ? `<span class="card-badge type">${item.equipTypeName}</span>` : ''}
+                            ${currentTab === 'aspect' && item.aspectTypeName ? `<span class="card-badge type">${item.aspectTypeName}</span>` : ''}
+                            ${item.charName ? `<span class="card-badge class">${item.charName}</span>` : ''}
+                            ${isMythic ? `<span class="card-badge mythic">神话</span>` : ''}
+                            ${currentTab === 'aspect' && item.source === 'Codex' ? `<span class="card-badge" style="background:rgba(74,158,255,0.15);color:#4a9eff;">📕 宝典</span>` : ''}
+                            ${currentTab === 'aspect' && item.source === 'Legendary' ? `<span class="card-badge" style="background:rgba(255,107,53,0.15);color:#ff6b35;">⚔️ 传奇</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // BOSS drops (uniqueItem)
+            if (item.dropBoss && item.dropBoss.length > 0) {
+                html += `<div class="modal-section"><div class="modal-label">💀 掉落 BOSS</div><div class="modal-value">${item.dropBoss.join(', ')}</div></div>`;
+            }
+            
+            // Aspect unlock condition
+            if (item.unlockDesc) {
+                const cleanUnlock = item.unlockDesc.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '').trim();
+                html += `<div class="modal-section"><div class="modal-label">🔓 解锁条件</div><div class="modal-value">${cleanUnlock}</div></div>`;
+            }
+            
+            // Affixes
+            if (item.affixesDesc && item.affixesDesc.length > 0) {
+                html += `<div class="modal-section"><div class="modal-label">📜 词缀</div><div class="modal-affixes">`;
+                item.affixesDesc.forEach((affix, i) => {
+                    const clean = affix.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '').trim();
+                    html += `<div class="modal-affix ${isMythic && i === item.affixesDesc.length - 1 ? 'mythic' : ''}">${clean}</div>`;
+                });
+                html += `</div></div>`;
+            }
+            
+            // Implicit
+            if (item.implict) {
+                const impl = Array.isArray(item.implict) ? item.implict.join('<br>') : item.implict;
+                html += `<div class="modal-section"><div class="modal-label">✨ 固定属性</div><div class="modal-value">${impl}</div></div>`;
+            }
+            
+            // Flavor text
+            if (item.flavor) {
+                html += `<div class="modal-section"><div class="modal-label">📖 背景</div><div class="modal-value" style="font-style:italic;color:var(--text-secondary);">${item.flavor}</div></div>`;
+            }
+            
+            // Stats
+            if (item.damage || item.armor) {
+                html += `<div class="modal-section"><div class="modal-label">⚔️ 属性</div><div class="modal-value">${item.damage ? '伤害: ' + item.damage + '<br>' : ''}${item.armor ? '护甲: ' + item.armor : ''}</div></div>`;
+            }
+            
+            // Builds stats
+            if (currentTab === 'builds') {
+                html += `<div class="modal-section"><div class="modal-label">📊 数据</div><div class="modal-value">👍 ${item.likes || 0} | 💬 ${item.comments || 0} | ⭐ ${item.collections || 0}</div></div>`;
+            }
+            
+            body.innerHTML = html;
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Event listeners
+        document.getElementById('filterClass').addEventListener('change', e => { filters.class = e.target.value; applyFilters(); });
+        document.getElementById('filterEquipType').addEventListener('change', e => { filters.equipType = e.target.value; applyFilters(); });
+        document.getElementById('filterBoss').addEventListener('change', e => { filters.boss = e.target.value; applyFilters(); });
+        document.getElementById('filterAspectClass').addEventListener('change', e => { filters.aspectClass = e.target.value; applyFilters(); });
+        document.getElementById('filterAspectSource').addEventListener('change', e => { filters.aspectSource = e.target.value; applyFilters(); });
+        document.getElementById('filterAspectType').addEventListener('change', e => { filters.aspectType = e.target.value; applyFilters(); });
+        document.getElementById('filterAffixClass').addEventListener('change', e => { filters.affixClass = e.target.value; applyFilters(); });
+        document.getElementById('filterAffixEquip').addEventListener('change', e => { filters.affixEquip = e.target.value; applyFilters(); });
+        document.getElementById('filterSkillClass').addEventListener('change', e => { filters.skillClass = e.target.value; applyFilters(); });
+        document.getElementById('filterSkillType').addEventListener('change', e => { filters.skillType = e.target.value; applyFilters(); });
+        document.getElementById('filterSkillTag').addEventListener('change', e => { filters.skillTag = e.target.value; applyFilters(); });
+        document.getElementById('search').addEventListener('input', e => { filters.search = e.target.value; applyFilters(); });
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            filters = {
+                class: '', equipType: '', boss: '',
+                aspectClass: '', aspectSource: '', aspectType: '',
+                affixClass: '', affixEquip: '',
+                skillClass: '', skillType: '', skillTag: '',
+                search: ''
+            };
+            document.getElementById('filterClass').value = '';
+            document.getElementById('filterEquipType').value = '';
+            document.getElementById('filterBoss').value = '';
+            document.getElementById('filterAspectClass').value = '';
+            document.getElementById('filterAspectSource').value = '';
+            document.getElementById('filterAspectType').value = '';
+            document.getElementById('filterAffixClass').value = '';
+            document.getElementById('filterAffixEquip').value = '';
+            document.getElementById('filterSkillClass').value = '';
+            document.getElementById('filterSkillType').value = '';
+            document.getElementById('filterSkillTag').value = '';
+            document.getElementById('search').value = '';
+            applyFilters();
+        });
+        document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+        // Initial load
+        updateFilterVisibility();
+        
+        // Toggle affix row expand/collapse
+        function toggleAffixRow(idx, e) {
+            e.stopPropagation();
+            const group = e.target.closest('.affix-group');
+            if (!group) return;
+            const subList = group.querySelector('.affix-sub-list');
+            const toggle = group.querySelector('.affix-toggle');
+            if (!subList || !toggle) return;
+            const isExpanded = subList.style.display === 'block';
+            subList.style.display = isExpanded ? 'none' : 'block';
+            toggle.classList.toggle('open', !isExpanded);
+            localStorage.setItem('affix_expanded_' + idx, !isExpanded);
+        }
+        
+        // Planner functions
+        let plannerGear = {
+            Helm: null, ChestArmor: null, Gloves: null, Legs: null, Boots: null,
+            MainHand: null, OffHand: null, Amulet: null, Ring1: null, Ring2: null
+        };
+        
+        function resetPlanner() {
+            plannerGear = {
+                Helm: null, ChestArmor: null, Gloves: null, Legs: null, Boots: null,
+                MainHand: null, OffHand: null, Amulet: null, Ring1: null, Ring2: null
+            };
+            document.querySelectorAll('.gear-slot').forEach(slot => {
+                slot.classList.remove('filled');
+                slot.querySelector('.slot-item').style.backgroundImage = '';
+            });
+            updatePlannerStats();
+        }
+        
+        function updatePlannerStats() {
+            // Collect all equipped items
+            const equippedItems = Object.values(plannerGear).filter(i => i);
+            
+            // Calculate stats from equipped items
+            let stats = {
+                '生命': 0, '护甲': 0, '力量': 0, '敏捷': 0, '智力': 0, '意力': 0,
+                '暴击几率': 0, '暴击伤害': 0
+            };
+            
+            equippedItems.forEach(item => {
+                // Parse affixes from item
+                const affixes = item.affixesDesc || [];
+                affixes.forEach(affix => {
+                    // Simple stat parsing
+                    if (affix.includes('生命') || affix.includes('体力')) stats['生命'] += 100;
+                    if (affix.includes('护甲')) stats['护甲'] += 50;
+                    if (affix.includes('力量')) stats['力量'] += 20;
+                    if (affix.includes('敏捷')) stats['敏捷'] += 20;
+                    if (affix.includes('智力')) stats['智力'] += 20;
+                    if (affix.includes('意力')) stats['意力'] += 20;
+                    if (affix.includes('暴击')) {
+                        if (affix.includes('几率')) stats['暴击几率'] += 5;
+                        if (affix.includes('伤害')) stats['暴击伤害'] += 30;
+                    }
+                });
+            });
+            
+            // Update display
+            const statsHtml = Object.entries(stats).map(([name, value]) => 
+                `<div class="stat-row"><span class="stat-name">${name}</span><span class="stat-value">${value}</span></div>`
+            ).join('');
+            document.getElementById('plannerStats').innerHTML = statsHtml;
+        }
+        
+        function openItemPicker(slotType) {
+            // Open modal to pick items
+            const modal = document.getElementById('modal');
+            const body = document.getElementById('modalBody');
+            
+            // Filter items by slot type
+            const uniqueItems = allData['uniqueItem'] || [];
+            const matchingItems = uniqueItems.filter(item => {
+                if (slotType === 'MainHand') {
+                    return item.equipTypeName && ['单手斧','双手斧','弓','弩','双手弩','匕首','钉锤','双手钉锤','长柄','长杖','镰刀','双手镰刀','法杖','单手剑','双手剑','魔杖','剑刃戟','连枷'].includes(item.equipTypeName);
+                }
+                if (slotType === 'OffHand') {
+                    return item.equipTypeName && ['盾牌','盾','匕首副手','德鲁伊副手','聚能器','副手书'].includes(item.equipTypeName);
+                }
+                if (slotType === 'Ring') {
+                    return item.equipTypeName === '戒指';
+                }
+                return item.equipTypeName === slotType;
+            });
+            
+            const html = `
+                <h3>选择${slotType}</h3>
+                <div class="item-picker-grid">
+                    ${matchingItems.slice(0, 50).map(item => `
+                        <div class="item-picker-card" onclick="selectPlannerItem('${slotType}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                            <div class="item-icon" style="background-image: url('${getItemImageUrl(item.icon, 'uniqueItem')}')"></div>
+                            <div class="item-name">${item.name}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            body.innerHTML = html;
+            modal.classList.add('active');
+        }
+        
+        function selectPlannerItem(slot, item) {
+            // Map slot to gear key
+            const gearKey = slot === 'Ring1' ? 'Ring1' : 
+                           slot === 'Ring2' ? 'Ring2' : slot;
+            
+            plannerGear[gearKey] = item;
+            
+            // Update UI
+            const slotEl = document.querySelector(`.gear-slot[data-slot="${gearKey}"]`);
+            if (slotEl) {
+                slotEl.classList.add('filled');
+                const iconUrl = getItemImageUrl(item.icon, 'uniqueItem');
+                slotEl.querySelector('.slot-item').style.backgroundImage = `url('${iconUrl}')`;
+            }
+            
+            closeModal();
+            updatePlannerStats();
+        }
+        
+        document.getElementById('plannerClass').addEventListener('change', e => {
+            // Could load class-specific items here
+        });
+        
+loadData('uniqueItem');
+    </script>
+</body>
+</html>
