@@ -2,28 +2,42 @@
 // utils.js - 工具函数：图标URL、文本处理、颜色
 // ============================================================
 
-// 召唤物/暗金/威能/技能/宝石/符文/药剂 图标URL
-const ICON_SUBDIR = {
-  summon: "summon", uniqueItem: "unique", aspect: "aspect",
-  skill: "skill", gem: "gem", rune: "rune", elixir: "elixir",
-  affix: "unique", builds: "unique"
+// 图标子目录 + 扩展名映射（从 d2core.com 实际抓取确认）
+const ICON_CONFIG = {
+  summon:     { subdir: "summon",     ext: "png" },
+  uniqueItem: { subdir: "uniqueItem", ext: "webp" },
+  aspect:     { subdir: "aspect",     ext: "webp" },
+  skill:      { subdir: "skill",      ext: "png" },
+  gem:        { subdir: "gem",        ext: "webp" },
+  rune:       { subdir: "rune",       ext: "webp" },
+  elixir:     { subdir: "elixir",     ext: "png" },
+  affix:      null,   // 词缀无图标
+  builds:     null    // 构筑用职业图标
 };
 
 function getItemImageUrl(iconId, tab) {
   if (!iconId) return "";
-  var subDir = ICON_SUBDIR[tab] || "unique";
-  return ICON_BASE + subDir + "/" + iconId + ".png?imageView2/2/ignore-error/1/w/100/q/80";
+  var cfg = ICON_CONFIG[tab];
+  if (!cfg) return "";
+  return ICON_BASE + cfg.subdir + "/" + iconId + "." + cfg.ext + "?imageView2/2/ignore-error/1/w/100/q/80";
 }
 
-// 将 desc[] 数组拼接并去掉 {tag} 和 <xml> 标签
-function parseDescText(descArray) {
-  if (!descArray) return "";
-  return descArray
-    .map(function(line) {
-      return line.replace(/\{[^}]+\}/g, "").replace(/<[^>]+>/g, "").trim();
-    })
-    .filter(function(t) { return t; })
-    .join(" ");
+// 将 desc 拼接并去掉 {tag} 和 <xml> 标签
+// desc 可能是 string（词缀）或 string[]（暗金/召唤/技能）
+function parseDescText(desc) {
+  if (!desc) return "";
+  if (typeof desc === "string") {
+    return desc.replace(/\{[^}]+\}/g, "").replace(/<[^>]+>/g, "").trim();
+  }
+  if (Array.isArray(desc)) {
+    return desc
+      .map(function(line) {
+        return String(line).replace(/\{[^}]+\}/g, "").replace(/<[^>]+>/g, "").trim();
+      })
+      .filter(function(t) { return t; })
+      .join(" ");
+  }
+  return "";
 }
 
 // 带颜色的 desc 展示

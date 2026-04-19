@@ -63,8 +63,19 @@ function initFiltersForTab(tab, data) {
     html += buildFilterGroup('filterAspectSource', '来源', sources, '全部');
   }
   else if (tab === 'affix') {
-    var classes = getUniqueValues(data, 'className').filter(function(c) { return c; });
+    // affix 用 charType（数组），需展开
+    var classSet = {};
+    data.forEach(function(item) {
+      if (Array.isArray(item.charType)) {
+        item.charType.forEach(function(c) { if (c) classSet[c] = true; });
+      }
+    });
+    var classes = Object.keys(classSet).map(function(en) {
+      return CHAR_MAP[en] || en;
+    }).sort();
     html += buildFilterGroup('filterAffixClass', '职业', classes, '全部');
+    // 回火/普通筛选
+    html += buildFilterGroup('filterAffixType', '类型', ['普通词缀', '回火词缀'], '全部');
   }
   else if (tab === 'skill') {
     var classes = getUniqueValues(data, 'charName').filter(function(c) { return c; });
@@ -149,7 +160,9 @@ function applyCurrentFilters(tab) {
     }
     // affix filters
     if (tab === 'affix') {
-      if (filters.filterAffixClass && item.className !== filters.filterAffixClass) return false;
+      if (filters.filterAffixClass && item.charName !== filters.filterAffixClass) return false;
+      if (filters.filterAffixType === '普通词缀' && item.tempered) return false;
+      if (filters.filterAffixType === '回火词缀' && !item.tempered) return false;
     }
     // skill filters
     if (tab === 'skill') {
@@ -200,9 +213,20 @@ function refreshFilterValues(tab, data) {
   }
   if (tab === 'affix') {
     var w = document.getElementById('filterAffixClass-wrap');
+    var w2 = document.getElementById('filterAffixType-wrap');
     if (w) w.style.display = 'flex';
-    var classes = getUniqueValues(data, 'className').filter(function(c) { return c; });
+    if (w2) w2.style.display = 'flex';
+    var classSet = {};
+    data.forEach(function(item) {
+      if (Array.isArray(item.charType)) {
+        item.charType.forEach(function(c) { if (c) classSet[c] = true; });
+      }
+    });
+    var classes = Object.keys(classSet).map(function(en) {
+      return CHAR_MAP[en] || en;
+    }).sort();
     updateSelectOptions('filterAffixClass', classes, '全部');
+    updateSelectOptions('filterAffixType', ['普通词缀', '回火词缀'], '全部');
   }
   if (tab === 'skill') {
     var w = document.getElementById('filterSkillClass-wrap');

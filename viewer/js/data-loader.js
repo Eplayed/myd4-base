@@ -41,6 +41,17 @@ function loadTabData(tab) {
               })
               .filter(function(t) { return t; })
               .join(' ');
+          } else if (typeof item.desc === 'string') {
+            item._descText = item.desc.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '').trim();
+          }
+          // 词缀：将 charType 英文数组 → className 中文（取第一个非 null）
+          if (!item.charName && Array.isArray(item.charType)) {
+            for (var ci = 0; ci < item.charType.length; ci++) {
+              if (item.charType[ci] && CHAR_MAP[item.charType[ci]]) {
+                item.charName = CHAR_MAP[item.charType[ci]];
+                break;
+              }
+            }
           }
           return item;
         });

@@ -1,0 +1,299 @@
+[
+  {
+    "key": "WOTD_VarshanSummon_UpperBody",
+    "name": "颤栗之手",
+    "flavor": "脓液从其指甲下渗出。",
+    "desc": [
+      "此物品与某个强大实体间的联结已经不复存在。",
+      "",
+      "使用此物品，或将此物品带至{c_important}炼金师{/c}处，可将其转化为{icon:Icons_MalignantOrb_Black,2} {c_pickups}恶念之心{/c}。"
+    ],
+    "icon": 3743547770,
+    "_descText": "此物品与某个强大实体间的联结已经不复存在。 使用此物品，或将此物品带至炼金师处，可将其转化为 恶念之心。"
+  },
+  {
+    "key": "WOTD_VarshanSummon_Head",
+    "name": "咕噜头颅",
+    "flavor": "一些浑浊的液体从其口中缓缓滴落。",
+    "desc": [
+      "此物品与某个强大实体间的联结已经不复存在。",
+      "",
+      "使用此物品，或将此物品带至{c_important}炼金师{/c}处，可将其转化为{icon:Icons_MalignantOrb_Black,2} {c_pickups}恶念之心{/c}。"
+    ],
+    "icon": 2023889349,
+    "_descText": "此物品与某个强大实体间的联结已经不复存在。 使用此物品，或将此物品带至炼金师处，可将其转化为 恶念之心。"
+  },
+  {
+    "key": "WOTD_VarshanSummon_Malignant",
+    "name": "恶念之心",
+    "flavor": "{icon:Icon_Tooltip_Marker_Boss,1.8}{c_important}瓦尔申{/c}位于{c_highlight}秘语之树{/c}下方的{icon:Marker_Dungeon_BossLair, 1.8}{c_highlight}恶念魔窟{/c}之中。",
+    "desc": [
+      "用于开启{c_important}瓦尔申的秘宝{/c}，需要 {c_number}12{/c} 个此物品方能开启。",
+      "",
+      "通常可通过以下方式获取: ",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Bounties_TurnIn, 1.5}{c_highlight}秘语之树{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Undercity_Entrance, 1.5}{c_highlight}库拉斯特幽暗之城{/c}（需使用{c_important}巨人贡品{/c}）",
+      "",
+      "有时可通过以下方式获取: ",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_WorldEvent,1.5}{c_highlight}世界首领{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_MercenaryHideout, 1.5}{c_highlight}雇佣兵交易{/c}",
+      "",
+      "仅能在折磨难度下获取。"
+    ],
+    "icon": 3534977045,
+    "_descText": "用于开启瓦尔申的秘宝，需要 12 个此物品方能开启。 通常可通过以下方式获取: 秘语之树 库拉斯特幽暗之城（需使用巨人贡品） 有时可通过以下方式获取: 世界首领 雇佣兵交易 仅能在折磨难度下获取。"
+  },
+  {
+    "key": "WOTD_VarshanSummon_LowerBody",
+    "name": "发黑的股骨",
+    "flavor": "散发着硫磺与腐朽的臭味。",
+    "desc": [
+      "此物品与某个强大实体间的联结已经不复存在。",
+      "",
+      "使用此物品，或将此物品带至{c_important}炼金师{/c}处，可将其转化为{icon:Icons_MalignantOrb_Black,2} {c_pickups}恶念之心{/c}。"
+    ],
+    "icon": 1003408949,
+    "_descText": "此物品与某个强大实体间的联结已经不复存在。 使用此物品，或将此物品带至炼金师处，可将其转化为 恶念之心。"
+  },
+  {
+    "key": "BossSummoning_InfernalSteel",
+    "name": "活体钢铁",
+    "flavor": "{icon:Icon_Tooltip_Marker_Boss,1.8}{c_important}格里戈利{/c}位于{c_important}干燥平原{/c}中部的{icon:Marker_Dungeon_BossLair, 1.8}{c_highlight}悔罪者大厅{/c}之中。",
+    "desc": [
+      "用于开启{c_important}格里戈利的秘宝{/c}，需要 {c_number}12{/c} 个此物品方能开启。",
+      "",
+      "{c_important}格里戈利{/c}位于{c_important}干燥平原{/c}中部的{icon:Marker_Dungeon_BossLair, 1.8}{c_highlight}悔罪者大厅{/c}之中。",
+      "",
+      "通常可通过以下方式获取: ",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Helltide, 1.5}{c_highlight}地狱狂潮{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Undercity_Entrance, 1.5}{c_highlight}库拉斯特幽暗之城{/c}（需使用{c_important}巨人贡品{/c}）",
+      "",
+      "有时可通过以下方式获取: ",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Bounties_TurnIn, 1.5}{c_highlight}秘语之树{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_WorldEvent,1.5}{c_highlight}世界首领{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_MercenaryHideout, 1.5}{c_highlight}雇佣兵交易{/c}",
+      "",
+      "仅能在折磨难度下获取。"
+    ],
+    "icon": 2620217698,
+    "_descText": "用于开启格里戈利的秘宝，需要 12 个此物品方能开启。 格里戈利位于干燥平原中部的悔罪者大厅之中。 通常可通过以下方式获取: 地狱狂潮 库拉斯特幽暗之城（需使用巨人贡品） 有时可通过以下方式获取: 秘语之树 世界首领 雇佣兵交易 仅能在折磨难度下获取。"
+  },
+  {
+    "key": "BossSummoning_NightmareDungeon",
+    "name": "提纯的恐惧",
+    "flavor": "{icon:Icon_Tooltip_Marker_Boss,1.8}{c_important}冰中野兽{/c}位于{c_important}破碎群峰{/c}的{icon:Marker_Dungeon_BossLair, 1.8}{c_highlight}冰川裂隙{/c}之中。",
+    "desc": [
+      "用于开启{c_important}冰中野兽的秘宝{/c}，需要 {c_number}12{/c} 个此物品方能开启。",
+      "",
+      "通常可通过以下方式获取: ",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_NightmareDungeonEntrance,1.5}{c_highlight}梦魇地下城{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Undercity_Entrance, 1.5}{c_highlight}库拉斯特幽暗之城{/c}（需使用{c_important}巨人贡品{/c}）",
+      "",
+      "有时可通过以下方式获取: ",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Bounties_TurnIn, 1.5}{c_highlight}秘语之树{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_WorldEvent,1.5}{c_highlight}世界首领{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_MercenaryHideout, 1.5}{c_highlight}雇佣兵交易{/c}",
+      "",
+      "仅能在折磨难度下获取。",
+      ""
+    ],
+    "icon": 3252499629,
+    "_descText": "用于开启冰中野兽的秘宝，需要 12 个此物品方能开启。 通常可通过以下方式获取: 梦魇地下城 库拉斯特幽暗之城（需使用巨人贡品） 有时可通过以下方式获取: 秘语之树 世界首领 雇佣兵交易 仅能在折磨难度下获取。"
+  },
+  {
+    "key": "BossSummoning_VampireLord",
+    "name": "精纯鲜血",
+    "flavor": "{icon:Icon_Tooltip_Marker_Boss,1.8}{c_important}齐尔领主{/c}位于{c_important}破碎群峰{/c}的{icon:Icon_Tooltip_Marker_WargroundWaypoint,1.8}{c_highlight}晦暗之路{/c}。",
+    "desc": [
+      "用于开启{c_important}齐尔领主的秘宝{/c}，需要 {c_number}12{/c} 个此物品方能开启。",
+      "",
+      "通常可通过以下方式获取: ",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_WorldEvent,1.5}{c_highlight}世界首领{/c}和{icon:Marker_ZoneEvent,2.2}{c_highlight}军团事件{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Succuboss_Idle,1.5}{c_important}鲜血侍女{/c}（{icon:Icon_Tooltip_Marker_Helltide, 1.5}{c_highlight}地狱狂潮{/c}）",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Undercity_Entrance, 1.5}{c_highlight}库拉斯特幽暗之城{/c}（需使用{c_important}巨人贡品{/c}）",
+      "",
+      "有时可通过以下方式获取: ",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Bounties_TurnIn, 1.5}{c_highlight}秘语之树{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_MercenaryHideout, 1.5}{c_highlight}雇佣兵交易{/c}",
+      "",
+      "仅能在折磨难度下获取。",
+      ""
+    ],
+    "icon": 4233783590,
+    "_descText": "用于开启齐尔领主的秘宝，需要 12 个此物品方能开启。 通常可通过以下方式获取: 世界首领和军团事件 鲜血侍女（地狱狂潮） 库拉斯特幽暗之城（需使用巨人贡品） 有时可通过以下方式获取: 秘语之树 雇佣兵交易 仅能在折磨难度下获取。"
+  },
+  {
+    "key": "BossSummoning_UberDuriel_A",
+    "name": "粘液覆盖的蛋",
+    "flavor": "里面蠕动着一个新生的强大存在。",
+    "desc": [
+      "该物品与某个强大实体间的联结已经不复存在。",
+      "",
+      "将此物品带至{c_important}炼金师{/c}处，可将其转化为{icon:Icon_Tooltip_MiscTrinkets_CrustyGem_Red_001,2.3}{c_pickups}苦痛碎片{/c}。"
+    ],
+    "icon": 771353234,
+    "_descText": "该物品与某个强大实体间的联结已经不复存在。 将此物品带至炼金师处，可将其转化为苦痛碎片。"
+  },
+  {
+    "key": "BossSummoning_UberDuriel_B",
+    "name": "苦痛碎片",
+    "flavor": "{icon:Icon_Tooltip_Marker_Boss,1.8}{c_important}督瑞尔{/c}位于{c_important}凯基斯坦{/c}南部的{icon:Marker_Dungeon_BossLair, 1.8}{c_highlight}巨口深坑{/c}之中。 ",
+    "desc": [
+      "用于开启{c_important}督瑞尔的秘宝{/c}，需要 {c_number}3{/c} 个此物品方能开启。",
+      "",
+      "通常可通过以下{c_important}巢穴首领秘宝{/c}获取：",
+      "{icon:bullet,1.2}{icon:Marker_Dungeon_BossLair,1.8}{c_highlight}悔罪者大厅{/c}",
+      "{icon:bullet,1.2}{icon:Marker_Dungeon_BossLair,1.8}{c_highlight}恶念魔窟{/c}",
+      "",
+      "有时可通过以下方式获取：",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_WorldEvent,1.5}{c_highlight}世界首领{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Undercity_Entrance, 1.5}{c_highlight}库拉斯特幽暗之城{/c}（需使用{c_important}巨人贡品{/c}）",
+      "",
+      "仅能在折磨难度下获取。",
+      ""
+    ],
+    "icon": 1762224024,
+    "_descText": "用于开启督瑞尔的秘宝，需要 3 个此物品方能开启。 通常可通过以下巢穴首领秘宝获取： 悔罪者大厅 恶念魔窟 有时可通过以下方式获取： 世界首领 库拉斯特幽暗之城（需使用巨人贡品） 仅能在折磨难度下获取。"
+  },
+  {
+    "key": "S03_UnearthedMachinations_FireComponent",
+    "name": "火岩核心",
+    "flavor": "一颗浓缩火焰微粒，拿在手上有灼烧感。",
+    "desc": [
+      "在世界层级 4：折磨中，使用位于织法机秘库内的堕落祭坛，解除前往玛尔法斯的回响之路的封印。需要 {c_number}7{/c}个。通过秘库使者和玛尔法斯之子获取。"
+    ],
+    "icon": 601939244,
+    "_descText": "在世界层级 4：折磨中，使用位于织法机秘库内的堕落祭坛，解除前往玛尔法斯的回响之路的封印。需要 7个。通过秘库使者和玛尔法斯之子获取。"
+  },
+  {
+    "key": "BossSummoning_Andariel_A",
+    "name": "炙沙枷锁",
+    "flavor": "“牢狱与绞架的天作之合！但愿所有罪人都能戴上沉重的铁镣。”",
+    "desc": [
+      "该物品与某个强大实体间的联结已经不复存在。",
+      "",
+      "将此物品带至{c_important}炼金师{/c}处，可将其转化为{icon:Icon_Tooltip_MiscTrinkets_VoodooDoll_001,2}{c_pickups}针垫玩偶{/c}。"
+    ],
+    "icon": 2197070014,
+    "_descText": "该物品与某个强大实体间的联结已经不复存在。 将此物品带至炼金师处，可将其转化为针垫玩偶。"
+  },
+  {
+    "key": "BossSummoning_Andariel_B",
+    "name": "针垫玩偶",
+    "flavor": "{icon:Icon_Tooltip_Marker_Boss,1.8}{c_important}安达莉尔{/c}位于{c_important}凯基斯坦{/c}东部的{icon:Marker_Dungeon_BossLair, 1.8}{c_highlight}绞首者之厅{/c}当中。",
+    "desc": [
+      "用于开启{c_important}安达莉尔的秘宝{/c}，需要 {c_number}3{/c} 个此物品方能开启。",
+      "",
+      "通常可通过以下{c_important}巢穴首领秘宝{/c}获取：",
+      "{icon:bullet,1.2}{icon:Marker_Dungeon_BossLair,1.8}{c_highlight}冰川裂隙{/c}",
+      "{icon:bullet,1.2}{icon:Marker_Dungeon_BossLair,1.8}{c_highlight}上古之人的宝座{/c}",
+      "",
+      "有时可通过以下方式获取：",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_WorldEvent,1.5}{c_highlight}世界首领{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Undercity_Entrance, 1.5}{c_highlight}库拉斯特幽暗之城{/c}（需使用{c_important}巨人贡品{/c}）",
+      "",
+      "仅能在折磨难度下获取。",
+      ""
+    ],
+    "icon": 2537989500,
+    "_descText": "用于开启安达莉尔的秘宝，需要 3 个此物品方能开启。 通常可通过以下巢穴首领秘宝获取： 冰川裂隙 上古之人的宝座 有时可通过以下方式获取： 世界首领 库拉斯特幽暗之城（需使用巨人贡品） 仅能在折磨难度下获取。"
+  },
+  {
+    "key": "BossSummoning_Hardmode",
+    "name": "冥狱石",
+    "flavor": "这块怪石历经漫长岁月的邪恶沉淀，喃喃吟唱着古老的亵渎之词。",
+    "desc": [
+      "可在特定的巢穴首领地下城中使用，也可在炼金师处转化为: ",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_MiscTrinkets_VoodooDoll_001,2}{c_pickups}针垫玩偶{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_MiscTrinkets_CrustyGem_Red_001,2.3}{c_pickups}苦痛碎片{/c}",
+      "{icon:bullet,1.2}{icon:Item_s08_SpiritHeart,2.3}{c_pickups}可憎之心{/c}"
+    ],
+    "icon": 632254314,
+    "_descText": "可在特定的巢穴首领地下城中使用，也可在炼金师处转化为: 针垫玩偶 苦痛碎片 可憎之心"
+  },
+  {
+    "key": "S04_Helltide_Stygian_Stone_01",
+    "name": "冥狱石",
+    "flavor": "这块怪石历经漫长岁月的邪恶沉淀，喃喃吟唱着古老的亵渎之词。",
+    "desc": [
+      "将这块石头带到强敌祭坛，以释放其全部力量。在世界层级 4：折磨的魔渊深处获取。"
+    ],
+    "icon": 632254314,
+    "_descText": "将这块石头带到强敌祭坛，以释放其全部力量。在世界层级 4：折磨的魔渊深处获取。"
+  },
+  {
+    "key": "BossSummoning_Urivar",
+    "name": "裁判官的面具",
+    "flavor": "{icon:Icon_Tooltip_Marker_Boss,1.8}{c_important}乌里瓦尔{/c}位于{c_important}纳罕涂{/c}的{icon:Marker_Dungeon_BossLair, 1.8}{c_highlight}审判旷野{/c}之中。 ",
+    "desc": [
+      "用于开启{c_important}乌里瓦尔的秘宝{/c}，需要 {c_number}12{/c} 个此物品方能开启。",
+      "",
+      "有时可通过以下方式获取：",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Bounties_TurnIn, 1.5}{c_highlight}秘语之树{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_WorldEvent,1.5}{c_highlight}世界首领{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_MercenaryHideout, 1.5}{c_highlight}雇佣兵交易{/c}",
+      "",
+      "仅能在折磨难度下获取。",
+      ""
+    ],
+    "icon": 3255100588,
+    "_descText": "用于开启乌里瓦尔的秘宝，需要 12 个此物品方能开启。 有时可通过以下方式获取： 秘语之树 世界首领 雇佣兵交易 仅能在折磨难度下获取。"
+  },
+  {
+    "key": "BossSummoning_HarbingerOfHatred",
+    "name": "可憎之心",
+    "flavor": "{icon:Icon_Tooltip_Marker_Boss,1.8}{c_important}憎恨先驱{/c}位于{c_important}纳罕涂{/c}的{icon:Marker_Dungeon_BossLair, 1.8}{c_highlight}先驱巢穴{/c}之中。 ",
+    "desc": [
+      "用于开启{c_important}憎恨先驱的秘宝{/c}，需要 {c_number}3{/c} 个此物品方能开启。",
+      "",
+      "通常可通过以下{c_important}巢穴首领秘宝{/c}获取：",
+      "{icon:bullet,1.2}{icon:Marker_Dungeon_BossLair,1.8}{c_highlight}审判旷野{/c}",
+      "",
+      "有时可通过以下方式获取：",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_WorldEvent,1.5}{c_highlight}世界首领{/c}",
+      "{icon:bullet,1.2}{icon:Icon_Tooltip_Marker_Undercity_Entrance, 1.5}{c_highlight}库拉斯特幽暗之城{/c}（需使用{c_important}巨人贡品{/c}）",
+      "",
+      "仅能在折磨难度下获取。",
+      ""
+    ],
+    "icon": 4163490999,
+    "_descText": "用于开启憎恨先驱的秘宝，需要 3 个此物品方能开启。 通常可通过以下巢穴首领秘宝获取： 审判旷野 有时可通过以下方式获取： 世界首领 库拉斯特幽暗之城（需使用巨人贡品） 仅能在折磨难度下获取。"
+  },
+  {
+    "key": "BossSummoning_GigaBeliel",
+    "name": "背叛者的躯壳",
+    "flavor": "{icon:Marker_ApparitionIncursionBelial,1.8}{c_important}彼列{/c}（究极形态）位于{c_important}凯基斯坦{/c}的{icon:Marker_Dungeon_BossLair, 1.8}{c_highlight}欺诈者宫殿{/c}之中。 ",
+    "desc": [
+      "用于开启{c_important}彼列的秘宝{/c}，需要 {c_number}2{/c} 个此物品方能开启。",
+      "",
+      "获取自{icon:Marker_ApparitionIncursionBelial,1.8}{c_important}谎言之王彼列{/c}，其有时会在开启{icon:Marker_Dungeon_BossLair, 1.8}{c_important}巢穴首领秘宝{/c}后现身并发起偷袭。",
+      "",
+      "只有开启秘宝并引来彼列的玩家才有资格拾取其掉落的宝物。",
+      "",
+      "仅能在折磨难度下获取。",
+      ""
+    ],
+    "icon": 585439762,
+    "_descText": "用于开启彼列的秘宝，需要 2 个此物品方能开启。 获取自谎言之王彼列，其有时会在开启巢穴首领秘宝后现身并发起偷袭。 只有开启秘宝并引来彼列的玩家才有资格拾取其掉落的宝物。 仅能在折磨难度下获取。"
+  },
+  {
+    "key": "BossSummoning_Butcher",
+    "name": "磅肉",
+    "flavor": "{icon:Icon_Tooltip_Marker_Boss,1.8}{c_important}屠夫{/c}居住在{c_important}吉·库尔{/c}的{icon:Marker_Dungeon_BossLair, 1.8}{c_highlight}炙烤场{/c}。",
+    "desc": [
+      "用于开启{c_important}屠夫的囤积{/c}，需要 {c_number}3{/c} 个。",
+      "",
+      "常见来源:",
+      "{icon:bullet,1.2}{icon:Marker_Blood, 1.5} {c_highlight}血染活动{/c}",
+      "",
+      "偶尔来源:",
+      "{icon:bullet,1.2} {c_highlight}连杀期间的击杀{/c}",
+      "{icon:bullet,1.2} {c_highlight}盗宝地精{/c}",
+      "",
+      "仅限在折磨难度下发现。",
+      ""
+    ],
+    "icon": 3977762576,
+    "_descText": "用于开启屠夫的囤积，需要 3 个。 常见来源: 血染活动 偶尔来源: 连杀期间的击杀 盗宝地精 仅限在折磨难度下发现。"
+  }
+]

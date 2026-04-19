@@ -442,6 +442,118 @@ body {
 .c_number  { color: #ffd700; }
 .c_highlight { color: #f1c40f; }
 
+/* ===== AFFIX LIST (词缀专用布局 · 参考 d2core) ===== */
+/* 词缀布局需要占满 grid 全宽 */
+.grid:has(.affix-layout) {
+  grid-template-columns: 1fr;
+}
+
+.affix-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.affix-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 220px);
+  max-height: calc(100vh - 180px);
+}
+
+.affix-panel-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.affix-panel-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.affix-header-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+.affix-col-toggle { width: 28px; flex-shrink: 0; text-align: center; }
+.affix-col-name { width: 90px; flex-shrink: 0; overflow: hidden; }
+.affix-col-desc { flex: 1; min-width: 0; overflow: hidden; }
+
+.affix-list {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.affix-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 7px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  cursor: pointer;
+  transition: background 0.15s;
+  gap: 4px;
+}
+.affix-row:hover { background: rgba(255,255,255,0.04); }
+.affix-row:last-child { border-bottom: none; }
+
+.affix-row .affix-col-toggle {
+  color: var(--text-dim);
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+.affix-row .affix-col-toggle svg { vertical-align: middle; }
+
+.affix-row .affix-col-name {
+  flex-shrink: 0;
+  width: 86px;
+  padding-top: 1px;
+}
+
+.affix-name-text {
+  color: var(--c-unique);
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.database-line {
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+/* 词缀数值高亮（参考 d2core 金色） */
+.database-line .c_random,
+.affix-row .c_random {
+  color: #f1c40f;
+  font-weight: 700;
+}
+
+/* 词缀行 hover 高亮属性文字 */
+.affix-row:hover .database-line {
+  color: #fff;
+}
+.affix-row:hover .affix-name-text {
+  color: #ffd27a;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 640px) {
   .header { padding: 0 14px; }
@@ -450,4 +562,7 @@ body {
   .main-content { padding: 12px 14px 30px; }
   .grid { grid-template-columns: 1fr; }
   .logo { font-size: 15px; }
+  .affix-layout { grid-template-columns: 1fr; }
+  .affix-panel { max-height: 60vh; }
+  .affix-col-name { width: 80px; }
 }

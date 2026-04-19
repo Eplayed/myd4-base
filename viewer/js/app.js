@@ -68,6 +68,12 @@ function renderGrid(tab, data) {
     return;
   }
 
+  // 词缀用专用列表布局（参考 d2core）
+  if (tab === 'affix') {
+    renderAffixList(data);
+    return;
+  }
+
   grid.innerHTML = data.map(function(item, i) { return buildCard(tab, item, i); }).join('');
 
   // 卡片点击 → modal
@@ -77,6 +83,63 @@ function renderGrid(tab, data) {
       showModal(tab, data[idx]);
     });
   });
+}
+
+// ----- 词缀专用列表布局（参考 d2core 左右分栏）-----
+function renderAffixList(data) {
+  var grid = document.getElementById('grid');
+
+  // 分离普通词缀和回火词缀
+  var normal = data.filter(function(item) { return !item.tempered; });
+  var tempered = data.filter(function(item) { return item.tempered; });
+
+  var html = '<div class="affix-layout">';
+
+  // 左栏 — 普通词缀
+  html += '<div class="affix-panel">' +
+    '<div class="affix-panel-header"><span class="affix-panel-title">普通</span></div>' +
+    '<div class="affix-header-row">' +
+      '<span class="affix-col-toggle"></span>' +
+      '<span class="affix-col-name">词缀</span>' +
+      '<span class="affix-col-desc">属性</span>' +
+    '</div>' +
+    '<div class="affix-list">' +
+      normal.map(function(item) { return buildAffixRow(item); }).join('') +
+    '</div></div>';
+
+  // 右栏 — 回火词缀
+  html += '<div class="affix-panel">' +
+    '<div class="affix-panel-header"><span class="affix-panel-title" style="color:#e67e22">回火</span></div>' +
+    '<div class="affix-header-row">' +
+      '<span class="affix-col-toggle"></span>' +
+      '<span class="affix-col-name">词缀</span>' +
+      '<span class="affix-col-desc">属性</span>' +
+    '</div>' +
+    '<div class="affix-list">' +
+      tempered.map(function(item) { return buildAffixRow(item); }).join('') +
+    '</div></div>';
+
+  html += '</div>';
+  grid.innerHTML = html;
+}
+
+// 构建单行词缀
+function buildAffixRow(item) {
+  // 名称优先级：prefix/suffix > groupName > key
+  var name = item.prefix || item.suffix || item.groupName || item.key || '';
+  var desc = (typeof item.desc === 'string') ? item.desc : '';
+  // 清理标签并高亮数值
+  desc = desc.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '');
+  desc = parseColoredDesc(escHtml(desc));
+
+  // 标记回火词缀
+  var cls = item.tempered ? ' affix-row--tempered' : '';
+
+  return '<div class="affix-row' + cls + '" data-key="' + escHtml(item.key || '') + '">' +
+    '<span class="affix-col-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>' +
+    '<span class="affix-col-name"><span class="affix-name-text">' + escHtml(name) + '</span></span>' +
+    '<span class="affix-col-desc"><span class="database-line">' + desc + '</span></span>' +
+    '</div>';
 }
 
 // ----- 构造卡片 HTML -----
@@ -90,7 +153,7 @@ function buildCard(tab, item, idx) {
   return '<div class="d4-card" data-idx="' + idx + '" style="--card-accent:' + color + '">' +
     '<div class="d4-card__header">' +
       '<div class="d4-card__icon-wrap">' +
-        '<img class="d4-card__icon" src="' + iconUrl + '" alt="" loading="lazy" onerror="this.style.display=\'none\'">' +
+        (iconUrl ? '<img class="d4-card__icon" src="' + iconUrl + '" alt="" loading="lazy" onerror="this.style.display=\'none\'">' : '') +
       '</div>' +
       '<div class="d4-card__title-row">' +
         '<div class="d4-card__title" style="color:' + color + '">' + escHtml(item.name || '') + '</div>' +
@@ -144,6 +207,12 @@ function buildBadges(tab, item) {
     if (item.charName) badges.push('<span class="badge-item class">' + escHtml(item.charName) + '</span>');
     if (item.type)     badges.push('<span class="badge-item type">' + escHtml(item.type) + '</span>');
   }
+  else if (tab === 'affix') {
+    if (item.tempered)     badges.push('<span class="badge-item source">回火</span>');
+    else                  badges.push('<span class="badge-item source">普通</span>');
+    if (item.charName)    badges.push('<span class="badge-item class">' + escHtml(item.charName) + '</span>');
+    if (item.groupName)   badges.push('<span class="badge-item tag">' + escHtml(item.groupName) + '</span>');
+  }
   else if (tab === 'gem') {
     if (item.quality) badges.push('<span class="badge-item">' + escHtml(item.quality) + '</span>');
   }
@@ -168,6 +237,25 @@ function buildCardDesc(tab, item) {
   }
   else if (tab === 'aspect') {
     text = (item.affixesDesc || '').replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '').slice(0, 120);
+  }
+  else if (tab === 'affix') {
+    // affix.desc 是 string，不是 array
+    text = typeof item.desc === 'string' ? item.desc.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '') : '';
+  }
+  else if (tab === 'gem') {
+    // gem 用 affixesDesc 数组（武器/防具/首饰三行）
+    if (Array.isArray(item.affixesDesc)) {
+      text = item.affixesDesc.slice(0, 2).map(function(a) {
+        return a.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '');
+      }).join(' | ');
+    }
+  }
+  else if (tab === 'rune') {
+    if (Array.isArray(item.affixesDesc)) {
+      text = item.affixesDesc.map(function(a) {
+        return (a.line || a).replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '');
+      }).join(' ');
+    }
   }
   else if (tab === 'skill') {
     text = parseDescText(item.desc || []).slice(0, 150);
@@ -199,9 +287,9 @@ function showModal(tab, item) {
   body.innerHTML =
     '<div class="modal-close" onclick="closeModal()">×</div>' +
     '<div class="modal-header">' +
-      '<div class="modal-icon-wrap">' +
+      (iconUrl ? '<div class="modal-icon-wrap">' +
         '<img src="' + iconUrl + '" alt="" onerror="this.parentElement.style.background=\'rgba(255,255,255,0.04)\'">' +
-      '</div>' +
+      '</div>' : '') +
       '<div class="modal-title-block">' +
         '<div class="modal-title" style="color:' + color + '">' + escHtml(item.name || '') + '</div>' +
         (item.subtitle ? '<div class="modal-subtitle">' + escHtml(item.subtitle) + '</div>' : '') +
@@ -226,6 +314,27 @@ function buildModalDescLines(tab, item) {
   }
   if (tab === 'aspect') {
     return (item.affixesDesc || '').split('\n').map(function(line) {
+      return '<div class="modal-desc-line">' + parseColoredDesc(escHtml(line.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, ''))) + '</div>';
+    }).join('');
+  }
+  if (tab === 'affix') {
+    // affix.desc 是 string
+    var affixDesc = typeof item.desc === 'string' ? item.desc : '';
+    return '<div class="modal-desc-line">' + parseColoredDesc(escHtml(affixDesc.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, ''))) + '</div>';
+  }
+  if (tab === 'gem') {
+    return (item.affixesDesc || []).map(function(line) {
+      return '<div class="modal-desc-line">' + parseColoredDesc(escHtml(line.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, ''))) + '</div>';
+    }).join('');
+  }
+  if (tab === 'rune') {
+    return (item.affixesDesc || []).map(function(a) {
+      var line = (a.line || a);
+      return '<div class="modal-desc-line">' + parseColoredDesc(escHtml(line.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, ''))) + '</div>';
+    }).join('');
+  }
+  if (tab === 'elixir') {
+    return (item.desc || '').split('\n').map(function(line) {
       return '<div class="modal-desc-line">' + parseColoredDesc(escHtml(line.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, ''))) + '</div>';
     }).join('');
   }
