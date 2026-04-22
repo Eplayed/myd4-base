@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>暗黑4 数据库 - 本地查看器</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=20260422">
+    <link rel="stylesheet" href="css/skills.css?v=20260422">
 </head>
 <body>
 
@@ -29,6 +30,9 @@
 <main class="main-content">
     <div id="grid" class="grid"></div>
     <div id="empty" class="empty" style="display:none">暂无数据</div>
+
+    <!-- 模拟器面板 -->
+    <div id="simulatorPanel" style="display:none"></div>
 </main>
 
 <!-- Modal -->
@@ -37,11 +41,12 @@
 </div>
 
 <!-- Scripts (module loading order很重要) -->
-<script src="js/config.js"></script>
-<script src="js/utils.js"></script>
-<script src="js/data-loader.js"></script>
-<script src="js/filters.js"></script>
-<script src="js/app.js"></script>
+<script src="js/config.js?v=20260422"></script>
+<script src="js/utils.js?v=20260422"></script>
+<script src="js/data-loader.js?v=20260422"></script>
+<script src="js/filters.js?v=20260422"></script>
+<script src="js/app.js?v=20260422"></script>
+<script src="js/skills-app.js?v=20260422"></script>
 
 </body>
 </html>

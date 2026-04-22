@@ -1,215 +1,557 @@
-﻿/* =============== d2core 风格布局 =============== */
-.content-layout__shell-wrap {
-    display: grid;
-    grid-template-columns: 320px 1fr 280px;
-    gap: 16px;
-    padding: 16px;
-    max-width: 1600px;
-    margin: 0 auto;
+/* ============================================================
+   skills.css - 技能模拟器样式（整合到 index.html）
+   ============================================================ */
+
+/* ========== 模拟器主布局 ========== */
+.sim-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr 240px;
+  gap: 16px;
+  padding: 16px;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
-.shell-left {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.sim-left, .sim-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.shell-right {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.sim-center {
+  min-width: 0;
 }
 
-.shell-center {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px;
-    overflow: hidden;
+.sim-flex-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ========== 通用卡片 ========== */
+.sim-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.sim-card-title {
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-unique);
+  border-bottom: 1px solid var(--border);
 }
 
 /* ========== 职业选择 ========== */
-.char-select {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 12px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
+.sim-char-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  padding: 10px;
 }
 
-.char-radio {
-    padding: 6px 10px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
+.sim-char-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-sec);
+  transition: all 0.15s;
 }
 
-.char-radio:hover, .char-radio:has(input:checked) {
-    border-color: var(--gold);
-    color: var(--gold);
+.sim-char-item:hover {
+  border-color: var(--c-unique);
+  color: var(--text-primary);
 }
 
-.char-radio input {
-    display: none;
+.sim-char-item.active {
+  border-color: var(--c-unique);
+  background: rgba(243, 156, 18, 0.1);
+  color: var(--c-unique);
 }
+
+.sim-char-item input { display: none; }
 
 /* ========== 装备栏 ========== */
-.equip-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px;
+.sim-equip-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  padding: 10px;
 }
 
-.equip-slot {
-    aspect-ratio: 1;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: var(--text-dim);
+.sim-equip-slot {
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--text-dim);
 }
 
-/* ========== 技能栏底部 ========== */
-.skill-bar-bottom {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 8px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px;
+/* ========== 技能栏 ========== */
+.sim-skill-bar {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  padding: 10px;
 }
 
-.skill-slot {
-    position: relative;
-    aspect-ratio: 1;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all .2s;
+.sim-skill-slot {
+  position: relative;
+  aspect-ratio: 1;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: rgba(0,0,0,0.2);
 }
 
-.skill-slot:hover { border-color: var(--gold); }
-.skill-slot.filled { border-color: var(--gold); }
+.sim-skill-slot:hover { border-color: var(--c-unique); }
+.sim-skill-slot.filled { border-color: var(--c-unique); }
 
-.slot-key {
-    position: absolute;
-    top: 4px; left: 6px;
-    font-size: 11px;
-    color: var(--text-dim);
+.sim-slot-key {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  font-size: 10px;
+  color: var(--text-dim);
+  font-weight: 600;
 }
 
-.slot-empty { font-size: 20px; color: var(--border); }
-.skill-slot.filled .slot-empty { display: none; }
-.slot-icon { width: 48px; height: 48px; border-radius: 6px; }
-.slot-remove { position:absolute; top:-6px; right:-6px; width:18px; height:18px; background:#d04040; border:none; border-radius:50%; color:#fff; font-size:12px; cursor:pointer; display:none; }
-.skill-slot:hover .slot-remove { display:block; }
-
-.slot-lmb, .slot-rmb {
-    background: rgba(240,192,64,0.15);
-    border-color: var(--gold);
+.sim-slot-empty {
+  font-size: 18px;
+  color: var(--text-dim);
 }
 
-/* ========== 右侧面板卡片 ========== */
-.panel-card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
+.sim-slot-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
 }
 
-.panel-title {
-    padding: 10px 12px;
-    font-size: 13px;
-    color: var(--gold);
-    border-bottom: 1px solid var(--border);
+.sim-slot-remove {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  background: #c0392b;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  display: none;
+  line-height: 1;
 }
 
-.panel-body {
-    padding: 12px;
+.sim-skill-slot:hover .sim-slot-remove { display: block; }
+
+/* ========== 被动栏 ========== */
+.sim-passive-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  padding: 10px;
 }
 
-.elixir-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
-.elixir-slot, .passive-slot {
-    aspect-ratio: 1; border:1px solid var(--border); border-radius:6px;
-    display:flex; align-items:center; justify-content:center; cursor:pointer;
-}
-.elixir-slot:hover, .passive-slot:hover { border-color: var(--purple); }
-.passive-slot.filled { border-color: var(--purple); }
-.passive-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
-
-.points-card .panel-body { padding: 10px 12px; }
-.points-display { text-align:center; font-size: 14px; }
-.points-num { color: var(--gold); font-weight:600; font-size:16px; }
-
-/* ========== 技能中间面板 ========== */
-.skill-toolbar {
-    display: flex; flex-direction: column; gap:10px; padding-bottom:12px; border-bottom:1px solid var(--border); margin-bottom:12px;
-}
-.search-input {
-    width:100%; padding:10px 12px; background: var(--bg-card); border:1px solid var(--border); border-radius:6px; color: var(--text);
-}
-.skill-filters { display:flex; gap:6px; flex-wrap:wrap; }
-.filter-btn {
-    padding:6px 12px; border:1px solid var(--border); border-radius:20px; background: var(--bg-card); color: var(--text-dim); cursor:pointer; font-size:12px;
-}
-.filter-btn:hover { border-color: var(--gold); color: var(--text); }
-.filter-btn.active { border-color: var(--gold); background: var(--gold); color: #000; }
-
-.skill-list-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap:10px; overflow-y:auto; max-height: calc(100vh - 300px);
+.sim-passive-slot {
+  position: relative;
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
 }
 
-.skill-card {
-    background: var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:10px; text-align:center; cursor:pointer; transition: all .2s;
-}
-.skill-card:hover { border-color: var(--gold); transform: translateY(-2px); }
-.skill-card.selected { border-color: var(--gold); box-shadow: 0 0 10px rgba(240,192,64,0.3); }
-.skill-card .skill-icon { width:48px; height:48px; margin:0 auto 8px; border-radius:6px; }
-.skill-card .skill-name { font-size:13px; font-weight:600; color: var(--text); }
-.skill-card .skill-tags { margin-top:6px; font-size:11px; color: var(--text-dim); }
+.sim-passive-slot:hover { border-color: #9b59b6; }
+.sim-passive-slot.filled { border-color: #9b59b6; }
 
-/* ========== 响应式 ========== */
-@media (max-width: 1200px) {
-    .content-layout__shell-wrap { grid-template-columns: 300px 1fr; }
-    .shell-right { order: 3; grid-column: 1 / -1; display:grid; grid-template-columns: repeat(4,1fr); }
+/* ========== 药剂栏 ========== */
+.sim-elixir-grid {
+  padding: 10px;
 }
 
+.sim-elixir-slot {
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.sim-elixir-slot:hover { border-color: #2ecc71; }
+
+/* ========== 点数显示 ========== */
+.sim-points {
+  padding: 12px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-sec);
+}
+
+.sim-points span {
+  color: var(--c-unique);
+  font-weight: 600;
+}
+
+/* ========== 技能工具栏 ========== */
+.sim-toolbar {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sim-search {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+}
+
+.sim-search:focus { border-color: var(--c-unique); }
+.sim-search::placeholder { color: var(--text-dim); }
+
+.sim-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sim-filter-btn {
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: transparent;
+  color: var(--text-sec);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sim-filter-btn:hover { border-color: var(--c-unique); color: var(--text-primary); }
+.sim-filter-btn.active {
+  border-color: var(--c-unique);
+  background: var(--c-unique);
+  color: #000;
+}
+
+/* ========== 技能列表 ========== */
+.sim-skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+  padding: 12px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  max-height: calc(100vh - 280px);
+}
+
+.sim-skill-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sim-skill-card:hover {
+  border-color: var(--c-unique);
+  transform: translateY(-2px);
+}
+
+.sim-skill-card.sim-skill-passive {
+  border-color: rgba(155, 89, 182, 0.3);
+}
+
+.sim-skill-card.sim-skill-passive:hover {
+  border-color: #9b59b6;
+}
+
+.sim-skill-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 6px;
+  border-radius: 6px;
+}
+
+.sim-skill-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.sim-skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  justify-content: center;
+}
+
+.sim-tag {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-dim);
+}
+
+.sim-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: var(--text-dim);
+}
 
 /* ========== 弹窗 ========== */
-.modal {
-    position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.8); display:none; align-items:center; justify-content:center; z-index:1000;
+.sim-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 600;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
-.modal.active { display:flex; }
-.modal-content {
-    background: var(--bg-secondary); border:1px solid var(--border); border-radius:12px; width:90%; max-width:900px; max-height:80vh; display:flex; flex-direction:column;
-}
-.modal-header {
-    display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid var(--border);
-}
-.modal-header h3 { margin:0; font-size:16px; color: var(--gold); }
-.modal-close { background:none; border:none; color: var(--text-dim); font-size:22px; cursor:pointer; }
-.modal-body { padding:14px; overflow-y:auto; }
 
-.modal-grid {
-    display:grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap:8px;
-}
-.picker-item {
-    display:flex; gap:10px; align-items:center; background: var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:10px; cursor:pointer;
-}
-.picker-item:hover { border-color: var(--gold); background: rgba(240,192,64,0.1); }
-.picker-icon { width:40px; height:40px; border-radius:6px; }
-.picker-name { font-size:13px; font-weight:600; color: var(--text); }
+.sim-modal.active { display: flex; }
 
+.sim-modal-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.sim-modal-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sim-modal-icon {
+  flex-shrink: 0;
+}
+
+.sim-modal-info { flex: 1; }
+
+.sim-modal-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.sim-modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.sim-modal-close {
+  background: none;
+  border: none;
+  color: var(--text-sec);
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.sim-modal-close:hover { color: var(--text-primary); }
+
+.sim-modal-body {
+  padding: 14px 16px;
+}
+
+.sim-desc-line {
+  font-size: 13px;
+  color: var(--text-sec);
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+/* 描述颜色 */
+.sim-c-label { color: var(--text-dim); }
+.sim-c-important { color: #e74c3c; font-weight: 600; }
+.sim-c-number { color: #ffd700; font-weight: 600; }
+.sim-c-resource { color: #3498db; }
+
+/* Mod 分支 */
+.sim-mods-title {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin: 16px 0 8px;
+  font-weight: 600;
+}
+
+.sim-mods-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sim-mod-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sim-mod-item:hover { border-color: var(--c-unique); }
+.sim-mod-item.selected {
+  border-color: var(--c-unique);
+  background: rgba(243, 156, 18, 0.1);
+}
+
+.sim-mod-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-unique);
+  margin-bottom: 4px;
+}
+
+.sim-mod-desc {
+  font-size: 12px;
+  color: var(--text-sec);
+  line-height: 1.5;
+}
+
+.sim-modal-footer {
+  padding: 12px 16px 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.sim-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+}
+
+.sim-btn-primary {
+  background: var(--c-unique);
+  color: #000;
+}
+
+.sim-btn-primary:hover { opacity: 0.85; }
+
+/* ========== 选择器弹窗 ========== */
+.sim-picker-content {
+  max-width: 700px;
+  max-height: 80vh;
+}
+
+.sim-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  padding: 12px;
+  overflow-y: auto;
+  max-height: calc(80vh - 80px);
+}
+
+.sim-picker-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sim-picker-item:hover {
+  border-color: var(--c-unique);
+  background: rgba(243, 156, 18, 0.05);
+}
+
+.sim-picker-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.sim-picker-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ========== 响应式 ========== */
+@media (max-width: 1100px) {
+  .sim-layout {
+    grid-template-columns: 260px 1fr;
+  }
+  .sim-right {
+    order: 3;
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .sim-layout {
+    grid-template-columns: 1fr;
+  }
+  .sim-left {
+    order: 1;
+  }
+  .sim-center {
+    order: 2;
+  }
+  .sim-right {
+    order: 3;
+    grid-column: 1;
+    display: flex;
+  }
+  .sim-skill-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+}

@@ -35,7 +35,8 @@ function getTabColor(tab) {
   var map = {
     summon:'#e74c3c', uniqueItem:'#f39c12', aspect:'#9b59b6',
     affix:'#a29bfe', skill:'#3498db', gem:'#1abc9c',
-    rune:'#e67e22', elixir:'#2ecc71', builds:'#e91e63'
+    rune:'#e67e22', elixir:'#2ecc71', builds:'#e91e63',
+    simulator:'#ffd700'
   };
   return map[tab] || '#8a8a9a';
 }
@@ -45,6 +46,26 @@ function onTabChange(tab) {
   // 更新 stats bar
   var statsEl = document.getElementById('tbStats');
   if (statsEl) statsEl.textContent = '加载中…';
+
+  // 模拟器 tab 特殊处理
+  if (tab === 'simulator') {
+    document.getElementById('toolbar').style.display = 'none';
+    document.getElementById('empty').style.display = 'none';
+    document.getElementById('grid').style.display = 'none';
+    var simEl = document.getElementById('simulatorPanel');
+    if (simEl) simEl.style.display = '';
+    if (statsEl) statsEl.textContent = '';
+    // 确保技能数据已加载
+    loadTabData(tab).then(function(data) {
+      if (typeof initSimulator === 'function') initSimulator(data);
+    });
+    return;
+  } else {
+    document.getElementById('toolbar').style.display = '';
+    document.getElementById('grid').style.display = '';
+    var simEl = document.getElementById('simulatorPanel');
+    if (simEl) simEl.style.display = 'none';
+  }
 
   // 加载数据 → 刷新筛选 → 渲染
   loadTabData(tab).then(function(data) {

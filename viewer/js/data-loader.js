@@ -12,7 +12,8 @@ const DATA_FILES = {
   rune:      'data/rune_zhCN.json',
   gem:       'data/gem_zhCN.json',
   elixir:    'data/elixir_zhCN.json',
-  builds:    'builds_data.json'
+  builds:    'builds_data.json',
+  simulator: 'data/skills_zhCN.json'
 };
 
 let allData    = {};   // key: tab -> array
