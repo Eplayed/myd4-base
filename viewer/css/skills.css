@@ -1,0 +1,215 @@
+﻿/* =============== d2core 风格布局 =============== */
+.content-layout__shell-wrap {
+    display: grid;
+    grid-template-columns: 320px 1fr 280px;
+    gap: 16px;
+    padding: 16px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.shell-left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.shell-right {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.shell-center {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    overflow: hidden;
+}
+
+/* ========== 职业选择 ========== */
+.char-select {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.char-radio {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.char-radio:hover, .char-radio:has(input:checked) {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.char-radio input {
+    display: none;
+}
+
+/* ========== 装备栏 ========== */
+.equip-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.equip-slot {
+    aspect-ratio: 1;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--text-dim);
+}
+
+/* ========== 技能栏底部 ========== */
+.skill-bar-bottom {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.skill-slot {
+    position: relative;
+    aspect-ratio: 1;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.skill-slot:hover { border-color: var(--gold); }
+.skill-slot.filled { border-color: var(--gold); }
+
+.slot-key {
+    position: absolute;
+    top: 4px; left: 6px;
+    font-size: 11px;
+    color: var(--text-dim);
+}
+
+.slot-empty { font-size: 20px; color: var(--border); }
+.skill-slot.filled .slot-empty { display: none; }
+.slot-icon { width: 48px; height: 48px; border-radius: 6px; }
+.slot-remove { position:absolute; top:-6px; right:-6px; width:18px; height:18px; background:#d04040; border:none; border-radius:50%; color:#fff; font-size:12px; cursor:pointer; display:none; }
+.skill-slot:hover .slot-remove { display:block; }
+
+.slot-lmb, .slot-rmb {
+    background: rgba(240,192,64,0.15);
+    border-color: var(--gold);
+}
+
+/* ========== 右侧面板卡片 ========== */
+.panel-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.panel-title {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--gold);
+    border-bottom: 1px solid var(--border);
+}
+
+.panel-body {
+    padding: 12px;
+}
+
+.elixir-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
+.elixir-slot, .passive-slot {
+    aspect-ratio: 1; border:1px solid var(--border); border-radius:6px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+}
+.elixir-slot:hover, .passive-slot:hover { border-color: var(--purple); }
+.passive-slot.filled { border-color: var(--purple); }
+.passive-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
+
+.points-card .panel-body { padding: 10px 12px; }
+.points-display { text-align:center; font-size: 14px; }
+.points-num { color: var(--gold); font-weight:600; font-size:16px; }
+
+/* ========== 技能中间面板 ========== */
+.skill-toolbar {
+    display: flex; flex-direction: column; gap:10px; padding-bottom:12px; border-bottom:1px solid var(--border); margin-bottom:12px;
+}
+.search-input {
+    width:100%; padding:10px 12px; background: var(--bg-card); border:1px solid var(--border); border-radius:6px; color: var(--text);
+}
+.skill-filters { display:flex; gap:6px; flex-wrap:wrap; }
+.filter-btn {
+    padding:6px 12px; border:1px solid var(--border); border-radius:20px; background: var(--bg-card); color: var(--text-dim); cursor:pointer; font-size:12px;
+}
+.filter-btn:hover { border-color: var(--gold); color: var(--text); }
+.filter-btn.active { border-color: var(--gold); background: var(--gold); color: #000; }
+
+.skill-list-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap:10px; overflow-y:auto; max-height: calc(100vh - 300px);
+}
+
+.skill-card {
+    background: var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:10px; text-align:center; cursor:pointer; transition: all .2s;
+}
+.skill-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+.skill-card.selected { border-color: var(--gold); box-shadow: 0 0 10px rgba(240,192,64,0.3); }
+.skill-card .skill-icon { width:48px; height:48px; margin:0 auto 8px; border-radius:6px; }
+.skill-card .skill-name { font-size:13px; font-weight:600; color: var(--text); }
+.skill-card .skill-tags { margin-top:6px; font-size:11px; color: var(--text-dim); }
+
+/* ========== 响应式 ========== */
+@media (max-width: 1200px) {
+    .content-layout__shell-wrap { grid-template-columns: 300px 1fr; }
+    .shell-right { order: 3; grid-column: 1 / -1; display:grid; grid-template-columns: repeat(4,1fr); }
+}
+
+
+/* ========== 弹窗 ========== */
+.modal {
+    position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.8); display:none; align-items:center; justify-content:center; z-index:1000;
+}
+.modal.active { display:flex; }
+.modal-content {
+    background: var(--bg-secondary); border:1px solid var(--border); border-radius:12px; width:90%; max-width:900px; max-height:80vh; display:flex; flex-direction:column;
+}
+.modal-header {
+    display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid var(--border);
+}
+.modal-header h3 { margin:0; font-size:16px; color: var(--gold); }
+.modal-close { background:none; border:none; color: var(--text-dim); font-size:22px; cursor:pointer; }
+.modal-body { padding:14px; overflow-y:auto; }
+
+.modal-grid {
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap:8px;
+}
+.picker-item {
+    display:flex; gap:10px; align-items:center; background: var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:10px; cursor:pointer;
+}
+.picker-item:hover { border-color: var(--gold); background: rgba(240,192,64,0.1); }
+.picker-icon { width:40px; height:40px; border-radius:6px; }
+.picker-name { font-size:13px; font-weight:600; color: var(--text); }
+

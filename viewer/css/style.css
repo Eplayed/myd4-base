@@ -554,6 +554,63 @@ body {
   color: #ffd27a;
 }
 
+/* ===== AFFIX GROUP (词缀分组样式) ===== */
+.affix-group {
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  transition: background 0.15s;
+}
+
+.affix-group .affix-row--main {
+  cursor: pointer;
+}
+
+.affix-group .affix-sub-list {
+  display: none;
+  padding-left: 28px;
+  background: rgba(0,0,0,0.05);
+}
+
+.affix-group.expanded .affix-sub-list {
+  display: block;
+}
+
+/* 展开时箭头旋转 */
+.affix-group .affix-row--main .affix-col-toggle svg {
+  transition: transform 0.15s;
+}
+.affix-group.expanded .affix-row--main .affix-col-toggle svg {
+  transform: rotate(90deg);
+}
+
+/* 子行样式 */
+.affix-row--sub {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  cursor: default;
+}
+
+.affix-row--sub:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.affix-col-desc--sub {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.affix-equip {
+  display: block;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.affix-row--equip .affix-equip {
+  color: var(--text-sec);
+  font-weight: 600;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 640px) {
   .header { padding: 0 14px; }

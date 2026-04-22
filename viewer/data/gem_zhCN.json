@@ -1,1 +1,543 @@
-[{"id":315738,"name":"巨型红宝石","flavor":"愿景无休无止，此心炽然不息。","affixesDesc":["武器: +90.0% 压制伤害","防具: +60 点力量","首饰: +60.0% 火焰抗性"],"key":"Item_Gem_Ruby_06","requireLv":30},{"id":315756,"name":"巨型黄宝石","flavor":"所嵌之处，灵思泉涌。","affixesDesc":["武器: +60.0% {c_important}基础{/c}技能伤害","防具: +60 点智力","首饰: +60.0% 闪电抗性"],"key":"Item_Gem_Topaz_06","requireLv":30},{"id":315745,"name":"巨型蓝宝石","flavor":"个中的谜样虚空令人迷乱，又叫人神往。","affixesDesc":["武器: +54.0% 易伤伤害","防具: +60 点意力","首饰: +60.0% 冰霜抗性"],"key":"Item_Gem_Sapphire_06","requireLv":30},{"id":315730,"name":"巨型绿宝石","flavor":"狂热无羁，笃信不疑。","affixesDesc":["武器: +72.0% 暴击伤害","防具: +60 点敏捷","首饰: +60.0% 毒素抗性"],"key":"Item_Gem_Emerald_06","requireLv":30},{"id":2059554,"name":"巨型头骨宝石","flavor":"它的庄严和恐怖不分伯仲。","affixesDesc":["武器: +32 消灭获得生命","防具: +15.0% 受到的治疗","首饰: +240 护甲值"],"key":"Item_Gem_Skull_06","requireLv":30},{"id":315721,"name":"巨型紫宝石","flavor":"无论它去到哪里，希望都会相随。","affixesDesc":["武器: +48.0% 持续性伤害","防具: +12.0% 屏障生成","首饰: +60.0% 暗影抗性"],"key":"Item_Gem_Amethyst_06","requireLv":30},{"id":2059548,"name":"巨型钻石","flavor":"有了它，你的利刃将永不动摇。","affixesDesc":["武器: +60.0% {c_important}终极技能{/c}伤害","防具: +20 点全属性","首饰: +12.0% 全元素抗性"],"key":"Item_Gem_Diamond_06","requireLv":30},{"id":315737,"name":"皇家红宝石","flavor":"毫无宽容、恐惧和耐心。","affixesDesc":["武器: +60.0% 压制伤害","防具: +40 点力量","首饰: +40.0% 火焰抗性"],"key":"Item_Gem_Ruby_05","requireLv":25},{"id":315754,"name":"皇家黄宝石","flavor":"计划之中的计划，随着分形光辉而展开。","affixesDesc":["武器: +40.0% {c_important}基础{/c}技能伤害","防具: +40 点智力","首饰: +40.0% 闪电抗性"],"key":"Item_Gem_Topaz_05","requireLv":25},{"id":315744,"name":"皇家蓝宝石","flavor":"深邃之物在内部融合。","affixesDesc":["武器: +36.0% 易伤伤害","防具: +40 点意力","首饰: +40.0% 冰霜抗性"],"key":"Item_Gem_Sapphire_05","requireLv":25},{"id":315729,"name":"皇家绿宝石","flavor":"它渴望和你一起狩猎。","affixesDesc":["武器: +48.0% 暴击伤害","防具: +40 点敏捷","首饰: +40.0% 毒素抗性"],"key":"Item_Gem_Emerald_05","requireLv":25},{"id":632904,"name":"皇家头骨宝石","flavor":"死去之人得到了生前缺失的智慧。","affixesDesc":["武器: +16 消灭获得生命","防具: +10.0% 受到的治疗","首饰: +160 护甲值"],"key":"Item_Gem_Skull_05","requireLv":25},{"id":315720,"name":"皇家紫宝石","flavor":"它的阴影下隐藏着无尽悲伤。","affixesDesc":["武器: +32.0% 持续性伤害","防具: +8.0% 屏障生成","首饰: +40.0% 暗影抗性"],"key":"Item_Gem_Amethyst_05","requireLv":25},{"id":632882,"name":"皇家钻石","flavor":"它能够消除疑虑，促使行动。","affixesDesc":["武器: +40.0% {c_important}终极技能{/c}伤害","防具: +13 点全属性","首饰: +8.0% 全元素抗性"],"key":"Item_Gem_Diamond_05","requireLv":25},{"id":315736,"name":"无瑕的红宝石","flavor":"锻打，折叠，然后再次锻打。","affixesDesc":["武器: +45.0% 压制伤害","防具: +30 点力量","首饰: +30.0% 火焰抗性"],"key":"Item_Gem_Ruby_04","requireLv":20},{"id":315752,"name":"无瑕的黄宝石","flavor":"深处蕴藏着辉煌的抱负。","affixesDesc":["武器: +30.0% {c_important}基础{/c}技能伤害","防具: +30 点智力","首饰: +30.0% 闪电抗性"],"key":"Item_Gem_Topaz_04","requireLv":20},{"id":315743,"name":"无瑕的蓝宝石","flavor":"它蕴含着睿智而优雅的光芒。","affixesDesc":["武器: +27.0% 易伤伤害","防具: +30 点意力","首饰: +30.0% 冰霜抗性"],"key":"Item_Gem_Sapphire_04","requireLv":20},{"id":315728,"name":"无瑕的绿宝石","flavor":"人迹罕至的道路，野兽在此出没。","affixesDesc":["武器: +36.0% 暴击伤害","防具: +30 点敏捷","首饰: +30.0% 毒素抗性"],"key":"Item_Gem_Emerald_04","requireLv":20},{"id":632887,"name":"无瑕的头骨宝石","flavor":"它以一种不易察觉的冷漠回望着你。","affixesDesc":["武器: +8 消灭获得生命","防具: +8.0% 受到的治疗","首饰: +120 护甲值"],"key":"Item_Gem_Skull_04","requireLv":20},{"id":315719,"name":"无瑕的紫宝石","flavor":"光线似乎绕过了这件珍宝。","affixesDesc":["武器: +24.0% 持续性伤害","防具: +6.0% 屏障生成","首饰: +30.0% 暗影抗性"],"key":"Item_Gem_Amethyst_04","requireLv":20},{"id":632880,"name":"无瑕的钻石","flavor":"见到它的人内心会爆发出勇气。","affixesDesc":["武器: +30.0% {c_important}终极技能{/c}伤害","防具: +10 点全属性","首饰: +6.0% 全元素抗性"],"key":"Item_Gem_Diamond_04","requireLv":20},{"id":315735,"name":"红宝石","flavor":"能够在火与怒的包围中伫立。","affixesDesc":["武器: +30.0% 压制伤害","防具: +20 点力量","首饰: +20.0% 火焰抗性"],"key":"Item_Gem_Ruby_03","requireLv":15},{"id":315751,"name":"黄宝石","flavor":"看一眼就能让你心跳加速。","affixesDesc":["武器: +20.0% {c_important}基础{/c}技能伤害","防具: +20 点智力","首饰: +20.0% 闪电抗性"],"key":"Item_Gem_Topaz_03","requireLv":15},{"id":315742,"name":"蓝宝石","flavor":"破碎的灵魂也会以更胜往昔的姿态回归。","affixesDesc":["武器: +18.0% 易伤伤害","防具: +20 点意力","首饰: +20.0% 冰霜抗性"],"key":"Item_Gem_Sapphire_03","requireLv":15},{"id":315727,"name":"绿宝石","flavor":"它表面折射的光线伴你左右。","affixesDesc":["武器: +24.0% 暴击伤害","防具: +20 点敏捷","首饰: +20.0% 毒素抗性"],"key":"Item_Gem_Emerald_03","requireLv":15},{"id":632886,"name":"头骨宝石","flavor":"破裂、羞愧，但依然有价值。","affixesDesc":["武器: +4 消灭获得生命","防具: +6.0% 受到的治疗","首饰: +80 护甲值"],"key":"Item_Gem_Skull_03","requireLv":15},{"id":315718,"name":"紫宝石","flavor":"它的边缘十分离奇，令人不安。","affixesDesc":["武器: +16.0% 持续性伤害","防具: +4.0% 屏障生成","首饰: +20.0% 暗影抗性"],"key":"Item_Gem_Amethyst_03","requireLv":15},{"id":632878,"name":"钻石","flavor":"它的光芒让一切变得纯净。","affixesDesc":["武器: +20.0% {c_important}终极技能{/c}伤害","防具: +7 点全属性","首饰: +4.0% 全元素抗性"],"key":"Item_Gem_Diamond_03","requireLv":15},{"id":265750,"name":"粗糙的红宝石","flavor":"从无常火焰中重生。","affixesDesc":["武器: +15.0% 压制伤害","防具: 2.0% 生命上限","首饰: +10.0% 火焰抗性"],"key":"Item_Gem_Ruby_01","requireLv":10},{"id":265753,"name":"粗糙的黄宝石","flavor":"天才的火花等待着点燃。","affixesDesc":["武器: +10.0% {c_important}基础{/c}技能伤害","防具: +15 点智力","首饰: +10.0% 闪电抗性"],"key":"Item_Gem_Topaz_01","requireLv":10},{"id":265754,"name":"粗糙的蓝宝石","affixesDesc":["武器: +9.0% 易伤伤害","防具: +15 点意力","首饰: +10.0% 冰霜抗性"],"key":"Item_Gem_Sapphire_01","requireLv":10},{"id":265751,"name":"粗糙的绿宝石","affixesDesc":["武器: +12.0% 暴击伤害","防具: +15 点敏捷","首饰: +10.0% 毒素抗性"],"key":"Item_Gem_Emerald_01","requireLv":10},{"id":632884,"name":"粗糙的头骨宝石","affixesDesc":["武器: +5 消灭获得生命","防具: +4.5% 受到的治疗","首饰: +250 护甲值"],"key":"Item_Gem_Skull_01","requireLv":10},{"id":265752,"name":"粗糙的紫宝石","affixesDesc":["武器: +8.0% 持续性伤害","防具: +15 点力量","首饰: +10.0% 暗影抗性"],"key":"Item_Gem_Amethyst_01","requireLv":10},{"id":632876,"name":"粗糙的钻石","affixesDesc":["武器: +10.0% {c_important}终极技能{/c}伤害","防具: +4.0% 屏障生成","首饰: +2.0% 全元素抗性"],"key":"Item_Gem_Diamond_01","requireLv":10},{"id":315734,"name":"碎裂的红宝石","flavor":"从无常火焰中重生。","affixesDesc":["武器: +15.0% 压制伤害","防具: +10 点力量","首饰: +10.0% 火焰抗性"],"key":"Item_Gem_Ruby_02","requireLv":1},{"id":315750,"name":"碎裂的黄宝石","flavor":"天才的火花等待着点燃。","affixesDesc":["武器: +10.0% {c_important}基础{/c}技能伤害","防具: +10 点智力","首饰: +10.0% 闪电抗性"],"key":"Item_Gem_Topaz_02","requireLv":1},{"id":315741,"name":"碎裂的蓝宝石","flavor":"世间美艳终将败于永恒的时间。","affixesDesc":["武器: +9.0% 易伤伤害","防具: +10 点意力","首饰: +10.0% 冰霜抗性"],"key":"Item_Gem_Sapphire_02","requireLv":1},{"id":315726,"name":"碎裂的绿宝石","flavor":"远方荒野的残存物。","affixesDesc":["武器: +12.0% 暴击伤害","防具: +10 点敏捷","首饰: +10.0% 毒素抗性"],"key":"Item_Gem_Emerald_02","requireLv":1},{"id":632885,"name":"碎裂的头骨宝石","flavor":"一名阵亡孩童的尸块。你这怪物。","affixesDesc":["武器: +2 消灭获得生命","防具: +4.0% 受到的治疗","首饰: +40 护甲值"],"key":"Item_Gem_Skull_02","requireLv":1},{"id":315717,"name":"碎裂的紫宝石","flavor":"邪恶躯体的最后残余。","affixesDesc":["武器: +8.0% 持续性伤害","防具: +2.0% 屏障生成","首饰: +10.0% 暗影抗性"],"key":"Item_Gem_Amethyst_02","requireLv":1},{"id":632877,"name":"碎裂的钻石","flavor":"它的出现令人感到和谐。","affixesDesc":["武器: +10.0% {c_important}终极技能{/c}伤害","防具: +4 点全属性","首饰: +2.0% 全元素抗性"],"key":"Item_Gem_Diamond_02","requireLv":1}]
+[
+  {
+    "id": 315738,
+    "name": "巨型红宝石",
+    "flavor": "愿景无休无止，此心炽然不息。",
+    "affixesDesc": [
+      "武器: +90.0% 压制伤害",
+      "防具: +60 点力量",
+      "首饰: +60.0% 火焰抗性"
+    ],
+    "key": "Item_Gem_Ruby_06",
+    "requireLv": 30,
+    "icon": 315738
+  },
+  {
+    "id": 315756,
+    "name": "巨型黄宝石",
+    "flavor": "所嵌之处，灵思泉涌。",
+    "affixesDesc": [
+      "武器: +60.0% {c_important}基础{/c}技能伤害",
+      "防具: +60 点智力",
+      "首饰: +60.0% 闪电抗性"
+    ],
+    "key": "Item_Gem_Topaz_06",
+    "requireLv": 30,
+    "icon": 315756
+  },
+  {
+    "id": 315745,
+    "name": "巨型蓝宝石",
+    "flavor": "个中的谜样虚空令人迷乱，又叫人神往。",
+    "affixesDesc": [
+      "武器: +54.0% 易伤伤害",
+      "防具: +60 点意力",
+      "首饰: +60.0% 冰霜抗性"
+    ],
+    "key": "Item_Gem_Sapphire_06",
+    "requireLv": 30,
+    "icon": 315745
+  },
+  {
+    "id": 315730,
+    "name": "巨型绿宝石",
+    "flavor": "狂热无羁，笃信不疑。",
+    "affixesDesc": [
+      "武器: +72.0% 暴击伤害",
+      "防具: +60 点敏捷",
+      "首饰: +60.0% 毒素抗性"
+    ],
+    "key": "Item_Gem_Emerald_06",
+    "requireLv": 30,
+    "icon": 315730
+  },
+  {
+    "id": 2059554,
+    "name": "巨型头骨宝石",
+    "flavor": "它的庄严和恐怖不分伯仲。",
+    "affixesDesc": [
+      "武器: +32 消灭获得生命",
+      "防具: +15.0% 受到的治疗",
+      "首饰: +240 护甲值"
+    ],
+    "key": "Item_Gem_Skull_06",
+    "requireLv": 30,
+    "icon": 2059554
+  },
+  {
+    "id": 315721,
+    "name": "巨型紫宝石",
+    "flavor": "无论它去到哪里，希望都会相随。",
+    "affixesDesc": [
+      "武器: +48.0% 持续性伤害",
+      "防具: +12.0% 屏障生成",
+      "首饰: +60.0% 暗影抗性"
+    ],
+    "key": "Item_Gem_Amethyst_06",
+    "requireLv": 30,
+    "icon": 315721
+  },
+  {
+    "id": 2059548,
+    "name": "巨型钻石",
+    "flavor": "有了它，你的利刃将永不动摇。",
+    "affixesDesc": [
+      "武器: +60.0% {c_important}终极技能{/c}伤害",
+      "防具: +20 点全属性",
+      "首饰: +12.0% 全元素抗性"
+    ],
+    "key": "Item_Gem_Diamond_06",
+    "requireLv": 30,
+    "icon": 2059548
+  },
+  {
+    "id": 315737,
+    "name": "皇家红宝石",
+    "flavor": "毫无宽容、恐惧和耐心。",
+    "affixesDesc": [
+      "武器: +60.0% 压制伤害",
+      "防具: +40 点力量",
+      "首饰: +40.0% 火焰抗性"
+    ],
+    "key": "Item_Gem_Ruby_05",
+    "requireLv": 25,
+    "icon": 315737
+  },
+  {
+    "id": 315754,
+    "name": "皇家黄宝石",
+    "flavor": "计划之中的计划，随着分形光辉而展开。",
+    "affixesDesc": [
+      "武器: +40.0% {c_important}基础{/c}技能伤害",
+      "防具: +40 点智力",
+      "首饰: +40.0% 闪电抗性"
+    ],
+    "key": "Item_Gem_Topaz_05",
+    "requireLv": 25,
+    "icon": 315754
+  },
+  {
+    "id": 315744,
+    "name": "皇家蓝宝石",
+    "flavor": "深邃之物在内部融合。",
+    "affixesDesc": [
+      "武器: +36.0% 易伤伤害",
+      "防具: +40 点意力",
+      "首饰: +40.0% 冰霜抗性"
+    ],
+    "key": "Item_Gem_Sapphire_05",
+    "requireLv": 25,
+    "icon": 315744
+  },
+  {
+    "id": 315729,
+    "name": "皇家绿宝石",
+    "flavor": "它渴望和你一起狩猎。",
+    "affixesDesc": [
+      "武器: +48.0% 暴击伤害",
+      "防具: +40 点敏捷",
+      "首饰: +40.0% 毒素抗性"
+    ],
+    "key": "Item_Gem_Emerald_05",
+    "requireLv": 25,
+    "icon": 315729
+  },
+  {
+    "id": 632904,
+    "name": "皇家头骨宝石",
+    "flavor": "死去之人得到了生前缺失的智慧。",
+    "affixesDesc": [
+      "武器: +16 消灭获得生命",
+      "防具: +10.0% 受到的治疗",
+      "首饰: +160 护甲值"
+    ],
+    "key": "Item_Gem_Skull_05",
+    "requireLv": 25,
+    "icon": 632904
+  },
+  {
+    "id": 315720,
+    "name": "皇家紫宝石",
+    "flavor": "它的阴影下隐藏着无尽悲伤。",
+    "affixesDesc": [
+      "武器: +32.0% 持续性伤害",
+      "防具: +8.0% 屏障生成",
+      "首饰: +40.0% 暗影抗性"
+    ],
+    "key": "Item_Gem_Amethyst_05",
+    "requireLv": 25,
+    "icon": 315720
+  },
+  {
+    "id": 632882,
+    "name": "皇家钻石",
+    "flavor": "它能够消除疑虑，促使行动。",
+    "affixesDesc": [
+      "武器: +40.0% {c_important}终极技能{/c}伤害",
+      "防具: +13 点全属性",
+      "首饰: +8.0% 全元素抗性"
+    ],
+    "key": "Item_Gem_Diamond_05",
+    "requireLv": 25,
+    "icon": 632882
+  },
+  {
+    "id": 315736,
+    "name": "无瑕的红宝石",
+    "flavor": "锻打，折叠，然后再次锻打。",
+    "affixesDesc": [
+      "武器: +45.0% 压制伤害",
+      "防具: +30 点力量",
+      "首饰: +30.0% 火焰抗性"
+    ],
+    "key": "Item_Gem_Ruby_04",
+    "requireLv": 20,
+    "icon": 315736
+  },
+  {
+    "id": 315752,
+    "name": "无瑕的黄宝石",
+    "flavor": "深处蕴藏着辉煌的抱负。",
+    "affixesDesc": [
+      "武器: +30.0% {c_important}基础{/c}技能伤害",
+      "防具: +30 点智力",
+      "首饰: +30.0% 闪电抗性"
+    ],
+    "key": "Item_Gem_Topaz_04",
+    "requireLv": 20,
+    "icon": 315752
+  },
+  {
+    "id": 315743,
+    "name": "无瑕的蓝宝石",
+    "flavor": "它蕴含着睿智而优雅的光芒。",
+    "affixesDesc": [
+      "武器: +27.0% 易伤伤害",
+      "防具: +30 点意力",
+      "首饰: +30.0% 冰霜抗性"
+    ],
+    "key": "Item_Gem_Sapphire_04",
+    "requireLv": 20,
+    "icon": 315743
+  },
+  {
+    "id": 315728,
+    "name": "无瑕的绿宝石",
+    "flavor": "人迹罕至的道路，野兽在此出没。",
+    "affixesDesc": [
+      "武器: +36.0% 暴击伤害",
+      "防具: +30 点敏捷",
+      "首饰: +30.0% 毒素抗性"
+    ],
+    "key": "Item_Gem_Emerald_04",
+    "requireLv": 20,
+    "icon": 315728
+  },
+  {
+    "id": 632887,
+    "name": "无瑕的头骨宝石",
+    "flavor": "它以一种不易察觉的冷漠回望着你。",
+    "affixesDesc": [
+      "武器: +8 消灭获得生命",
+      "防具: +8.0% 受到的治疗",
+      "首饰: +120 护甲值"
+    ],
+    "key": "Item_Gem_Skull_04",
+    "requireLv": 20,
+    "icon": 632887
+  },
+  {
+    "id": 315719,
+    "name": "无瑕的紫宝石",
+    "flavor": "光线似乎绕过了这件珍宝。",
+    "affixesDesc": [
+      "武器: +24.0% 持续性伤害",
+      "防具: +6.0% 屏障生成",
+      "首饰: +30.0% 暗影抗性"
+    ],
+    "key": "Item_Gem_Amethyst_04",
+    "requireLv": 20,
+    "icon": 315719
+  },
+  {
+    "id": 632880,
+    "name": "无瑕的钻石",
+    "flavor": "见到它的人内心会爆发出勇气。",
+    "affixesDesc": [
+      "武器: +30.0% {c_important}终极技能{/c}伤害",
+      "防具: +10 点全属性",
+      "首饰: +6.0% 全元素抗性"
+    ],
+    "key": "Item_Gem_Diamond_04",
+    "requireLv": 20,
+    "icon": 632880
+  },
+  {
+    "id": 315735,
+    "name": "红宝石",
+    "flavor": "能够在火与怒的包围中伫立。",
+    "affixesDesc": [
+      "武器: +30.0% 压制伤害",
+      "防具: +20 点力量",
+      "首饰: +20.0% 火焰抗性"
+    ],
+    "key": "Item_Gem_Ruby_03",
+    "requireLv": 15,
+    "icon": 315735
+  },
+  {
+    "id": 315751,
+    "name": "黄宝石",
+    "flavor": "看一眼就能让你心跳加速。",
+    "affixesDesc": [
+      "武器: +20.0% {c_important}基础{/c}技能伤害",
+      "防具: +20 点智力",
+      "首饰: +20.0% 闪电抗性"
+    ],
+    "key": "Item_Gem_Topaz_03",
+    "requireLv": 15,
+    "icon": 315751
+  },
+  {
+    "id": 315742,
+    "name": "蓝宝石",
+    "flavor": "破碎的灵魂也会以更胜往昔的姿态回归。",
+    "affixesDesc": [
+      "武器: +18.0% 易伤伤害",
+      "防具: +20 点意力",
+      "首饰: +20.0% 冰霜抗性"
+    ],
+    "key": "Item_Gem_Sapphire_03",
+    "requireLv": 15,
+    "icon": 315742
+  },
+  {
+    "id": 315727,
+    "name": "绿宝石",
+    "flavor": "它表面折射的光线伴你左右。",
+    "affixesDesc": [
+      "武器: +24.0% 暴击伤害",
+      "防具: +20 点敏捷",
+      "首饰: +20.0% 毒素抗性"
+    ],
+    "key": "Item_Gem_Emerald_03",
+    "requireLv": 15,
+    "icon": 315727
+  },
+  {
+    "id": 632886,
+    "name": "头骨宝石",
+    "flavor": "破裂、羞愧，但依然有价值。",
+    "affixesDesc": [
+      "武器: +4 消灭获得生命",
+      "防具: +6.0% 受到的治疗",
+      "首饰: +80 护甲值"
+    ],
+    "key": "Item_Gem_Skull_03",
+    "requireLv": 15,
+    "icon": 632886
+  },
+  {
+    "id": 315718,
+    "name": "紫宝石",
+    "flavor": "它的边缘十分离奇，令人不安。",
+    "affixesDesc": [
+      "武器: +16.0% 持续性伤害",
+      "防具: +4.0% 屏障生成",
+      "首饰: +20.0% 暗影抗性"
+    ],
+    "key": "Item_Gem_Amethyst_03",
+    "requireLv": 15,
+    "icon": 315718
+  },
+  {
+    "id": 632878,
+    "name": "钻石",
+    "flavor": "它的光芒让一切变得纯净。",
+    "affixesDesc": [
+      "武器: +20.0% {c_important}终极技能{/c}伤害",
+      "防具: +7 点全属性",
+      "首饰: +4.0% 全元素抗性"
+    ],
+    "key": "Item_Gem_Diamond_03",
+    "requireLv": 15,
+    "icon": 632878
+  },
+  {
+    "id": 265750,
+    "name": "粗糙的红宝石",
+    "flavor": "从无常火焰中重生。",
+    "affixesDesc": [
+      "武器: +15.0% 压制伤害",
+      "防具: 2.0% 生命上限",
+      "首饰: +10.0% 火焰抗性"
+    ],
+    "key": "Item_Gem_Ruby_01",
+    "requireLv": 10,
+    "icon": 265750
+  },
+  {
+    "id": 265753,
+    "name": "粗糙的黄宝石",
+    "flavor": "天才的火花等待着点燃。",
+    "affixesDesc": [
+      "武器: +10.0% {c_important}基础{/c}技能伤害",
+      "防具: +15 点智力",
+      "首饰: +10.0% 闪电抗性"
+    ],
+    "key": "Item_Gem_Topaz_01",
+    "requireLv": 10,
+    "icon": 265753
+  },
+  {
+    "id": 265754,
+    "name": "粗糙的蓝宝石",
+    "affixesDesc": [
+      "武器: +9.0% 易伤伤害",
+      "防具: +15 点意力",
+      "首饰: +10.0% 冰霜抗性"
+    ],
+    "key": "Item_Gem_Sapphire_01",
+    "requireLv": 10,
+    "icon": 265754
+  },
+  {
+    "id": 265751,
+    "name": "粗糙的绿宝石",
+    "affixesDesc": [
+      "武器: +12.0% 暴击伤害",
+      "防具: +15 点敏捷",
+      "首饰: +10.0% 毒素抗性"
+    ],
+    "key": "Item_Gem_Emerald_01",
+    "requireLv": 10,
+    "icon": 265751
+  },
+  {
+    "id": 632884,
+    "name": "粗糙的头骨宝石",
+    "affixesDesc": [
+      "武器: +5 消灭获得生命",
+      "防具: +4.5% 受到的治疗",
+      "首饰: +250 护甲值"
+    ],
+    "key": "Item_Gem_Skull_01",
+    "requireLv": 10,
+    "icon": 632884
+  },
+  {
+    "id": 265752,
+    "name": "粗糙的紫宝石",
+    "affixesDesc": [
+      "武器: +8.0% 持续性伤害",
+      "防具: +15 点力量",
+      "首饰: +10.0% 暗影抗性"
+    ],
+    "key": "Item_Gem_Amethyst_01",
+    "requireLv": 10,
+    "icon": 265752
+  },
+  {
+    "id": 632876,
+    "name": "粗糙的钻石",
+    "affixesDesc": [
+      "武器: +10.0% {c_important}终极技能{/c}伤害",
+      "防具: +4.0% 屏障生成",
+      "首饰: +2.0% 全元素抗性"
+    ],
+    "key": "Item_Gem_Diamond_01",
+    "requireLv": 10,
+    "icon": 632876
+  },
+  {
+    "id": 315734,
+    "name": "碎裂的红宝石",
+    "flavor": "从无常火焰中重生。",
+    "affixesDesc": [
+      "武器: +15.0% 压制伤害",
+      "防具: +10 点力量",
+      "首饰: +10.0% 火焰抗性"
+    ],
+    "key": "Item_Gem_Ruby_02",
+    "requireLv": 1,
+    "icon": 315734
+  },
+  {
+    "id": 315750,
+    "name": "碎裂的黄宝石",
+    "flavor": "天才的火花等待着点燃。",
+    "affixesDesc": [
+      "武器: +10.0% {c_important}基础{/c}技能伤害",
+      "防具: +10 点智力",
+      "首饰: +10.0% 闪电抗性"
+    ],
+    "key": "Item_Gem_Topaz_02",
+    "requireLv": 1,
+    "icon": 315750
+  },
+  {
+    "id": 315741,
+    "name": "碎裂的蓝宝石",
+    "flavor": "世间美艳终将败于永恒的时间。",
+    "affixesDesc": [
+      "武器: +9.0% 易伤伤害",
+      "防具: +10 点意力",
+      "首饰: +10.0% 冰霜抗性"
+    ],
+    "key": "Item_Gem_Sapphire_02",
+    "requireLv": 1,
+    "icon": 315741
+  },
+  {
+    "id": 315726,
+    "name": "碎裂的绿宝石",
+    "flavor": "远方荒野的残存物。",
+    "affixesDesc": [
+      "武器: +12.0% 暴击伤害",
+      "防具: +10 点敏捷",
+      "首饰: +10.0% 毒素抗性"
+    ],
+    "key": "Item_Gem_Emerald_02",
+    "requireLv": 1,
+    "icon": 315726
+  },
+  {
+    "id": 632885,
+    "name": "碎裂的头骨宝石",
+    "flavor": "一名阵亡孩童的尸块。你这怪物。",
+    "affixesDesc": [
+      "武器: +2 消灭获得生命",
+      "防具: +4.0% 受到的治疗",
+      "首饰: +40 护甲值"
+    ],
+    "key": "Item_Gem_Skull_02",
+    "requireLv": 1,
+    "icon": 632885
+  },
+  {
+    "id": 315717,
+    "name": "碎裂的紫宝石",
+    "flavor": "邪恶躯体的最后残余。",
+    "affixesDesc": [
+      "武器: +8.0% 持续性伤害",
+      "防具: +2.0% 屏障生成",
+      "首饰: +10.0% 暗影抗性"
+    ],
+    "key": "Item_Gem_Amethyst_02",
+    "requireLv": 1,
+    "icon": 315717
+  },
+  {
+    "id": 632877,
+    "name": "碎裂的钻石",
+    "flavor": "它的出现令人感到和谐。",
+    "affixesDesc": [
+      "武器: +10.0% {c_important}终极技能{/c}伤害",
+      "防具: +4 点全属性",
+      "首饰: +2.0% 全元素抗性"
+    ],
+    "key": "Item_Gem_Diamond_02",
+    "requireLv": 1,
+    "icon": 632877
+  }
+]

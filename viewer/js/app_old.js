@@ -1,4 +1,3 @@
-
 // ============================================================
 // app.js - 主应用：Tab 切换、卡片渲染、Modal
 // ============================================================
@@ -86,17 +85,13 @@ function renderGrid(tab, data) {
   });
 }
 
-// ----- 词缀专用列表布局（参考 d2core 左右分栏 + 分组折叠） -----
+// ----- 词缀专用列表布局（参考 d2core 左右分栏）-----
 function renderAffixList(data) {
   var grid = document.getElementById('grid');
 
   // 分离普通词缀和回火词缀
   var normal = data.filter(function(item) { return !item.tempered; });
   var tempered = data.filter(function(item) { return item.tempered; });
-
-  // 按 key 前缀分组
-  var normalGroups = groupAffixes(normal);
-  var temperedGroups = groupAffixes(tempered);
 
   var html = '<div class="affix-layout">';
 
@@ -109,7 +104,7 @@ function renderAffixList(data) {
       '<span class="affix-col-desc">属性</span>' +
     '</div>' +
     '<div class="affix-list">' +
-      normalGroups.map(function(g, i) { return buildAffixGroup(g, i, 'normal'); }).join('') +
+      normal.map(function(item) { return buildAffixRow(item); }).join('') +
     '</div></div>';
 
   // 右栏 — 回火词缀
@@ -121,90 +116,36 @@ function renderAffixList(data) {
       '<span class="affix-col-desc">属性</span>' +
     '</div>' +
     '<div class="affix-list">' +
-      temperedGroups.map(function(g, i) { return buildAffixGroup(g, i, 'tempered'); }).join('') +
+      tempered.map(function(item) { return buildAffixRow(item); }).join('') +
     '</div></div>';
 
   html += '</div>';
   grid.innerHTML = html;
-
-  // 绑定点击事件
-  grid.querySelectorAll('.affix-group-main').forEach(function(row) {
-    row.addEventListener('click', function() {
-      var group = this.closest('.affix-group');
-      group.classList.toggle('expanded');
-    });
-  });
 }
 
-// 词缀分组函数
-function groupAffixes(items) {
-  var groups = {};
-  items.forEach(function(item) {
-    var key = item.key || '';
-    var baseKey = key;
-    while (true) {
-      var parts = baseKey.split('_');
-      if (parts.length > 1 && /^\d+$/.test(parts[parts.length - 1])) {
-        baseKey = parts.slice(0, -1).join('_');
-      } else {
-        break;
-      }
-    }
-    if (!groups[baseKey]) groups[baseKey] = [];
-    groups[baseKey].push(item);
-  });
-  // 转换为数组
-  return Object.keys(groups).map(function(k) { return { key: k, items: groups[k] }; });
-}
-
-// 构建词缀组
-function buildAffixGroup(group, index, type) {
-  // 取第一个词缀作为主行
-  var first = group.items[0];
-  var name = first.prefix || first.suffix || first.groupName || group.key || '';
-  var desc = (typeof first.desc === 'string') ? first.desc : '';
+// 构建单行词缀
+function buildAffixRow(item) {
+  // 名称优先级：prefix/suffix > groupName > key
+  var name = item.prefix || item.suffix || item.groupName || item.key || '';
+  var desc = (typeof item.desc === 'string') ? item.desc : '';
+  // 清理标签并高亮数值
   desc = desc.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '');
   desc = parseColoredDesc(escHtml(desc));
 
-  // 子列表
-  var subRows = group.items.slice(1).map(function(item) {
-    var subDesc = (typeof item.desc === 'string') ? item.desc : '';
-    subDesc = subDesc.replace(/\{[^}]+\}/g, '').replace(/<[^>]+>/g, '');
-    subDesc = parseColoredDesc(escHtml(subDesc));
-    var equipTypes = (item.itemType || []).map(function(t) { return ITEM_TYPE_MAP[t] || t; }).join(', ');
-    return '<div class="affix-row affix-row--sub">' +
-      '<span class="affix-col-toggle affix-col-toggle--sub"></span>' +
-      '<span class="affix-col-desc affix-col-desc--sub"><span class="database-line">' + subDesc + '</span>' +
-      (equipTypes ? '<span class="affix-equip">' + escHtml(equipTypes) + '</span>' : '') +
-      '</span>' +
-      '</div>';
-  }).join('');
+  // 标记回火词缀
+  var cls = item.tempered ? ' affix-row--tempered' : '';
 
-  // 最后加装备类型（从第一个词缀取）
-  var equipTypes = (first.itemType || []).map(function(t) { return ITEM_TYPE_MAP[t] || t; }).join(', ');
-  if (equipTypes) {
-    subRows += '<div class="affix-row affix-row--sub affix-row--equip">' +
-      '<span class="affix-col-toggle affix-col-toggle--sub"></span>' +
-      '<span class="affix-equip">' + escHtml(equipTypes) + '</span>' +
-      '</div>';
-  }
-
-  var cls = (type === 'tempered') ? ' affix-group--tempered' : '';
-
-  return '<div class="affix-group' + cls + '" data-group-index="' + index + '">' +
-    '<div class="affix-group-main affix-row affix-row--main">' +
-      '<span class="affix-col-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>' +
-      '<span class="affix-col-name"><span class="affix-name-text">' + escHtml(name) + '</span></span>' +
-      '<span class="affix-col-desc"><span class="database-line">' + desc + '</span></span>' +
-    '</div>' +
-    '<div class="affix-sub-list">' + subRows + '</div>' +
+  return '<div class="affix-row' + cls + '" data-key="' + escHtml(item.key || '') + '">' +
+    '<span class="affix-col-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>' +
+    '<span class="affix-col-name"><span class="affix-name-text">' + escHtml(name) + '</span></span>' +
+    '<span class="affix-col-desc"><span class="database-line">' + desc + '</span></span>' +
     '</div>';
 }
 
 // ----- 构造卡片 HTML -----
 function buildCard(tab, item, idx) {
-  var color   = getCardAccentColor(tab, item);
-  var iconUrl = getItemImageUrl(item.icon, tab, item.key);
+  var color  = getCardAccentColor(tab, item);
+  var iconUrl = getItemImageUrl(item.icon, tab);
   var badges  = buildBadges(tab, item);
   var desc    = buildCardDesc(tab, item);
   var flavor  = item.flavor ? parseFlavor(item.flavor) : '';
@@ -232,7 +173,7 @@ function getCardAccentColor(tab, item) {
     skill:'#3498db', gem:'#1abc9c', rune:'#e67e22',
     elixir:'#2ecc71', builds:'#e91e63', affix:'#a29bfe'
   };
-  // uniqueItem: 职业颜色优先
+  // uniqueItem: 职业色优先
   if (tab === 'uniqueItem' && item.charName && CHAR_COLOR[item.charName]) {
     return CHAR_COLOR[item.charName];
   }
@@ -339,7 +280,7 @@ function showModal(tab, item) {
   var modal   = document.getElementById('modal');
   var body    = document.getElementById('modalBody');
   var color   = getCardAccentColor(tab, item);
-  var iconUrl = getItemImageUrl(item.icon, tab, item.key);
+  var iconUrl = getItemImageUrl(item.icon, tab);
   var badges  = buildBadges(tab, item);
   var descLines = buildModalDescLines(tab, item);
 
@@ -425,8 +366,8 @@ function escHtml(str) {
   if (str == null) return '';
   return String(str)
     .replace(/&/g, '&amp;')
-    .replace(/</g, '<')
-    .replace(/>/g, '>')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 }
 
