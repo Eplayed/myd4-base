@@ -81,6 +81,12 @@ function initFiltersForTab(tab, data) {
     var classes = getUniqueValues(data, 'charName').filter(function(c) { return c; });
     html += buildFilterGroup('filterSkillClass', '职业', classes, '全部');
   }
+  else if (tab === 'builds') {
+    var classes = getUniqueValues(data, 'class_zh').filter(function(c) { return c; });
+    var seasons = getUniqueValues(data, 'season').filter(function(c) { return c; });
+    html += buildFilterGroup('filterBuildsClass', '职业', classes, '全部');
+    html += buildFilterGroup('filterBuildsSeason', '赛季', seasons, '全部');
+  }
 
   // 搜索框（所有 tab 都有）
   html += '<input class="tb-search" id="tbSearch" type="search" placeholder="搜索名称、描述..." autocomplete="off">';
@@ -168,6 +174,11 @@ function applyCurrentFilters(tab) {
     if (tab === 'skill') {
       if (filters.filterSkillClass && item.charName !== filters.filterSkillClass) return false;
     }
+    // builds filters
+    if (tab === 'builds') {
+      if (filters.filterBuildsClass && item.class_zh !== filters.filterBuildsClass) return false;
+      if (filters.filterBuildsSeason && item.season !== filters.filterBuildsSeason) return false;
+    }
     // search
     if (filters.search) {
       var q = filters.search.toLowerCase();
@@ -233,6 +244,16 @@ function refreshFilterValues(tab, data) {
     if (w) w.style.display = 'flex';
     var classes = getUniqueValues(data, 'charName').filter(function(c) { return c; });
     updateSelectOptions('filterSkillClass', classes, '全部');
+  }
+  if (tab === 'builds') {
+    var w = document.getElementById('filterBuildsClass-wrap');
+    var w2 = document.getElementById('filterBuildsSeason-wrap');
+    if (w)  w.style.display = 'flex';
+    if (w2) w2.style.display = 'flex';
+    var classes = getUniqueValues(data, 'class_zh').filter(function(c) { return c; });
+    var seasons = getUniqueValues(data, 'season').filter(function(c) { return c; });
+    updateSelectOptions('filterBuildsClass', classes, '全部');
+    updateSelectOptions('filterBuildsSeason', seasons, '全部');
   }
 }
 

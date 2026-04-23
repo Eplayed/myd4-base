@@ -67,7 +67,34 @@ function onTabChange(tab) {
     if (simEl) simEl.style.display = 'none';
   }
 
-  // 加载数据 → 刷新筛选 → 渲染
+  // builds tab：合并装备细节
+  if (tab === 'builds') {
+    loadTabData(tab).then(function(data) {
+      return fetch('data/builds_detail_parsed_fixed.json')
+        .then(function(r) { return r.ok ? r.json() : {}; })
+        .catch(function() { return {}; })
+        .then(function(detailMap) {
+          if (detailMap && typeof detailMap === 'object' && !Array.isArray(detailMap)) {
+            data.forEach(function(build) {
+              var detail = detailMap[build.build_id];
+              if (detail) {
+                build._equipment = detail.equipment || {};
+                build._skillIcons = detail.skillIcons || [];
+              }
+            });
+          }
+          initFiltersForTab(tab, data);
+          refreshFilterValues(tab, data);
+          applyCurrentFilters(tab);
+        });
+    }).catch(function(e) {
+      var grid = document.getElementById('grid');
+      if (grid) grid.innerHTML = '<div class="empty">加载失败: ' + e.message + '</div>';
+    });
+    return;
+  }
+
+  // 其他 tab 通用处理
   loadTabData(tab).then(function(data) {
     initFiltersForTab(tab, data);
     refreshFilterValues(tab, data);
@@ -77,8 +104,6 @@ function onTabChange(tab) {
     if (grid) grid.innerHTML = '<div class="empty">加载失败: ' + e.message + '</div>';
   });
 }
-
-// ----- 渲染 Grid -----
 function renderGrid(tab, data) {
   var grid = document.getElementById('grid');
   var statsEl = document.getElementById('tbStats');
@@ -96,15 +121,28 @@ function renderGrid(tab, data) {
     return;
   }
 
-  grid.innerHTML = data.map(function(item, i) { return buildCard(tab, item, i); }).join('');
-
-  // 卡片点击 → modal
-  grid.querySelectorAll('.d4-card').forEach(function(card) {
-    card.addEventListener('click', function() {
-      var idx = parseInt(card.dataset.idx, 10);
-      showModal(tab, data[idx]);
+  // builds tab：用专用卡片
+  if (tab === 'builds') {
+    grid.innerHTML = data.map(function(item, i) { return buildBuildCard(item, i); }).join('');
+    grid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+    grid.querySelectorAll('.build-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        var idx = parseInt(card.dataset.index, 10);
+        showBuildDetailModal(data[idx]);
+      });
     });
-  });
+  } else {
+    grid.innerHTML = data.map(function(item, i) { return buildCard(tab, item, i); }).join('');
+    grid.style.gridTemplateColumns = '';
+
+    // 通用卡片点击 → modal
+    grid.querySelectorAll('.d4-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        var idx = parseInt(card.dataset.idx, 10);
+        showModal(tab, data[idx]);
+      });
+    });
+  }
 }
 
 // ----- 词缀专用列表布局（参考 d2core 左右分栏 + 分组折叠） -----

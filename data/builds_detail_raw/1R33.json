@@ -1,0 +1,6 @@
+{
+  "build_id": "1R33",
+  "url": "https://www.d2core.com/d4/planner?bd=1R33",
+  "success": false,
+  "error": "HTTP 408: {\"success\":false,\"code\":\"SCRAPE_TIMEOUT\",\"error\":\"The scrape operation timed out before completing. This happens when a page takes too long to load, render, or process. Possible causes: (1) The websit"
+}

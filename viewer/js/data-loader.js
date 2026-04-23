@@ -12,7 +12,7 @@ const DATA_FILES = {
   rune:      'data/rune_zhCN.json',
   gem:       'data/gem_zhCN.json',
   elixir:    'data/elixir_zhCN.json',
-  builds:    'builds_data.json',
+  builds:    'data/d4_builds_final_v2.json',
   simulator: 'data/skills_zhCN.json'
 };
 
@@ -32,7 +32,9 @@ function loadTabData(tab) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.json();
       })
-      .then(function(data) {
+      .then(function(raw) {
+        // builds 数据在 raw.builds 里（meta/builds/core_data 结构）
+        var data = Array.isArray(raw) ? raw : (raw.builds || []);
         // 预处理：去除 desc[] 中的 {tag} 标签，合并为纯文本
         var processed = data.map(function(item) {
           if (Array.isArray(item.desc)) {
