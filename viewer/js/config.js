@@ -37,7 +37,7 @@ const TAB_CONFIGS = {
   },
   builds: {
     label: "构筑", icon: "builds",
-    dataFile: "../builds_data.json", cardType: "build"
+    dataFile: "data/d4_builds_final_v2.json", cardType: "build"
   },
   simulator: {
     label: "模拟器", icon: "simulator",

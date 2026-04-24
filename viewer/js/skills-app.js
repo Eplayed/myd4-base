@@ -26,6 +26,59 @@ var SimState = {
 };
 
 // ========== 初始化入口 ==========
+
+// ========== 从构筑加载装备/技能 ==========
+function simLoadBuild(build, detail){
+  if(!build) return;
+  console.log("[simLoadBuild] build:", build.build_id, "detail:", detail ? "has data" : "no detail");
+  
+  // 1. 设置职业
+  var charMap = {"圣骑士":"Paladin","野蛮人":"Barbarian","死灵法师":"Necromancer",
+                "游侠":"Rogue","巫师":"Sorceress","德鲁伊":"Druid","魂灵":"Spiritborn"};
+  var charEn = charMap[build.class_zh] || build.class_en || "Barbarian";
+  SimState.currentChar = charEn;
+  
+  // 2. 加载装备（如果详情中有装备数据）
+  if(detail && detail.equipment){
+    var equipSlots = ["helm","gloves","legs","boots","amulet","ring","weapon","offhand"];
+    var slotMap = {helm:0, gloves:1, legs:2, boots:3, amulet:4, ring:5, ring2:8, weapon:6, offhand:7};
+    var equipGrid = document.getElementById("simEquipGrid");
+    if(equipGrid){
+      var cells = equipGrid.querySelectorAll(".sim-equip-slot");
+      cells.forEach(function(cell, idx){
+        cell.innerHTML = "";
+        cell.title = "";
+      });
+      // 遍历构筑装备，填充到对应槽位
+      Object.keys(detail.equipment).forEach(function(slot){
+        var name = detail.equipment[slot];
+        var idx = slotMap[slot];
+        if(slot === 'ring' && name && (idx===5 || idx===5)){ if(cells[5]){cells[5].innerHTML='<span class="sim-equip-name">'+name+'</span>';cells[5].title=name;} if(cells[8]){cells[8].innerHTML='<span class="sim-equip-name">'+name+'</span>';cells[8].title=name;} }else if(idx !== undefined && cells[idx]){
+          cells[idx].innerHTML = '<span class="sim-equip-name">'+(name||"")+'</span>';
+          cells[idx].title = name || "";
+        }
+      });
+    }
+  }
+  
+  // 3. 加载技能图标（6格）
+  if(detail && detail.skillIcons && Array.isArray(detail.skillIcons)){
+    detail.skillIcons.forEach(function(iconId, idx){
+      if(idx < 6 && SimState.skillBar[idx]){
+        // 技能栏存储 iconId 而不是 skill 对象
+        SimState.skillBar[idx] = {iconId: iconId, modId: 0};
+      }
+    });
+  }
+  
+  // 4. 更新 UI
+  simRenderCharGrid();
+  simRenderSkillBar();
+  simRenderEquipGrid();
+  console.log("[simLoadBuild] done, char:", SimState.currentChar);
+}
+
+
 function initSimulator(skillData) {
   if (SimState.initialized) {
     // 已初始化，只更新数据

@@ -83,6 +83,7 @@ function onTabChange(tab) {
               }
             });
           }
+          window.ALL_BUILDS = data;
           initFiltersForTab(tab, data);
           refreshFilterValues(tab, data);
           applyCurrentFilters(tab);
