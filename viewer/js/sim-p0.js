@@ -838,6 +838,9 @@ function simP0BindEvents() {
   if (skillSearchInput) skillSearchInput.addEventListener('input', function() {
     simP0FilterSkillGrid(this.value);
   });
+
+  // 导入导出功能（动态添加按钮）
+  setTimeout(simP0AddImportExportBtns, 100);
 }
 
 // ========== 装备 Tooltip ==========
@@ -1141,4 +1144,98 @@ function simP0ParseColored(text) {
     .replace(/\{c_resource\}([^{]*)\{\/c\}/g, '<span class="sp0-c-resource">$1</span>')
     .replace(/\{c_RuneCondition\}([^{]*)\{\/c\}/g, '<span class="sp0-c-rune">$1</span>')
     .replace(/\{[^}]+\}/g, '');
+}
+
+// ========== 导入导出功能 ==========
+function simP0AddImportExportBtns() {
+  var cardTitle = document.querySelector('.sp0-equip-card .sp0-card-title');
+  if (!cardTitle) return;
+  
+  // 检查是否已添加
+  if (document.getElementById('sp0ExportBtn')) return;
+  
+  var wrap = document.createElement('div');
+  wrap.className = 'sp0-equip-actions';
+  wrap.innerHTML = '<button class="sp0-btn sp0-btn-sm" id="sp0ExportBtn" title="导出配置">&#x2913;</button>' +
+    '<button class="sp0-btn sp0-btn-sm" id="sp0ImportBtn" title="导入配置">&#x2912;</button>' +
+    '<input type="file" id="sp0ImportFile" accept=".json" style="display:none">';
+  cardTitle.appendChild(wrap);
+  
+  // 绑定事件
+  document.getElementById('sp0ExportBtn').addEventListener('click', simP0ExportConfig);
+  document.getElementById('sp0ImportBtn').addEventListener('click', function() {
+    document.getElementById('sp0ImportFile').click();
+  });
+  document.getElementById('sp0ImportFile').addEventListener('change', simP0ImportConfig);
+}
+
+function simP0ExportConfig() {
+  var config = {
+    version: '1.0',
+    exportedAt: new Date().toISOString(),
+    currentChar: SimStateP0.currentChar,
+    equipment: SimStateP0.equipment,
+    equipDataMap: SimStateP0.equipDataMap,
+    runes: SimStateP0.runes,
+    pact: SimStateP0.pact,
+    elixirs: SimStateP0.elixirs,
+    paragonNodes: SimStateP0.paragonNodes,
+    skillBar: SimStateP0.skillBar
+  };
+  
+  var json = JSON.stringify(config, null, 2);
+  var blob = new Blob([json], {type: 'application/json'});
+  var url = URL.createObjectURL(blob);
+  
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'd4sim_' + SimStateP0.charNames[SimStateP0.currentChar] + '_' + Date.now() + '.json';
+  a.click();
+  
+  URL.revokeObjectURL(url);
+  console.log('[simP0ExportConfig] exported');
+}
+
+function simP0ImportConfig(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      var config = JSON.parse(ev.target.result);
+      console.log('[simP0ImportConfig] loaded', config.version);
+      
+      // 恢复状态
+      if (config.currentChar) SimStateP0.currentChar = config.currentChar;
+      if (config.equipment) SimStateP0.equipment = config.equipment;
+      if (config.equipDataMap) SimStateP0.equipDataMap = config.equipDataMap;
+      if (config.runes) SimStateP0.runes = config.runes;
+      if (config.pact) SimStateP0.pact = config.pact;
+      if (config.elixirs) SimStateP0.elixirs = config.elixirs;
+      if (config.paragonNodes) SimStateP0.paragonNodes = config.paragonNodes;
+      if (config.skillBar) SimStateP0.skillBar = config.skillBar;
+      
+      // 重新渲染
+      simP0FilterSkills();
+      simP0RenderSkillGrid();
+      simP0RenderEquipList();
+      simP0RenderSkillBar();
+      simP0RenderRunePanel();
+      simP0RenderPactPanel();
+      simP0RenderElixirPanel();
+      simP0RenderParagonPanel();
+      simP0RenderCharZone();
+      
+      simP0SaveToStorage();
+      alert('配置导入成功！');
+    } catch(err) {
+      console.error('[simP0ImportConfig] error:', err);
+      alert('导入失败：' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  
+  // 清空 input，允许重复导入同一文件
+  e.target.value = '';
 }
