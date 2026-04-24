@@ -898,3 +898,154 @@
     min-width: 190px;
   }
 }
+
+/* ============================================================
+   技能网格
+   ============================================================ */
+.sp0-skill-grid-wrap {
+  background: var(--bg-card, #1a1a2e);
+  border: 1px solid var(--border-card, rgba(255,255,255,0.07));
+  border-radius: 8px;
+  margin: 8px 0;
+  overflow: hidden;
+}
+
+.sp0-skill-grid-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  background: rgba(0,0,0,0.2);
+}
+
+.sp0-skill-search {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  padding: 4px 8px;
+  color: rgba(255,255,255,0.7);
+  font-size: 11px;
+  width: 120px;
+}
+
+.sp0-skill-search::placeholder {
+  color: rgba(255,255,255,0.35);
+}
+
+.sp0-skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 6px;
+  padding: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.sp0-skill-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sp0-skill-item:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.12);
+}
+
+.sp0-skill-item.sp0-sk-inbar {
+  border-color: rgba(46,204,113,0.4);
+  background: rgba(46,204,113,0.08);
+}
+
+.sp0-skill-icon-wrap {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.sp0-skill-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 5px;
+}
+
+.sp0-skill-icon-placeholder {
+  width: 36px;
+  height: 36px;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.2);
+  font-size: 16px;
+}
+
+.sp0-skill-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 14px;
+  height: 14px;
+  background: #27ae60;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.sp0-skill-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.sp0-skill-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sp0-skill-type {
+  font-size: 9px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 1px;
+}
+
+.sp0-sk-active .sp0-skill-name {
+  color: #f39c12;
+}
+
+.sp0-sk-passive .sp0-skill-name {
+  color: #9b59b6;
+}
+
+/* 替换槽位样式 */
+.sp0-picker-hint {
+  padding: 10px;
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  text-align: center;
+}
+
+.sp0-replace-slot {
+  border: 2px solid rgba(231,76,60,0.3);
+}
+
+.sp0-replace-slot:hover {
+  border-color: rgba(231,76,60,0.6);
+  background: rgba(231,76,60,0.1);
+}

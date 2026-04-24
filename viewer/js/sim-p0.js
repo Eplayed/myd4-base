@@ -166,6 +166,14 @@ function simP0InjectHTML() {
           </div>
           <div class="sp0-power-tags" id="sp0PowerTags"></div>
         </div>
+        <!-- 技能网格 -->
+        <div class="sp0-skill-grid-wrap">
+          <div class="sp0-skill-grid-header">
+            <span class="sp0-title-icon">&#x2600;</span> 技能树
+            <input type="text" class="sp0-skill-search" id="sp0SkillSearch" placeholder="搜索技能...">
+          </div>
+          <div class="sp0-skill-grid" id="sp0SkillGrid"></div>
+        </div>
         <div class="sp0-skill-bar" id="sp0SkillBar"></div>
       </div>
 
@@ -475,9 +483,164 @@ function simP0FilterSkills() {
   SimStateP0.passiveSkills = passive;
 }
 
-// ========== 渲染：技能网格（占位） ==========
+// ========== 渲染：技能网格 ==========
 function simP0RenderSkillGrid() {
-  // 后续实现
+  var grid = document.getElementById('sp0SkillGrid');
+  if (!grid) return;
+
+  var skills = SimStateP0.activeSkills || [];
+  
+  // 合并被动技能显示
+  var allSkills = skills.concat(SimStateP0.passiveSkills || []);
+
+  var html = allSkills.map(function(sk, i) {
+    var iconId = sk.icon || sk.icons || sk.iconId || 0;
+    var name = sk.name || sk.sName || '';
+    var desc = sk.desc || sk.description || '';
+    var isPassive = sk.isPassive || sk.type === 'passive' || (sk.tags && sk.tags.indexOf('passive') >= 0);
+    
+    // 图标 URL
+    var iconUrl = iconId ? simP0GetSkillIconUrl(iconId) : '';
+    
+    // 检查是否已在技能栏
+    var inBar = SimStateP0.skillBar.some(function(s) { return s && s.icon === iconId; });
+    
+    // 类型标签
+    var typeLabel = isPassive ? '被动' : '主动';
+    var typeClass = isPassive ? 'sp0-sk-passive' : 'sp0-sk-active';
+    
+    return '<div class="sp0-skill-item ' + typeClass + (inBar ? ' sp0-sk-inbar' : '') + '" data-idx="' + i + '">' +
+      '<div class="sp0-skill-icon-wrap">' +
+        (iconUrl ? '<img class="sp0-skill-icon" src="' + iconUrl + '" alt="" onerror="this.style.opacity=0.2">' : '<div class="sp0-skill-icon-placeholder">&#x2600;</div>') +
+        (inBar ? '<div class="sp0-skill-badge">&#x2713;</div>' : '') +
+      '</div>' +
+      '<div class="sp0-skill-info">' +
+        '<div class="sp0-skill-name">' + simP0Esc(name) + '</div>' +
+        '<div class="sp0-skill-type">' + typeLabel + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  grid.innerHTML = html || '<div class="sp0-empty">暂无技能数据</div>';
+
+  // 绑定点击事件
+  grid.querySelectorAll('.sp0-skill-item').forEach(function(item, i) {
+    item.addEventListener('click', function() {
+      var sk = allSkills[i];
+      simP0OnSkillGridItemClick(sk, i);
+    });
+  });
+}
+
+function simP0OnSkillGridItemClick(skill, idx) {
+  // 查找第一个空槽
+  var emptyIdx = SimStateP0.skillBar.findIndex(function(s) { return !s; });
+  
+  var iconId = skill.icon || skill.icons || skill.iconId || 0;
+  var name = skill.name || skill.sName || '';
+  
+  if (emptyIdx >= 0) {
+    // 有空槽，直接添加
+    SimStateP0.skillBar[emptyIdx] = {icon: iconId, name: name, active: true};
+    simP0RenderSkillBar();
+    simP0RenderSkillGrid(); // 更新网格状态
+    simP0SaveToStorage();
+  } else {
+    // 技能栏已满，弹出选择器让用户选择替换哪个槽
+    simP0OpenSkillPickerForReplace(skill);
+  }
+}
+
+function simP0OpenSkillPickerForReplace(skill) {
+  // 显示一个特殊的选择器，让用户选择替换哪个槽位
+  var modal = document.getElementById('sp0PickerModal');
+  var grid = document.getElementById('sp0PickerGrid');
+  var search = document.getElementById('sp0PickerSearch');
+  
+  if (!modal || !grid) return;
+  
+  var iconId = skill.icon || skill.icons || skill.iconId || 0;
+  var name = skill.name || skill.sName || '';
+  
+  // 显示当前技能栏，让用户选择替换哪个槽
+  var html = '<div class="sp0-picker-hint">选择要替换的技能槽：</div>';
+  SimStateP0.skillBar.forEach(function(s, i) {
+    if (s) {
+      var sIcon = s.icon ? simP0GetSkillIconUrl(s.icon) : '';
+      var sName = s.name || '技能 ' + (i + 1);
+      html += '<div class="sp0-picker-item sp0-replace-slot" data-idx="' + i + '">' +
+        (sIcon ? '<img class="sp0-picker-icon" src="' + sIcon + '" alt="">' : '') +
+        '<div class="sp0-picker-info">' +
+          '<div class="sp0-picker-name">' + simP0Esc(sName) + '</div>' +
+          '<div class="sp0-picker-sub">槽位 ' + (i + 1) + '</div>' +
+        '</div>' +
+      '</div>';
+    }
+  });
+  
+  grid.innerHTML = html;
+  if (search) search.style.display = 'none';
+  modal.classList.add('active');
+  
+  // 绑定点击事件
+  grid.querySelectorAll('.sp0-replace-slot').forEach(function(item) {
+    item.addEventListener('click', function() {
+      var slotIdx = parseInt(item.dataset.idx, 10);
+      SimStateP0.skillBar[slotIdx] = {icon: iconId, name: name, active: true};
+      simP0RenderSkillBar();
+      simP0RenderSkillGrid();
+      simP0SaveToStorage();
+      simP0ClosePicker();
+    });
+  });
+}
+
+// 技能网格搜索
+function simP0FilterSkillGrid(query) {
+  var q = (query || '').toLowerCase();
+  
+  var allSkills = (SimStateP0.activeSkills || []).concat(SimStateP0.passiveSkills || []);
+  
+  var filtered = allSkills.filter(function(sk) {
+    var name = (sk.name || sk.sName || '').toLowerCase();
+    var desc = (sk.desc || sk.description || '').toLowerCase();
+    return !q || name.indexOf(q) >= 0 || desc.indexOf(q) >= 0;
+  });
+  
+  var grid = document.getElementById('sp0SkillGrid');
+  if (!grid) return;
+  
+  var html = filtered.map(function(sk, i) {
+    var iconId = sk.icon || sk.icons || sk.iconId || 0;
+    var name = sk.name || sk.sName || '';
+    var isPassive = sk.isPassive || sk.type === 'passive' || (sk.tags && sk.tags.indexOf('passive') >= 0);
+    
+    var iconUrl = iconId ? simP0GetSkillIconUrl(iconId) : '';
+    var inBar = SimStateP0.skillBar.some(function(s) { return s && s.icon === iconId; });
+    var typeLabel = isPassive ? '被动' : '主动';
+    var typeClass = isPassive ? 'sp0-sk-passive' : 'sp0-sk-active';
+    
+    return '<div class="sp0-skill-item ' + typeClass + (inBar ? ' sp0-sk-inbar' : '') + '" data-idx="' + i + '">' +
+      '<div class="sp0-skill-icon-wrap">' +
+        (iconUrl ? '<img class="sp0-skill-icon" src="' + iconUrl + '" alt="" onerror="this.style.opacity=0.2">' : '<div class="sp0-skill-icon-placeholder">&#x2600;</div>') +
+        (inBar ? '<div class="sp0-skill-badge">&#x2713;</div>' : '') +
+      '</div>' +
+      '<div class="sp0-skill-info">' +
+        '<div class="sp0-skill-name">' + simP0Esc(name) + '</div>' +
+        '<div class="sp0-skill-type">' + typeLabel + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  
+  grid.innerHTML = html || '<div class="sp0-empty">无匹配技能</div>';
+  
+  // 重新绑定点击事件
+  grid.querySelectorAll('.sp0-skill-item').forEach(function(item, i) {
+    item.addEventListener('click', function() {
+      var sk = filtered[i];
+      simP0OnSkillGridItemClick(sk, i);
+    });
+  });
 }
 
 // ========== 从构筑加载数据 ==========
@@ -668,6 +831,12 @@ function simP0BindEvents() {
   var searchInput = document.getElementById('sp0PickerSearch');
   if (searchInput) searchInput.addEventListener('input', function() {
     simP0FilterPicker(this.value);
+  });
+
+  // 技能网格搜索
+  var skillSearchInput = document.getElementById('sp0SkillSearch');
+  if (skillSearchInput) skillSearchInput.addEventListener('input', function() {
+    simP0FilterSkillGrid(this.value);
   });
 }
 
