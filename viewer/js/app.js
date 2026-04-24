@@ -55,9 +55,39 @@ function onTabChange(tab) {
     var simEl = document.getElementById('simulatorPanel');
     if (simEl) simEl.style.display = '';
     if (statsEl) statsEl.textContent = '';
-    // 确保技能数据已加载
-    loadTabData(tab).then(function(data) {
-      if (typeof initSimulator === 'function') initSimulator(data);
+    // 加载技能数据
+    loadTabData('skill').then(function(skillData) {
+      // 加载 uniqueItem 数据（装备 tooltip）
+      return loadTabData('uniqueItem').then(function(uniqueData) {
+        return { skillData: skillData, uniqueData: uniqueData };
+      }).catch(function() { return { skillData: skillData, uniqueData: [] }; });
+    }).then(function(result) {
+      // 加载符文数据
+      return loadTabData('rune').then(function(runeData) {
+        result.runeData = runeData || [];
+        return result;
+      }).catch(function() { result.runeData = []; return result; });
+    }).then(function(result) {
+      // 加载药剂数据
+      return loadTabData('elixir').then(function(elixirData) {
+        result.elixirData = elixirData || [];
+        return result;
+      }).catch(function() { result.elixirData = []; return result; });
+    }).then(function(result) {
+      // 初始化 P0 模拟器
+      if (typeof initSimulatorP0 === 'function') {
+        simP0LoadEquipData(result.uniqueData || []);
+        simP0LoadRuneData(result.runeData || []);
+        simP0LoadElixirData(result.elixirData || []);
+        var opts = {};
+        // 如果是从构筑卡片跳转过来的，自动加载 pendingBuild
+        if (window.SimStateP0 && window.SimStateP0.pendingBuild) {
+          opts.build = window.SimStateP0.pendingBuild.build;
+          opts.detail = window.SimStateP0.pendingBuild.detail;
+          window.SimStateP0.pendingBuild = null;
+        }
+        initSimulatorP0(result.skillData || [], opts);
+      }
     });
     return;
   } else {
@@ -128,8 +158,8 @@ function renderGrid(tab, data) {
     grid.style.gridTemplateColumns = 'repeat(2, 1fr)';
     grid.querySelectorAll('.build-card').forEach(function(card) {
       card.addEventListener('click', function() {
-        var idx = parseInt(card.dataset.index, 10);
-        showBuildDetailModal(data[idx]);
+        var buildId = card.dataset.id;
+        if (buildId) openBuildDetail(buildId);
       });
     });
   } else {

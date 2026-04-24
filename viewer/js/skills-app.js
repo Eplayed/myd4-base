@@ -22,7 +22,8 @@ var SimState = {
   // 弹窗目标
   pickerTarget: null,
   // 是否已初始化
-  initialized: false
+  initialized: false,
+  pendingBuild: null
 };
 
 // ========== 初始化入口 ==========
@@ -34,48 +35,47 @@ function simLoadBuild(build, detail){
   
   // 1. 设置职业
   var charMap = {"圣骑士":"Paladin","野蛮人":"Barbarian","死灵法师":"Necromancer",
-                "游侠":"Rogue","巫师":"Sorceress","德鲁伊":"Druid","魂灵":"Spiritborn"};
+                "游侠":"Rogue","法师":"Sorceress","德鲁伊":"Druid","魂灵":"Spiritborn"};
   var charEn = charMap[build.class_zh] || build.class_en || "Barbarian";
   SimState.currentChar = charEn;
   
-  // 2. 加载装备（如果详情中有装备数据）
-  if(detail && detail.equipment){
-    var equipSlots = ["helm","gloves","legs","boots","amulet","ring","weapon","offhand"];
-    var slotMap = {helm:0, gloves:1, legs:2, boots:3, amulet:4, ring:5, ring2:8, weapon:6, offhand:7};
-    var equipGrid = document.getElementById("simEquipGrid");
-    if(equipGrid){
-      var cells = equipGrid.querySelectorAll(".sim-equip-slot");
-      cells.forEach(function(cell, idx){
-        cell.innerHTML = "";
-        cell.title = "";
-      });
-      // 遍历构筑装备，填充到对应槽位
-      Object.keys(detail.equipment).forEach(function(slot){
-        var name = detail.equipment[slot];
-        var idx = slotMap[slot];
-        if(slot === 'ring' && name && (idx===5 || idx===5)){ if(cells[5]){cells[5].innerHTML='<span class="sim-equip-name">'+name+'</span>';cells[5].title=name;} if(cells[8]){cells[8].innerHTML='<span class="sim-equip-name">'+name+'</span>';cells[8].title=name;} }else if(idx !== undefined && cells[idx]){
-          cells[idx].innerHTML = '<span class="sim-equip-name">'+(name||"")+'</span>';
-          cells[idx].title = name || "";
-        }
-      });
+  // 2. 加载装备到 SimState.equipment
+  SimState.equipment = {};
+  var eqData = (detail && detail.equipment) || build._equipment || build.equipment || {};
+  if(eqData && typeof eqData === 'object'){
+    SimState.equipment = eqData;
+  }
+  
+  // 3. 加载技能到技能栏
+  var skillsArr = (detail && detail.skillIcons) || build._skillIcons || build.equip_skills || [];
+  // 重置技能栏
+  SimState.skillBar = [null, null, null, null, null, null];
+  skillsArr.forEach(function(sk, idx){
+    if(idx >= 6) return;
+    // 兼容两种格式：数字(iconId) 或 对象({name, icon, rank, mods})
+    var iconId, skillName;
+    if(typeof sk === 'number'){
+      iconId = sk;
+      skillName = '';
+    } else if(sk && typeof sk === 'object'){
+      iconId = sk.icon;
+      skillName = sk.name || '';
+    } else {
+      return;
     }
-  }
+    if(iconId){
+      SimState.skillBar[idx] = {skill: {icon: iconId, name: skillName, active: true}, modId: 0};
+    }
+  });
   
-  // 3. 加载技能图标（6格）
-  if(detail && detail.skillIcons && Array.isArray(detail.skillIcons)){
-    detail.skillIcons.forEach(function(iconId, idx){
-      if(idx < 6 && SimState.skillBar[idx]){
-        // 技能栏存储 iconId 而不是 skill 对象
-        SimState.skillBar[idx] = {iconId: iconId, modId: 0};
-      }
-    });
-  }
-  
-  // 4. 更新 UI
+  // 4. 刷新 UI
   simRenderCharGrid();
   simRenderSkillBar();
   simRenderEquipGrid();
-  console.log("[simLoadBuild] done, char:", SimState.currentChar);
+  simFilterSkills();
+  simRenderSkillGrid();
+  simUpdatePoints();
+  console.log("[simLoadBuild] done, char:", SimState.currentChar, "equip:", Object.keys(SimState.equipment).length, "skills:", SimState.skillBar.filter(Boolean).length);
 }
 
 
@@ -397,6 +397,47 @@ function simRenderSkillGrid() {
   }).join('');
   
   grid.innerHTML = html || '<div class="sim-empty">无匹配技能</div>';
+}
+
+// ========== 渲染职业选择网格 ==========
+function simRenderCharGrid() {
+  var grid = document.getElementById('simCharGrid');
+  if (!grid) return;
+  var chars = [
+    {en:'Barbarian',zh:'野蛮人'},
+    {en:'Sorceress',zh:'法师'},
+    {en:'Rogue',zh:'游侠'},
+    {en:'Necromancer',zh:'死灵法师'},
+    {en:'Druid',zh:'德鲁伊'},
+    {en:'Spiritborn',zh:'魂灵'},
+    {en:'Paladin',zh:'圣骑士'}
+  ];
+  var html = chars.map(function(ch) {
+    var checked = SimState.currentChar === ch.en ? 'checked' : '';
+    var active = SimState.currentChar === ch.en ? ' active' : '';
+    return '<label class="sim-char-item' + active + '">' +
+      '<input type="radio" name="simChar" value="' + ch.en + '" ' + checked + '>' +
+      '<span>' + ch.zh + '</span></label>';
+  }).join('');
+  grid.innerHTML = html;
+}
+
+// ========== 渲染装备栏 ==========
+function simRenderEquipGrid() {
+  var grid = document.getElementById('simEquipGrid');
+  if (!grid) return;
+  var slots = ['头盔','手套','护腿','靴子','护符','戒指1','武器','副手','戒指2'];
+  var slotKeys = ['helm','gloves','legs','boots','amulet','ring','weapon','offhand','ring2'];
+  var html = slots.map(function(name, idx) {
+    var key = slotKeys[idx];
+    var item = SimState.equipment ? SimState.equipment[key] : '';
+    var itemName = (item && item.name) ? item.name : (item || '');
+    return '<div class="sim-equip-slot" data-slot="' + key + '" title="' + simEsc(itemName || name) + '">' +
+      '<span class="sim-equip-label">' + name + '</span>' +
+      (itemName ? '<span class="sim-equip-name">' + simEsc(itemName) + '</span>' : '') +
+    '</div>';
+  }).join('');
+  grid.innerHTML = html;
 }
 
 // ========== 渲染技能栏 ==========
