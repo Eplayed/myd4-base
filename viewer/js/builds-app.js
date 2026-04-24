@@ -473,10 +473,7 @@ function openBuildDetail(buildId){
   var detail=(window.BUILD_DETAILS&&window.BUILD_DETAILS[buildId])||{equipment:build._equipment||{},skillIcons:build._skillIcons||[]};
   console.log('[openBuildDetail] build:',build.build_id,'| equip keys:',Object.keys(detail.equipment||{}).join(','));
 
-  // 把待加载的构筑存入 SimState / SimStateP0，让 initSimulator 初始化完成后自动调用
-  if(window.SimState){
-    window.SimState.pendingBuild = {build:build, detail:detail};
-  }
+  // 把待加载的构筑存入 SimStateP0
   if(window.SimStateP0){
     window.SimStateP0.pendingBuild = {build:build, detail:detail};
   }

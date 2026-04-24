@@ -53,6 +53,48 @@ var SimStateP0 = {
   pendingBuild: null
 };
 
+// ========== localStorage 持久化 ==========
+function simP0SaveToStorage() {
+  try {
+    var data = {
+      currentChar: SimStateP0.currentChar,
+      equipment: SimStateP0.equipment,
+      equipDataMap: SimStateP0.equipDataMap,
+      runes: SimStateP0.runes,
+      pact: SimStateP0.pact,
+      elixirs: SimStateP0.elixirs,
+      paragonNodes: SimStateP0.paragonNodes,
+      skillBar: SimStateP0.skillBar
+    };
+    localStorage.setItem('d4sim_p0', JSON.stringify(data));
+    console.log('[simP0SaveToStorage] saved');
+  } catch(e) {
+    console.warn('[simP0SaveToStorage] error:', e);
+  }
+}
+
+function simP0LoadFromStorage() {
+  try {
+    var raw = localStorage.getItem('d4sim_p0');
+    if (!raw) return null;
+    var data = JSON.parse(raw);
+    console.log('[simP0LoadFromStorage] loaded:', data.currentChar);
+    return data;
+  } catch(e) {
+    console.warn('[simP0LoadFromStorage] error:', e);
+    return null;
+  }
+}
+
+function simP0ClearStorage() {
+  try {
+    localStorage.removeItem('d4sim_p0');
+    console.log('[simP0ClearStorage] cleared');
+  } catch(e) {
+    console.warn('[simP0ClearStorage] error:', e);
+  }
+}
+
 // ========== 入口 ==========
 function initSimulatorP0(skillData, opts) {
   opts = opts || {};
@@ -72,8 +114,29 @@ function initSimulatorP0(skillData, opts) {
   simP0RenderElixirPanel();
   simP0RenderParagonPanel();
 
+  // 优先从 opts 加载，否则尝试 localStorage
   if (opts.build) {
     simP0LoadBuild(opts.build, opts.detail);
+  } else {
+    var saved = simP0LoadFromStorage();
+    if (saved) {
+      // 恢复保存的状态
+      if (saved.currentChar) SimStateP0.currentChar = saved.currentChar;
+      if (saved.equipment) SimStateP0.equipment = saved.equipment;
+      if (saved.equipDataMap) SimStateP0.equipDataMap = saved.equipDataMap;
+      if (saved.runes) SimStateP0.runes = saved.runes;
+      if (saved.pact) SimStateP0.pact = saved.pact;
+      if (saved.elixirs) SimStateP0.elixirs = saved.elixirs;
+      if (saved.paragonNodes) SimStateP0.paragonNodes = saved.paragonNodes;
+      if (saved.skillBar) SimStateP0.skillBar = saved.skillBar;
+      // 重新渲染
+      simP0RenderEquipList();
+      simP0RenderSkillBar();
+      simP0RenderRunePanel();
+      simP0RenderPactPanel();
+      simP0RenderElixirPanel();
+      simP0RenderParagonPanel();
+    }
   }
 }
 
@@ -352,10 +415,33 @@ function simP0RenderParagonPanel() {
 }
 
 // ========== 角色区 ==========
+var _sp0CharColors = {
+  Barbarian: '#c0392b',
+  Sorceress: '#9b59b6',
+  Rogue: '#2980b9',
+  Necromancer: '#8e44ad',
+  Druid: '#27ae60',
+  Spiritborn: '#e67e22',
+  Paladin: '#f1c40f'
+};
+
 function simP0RenderCharZone() {
   var label = document.getElementById('sp0CharLabel');
   if (label) {
-    label.textContent = SimStateP0.charNames[SimStateP0.currentChar] || SimStateP0.currentChar;
+    var charName = SimStateP0.charNames[SimStateP0.currentChar] || SimStateP0.currentChar;
+    label.textContent = charName;
+    
+    // 职业颜色
+    var color = _sp0CharColors[SimStateP0.currentChar] || '#f39c12';
+    label.style.color = color;
+    label.style.textShadow = '0 0 20px ' + color;
+  }
+
+  // 图标颜色
+  var silhouette = document.querySelector('.sp0-char-silhouette');
+  if (silhouette) {
+    var color = _sp0CharColors[SimStateP0.currentChar] || '#ffffff';
+    silhouette.style.color = color;
   }
 
   var tagsEl = document.getElementById('sp0PowerTags');
@@ -467,6 +553,7 @@ function simP0LoadBuild(build, detail) {
     runes: SimStateP0.runes.filter(Boolean).length,
     elixirs: SimStateP0.elixirs.filter(Boolean).length
   });
+  simP0SaveToStorage();
 }
 
 // ========== 绑定事件 ==========
@@ -511,6 +598,7 @@ function simP0BindEvents() {
         SimStateP0.skillBar[idx] = null;
         simP0RenderSkillBar();
       }
+      simP0SaveToStorage();
       return;
     }
 
@@ -543,6 +631,7 @@ function simP0BindEvents() {
       var idx = parseInt(paragonNode.dataset.idx, 10);
       SimStateP0.paragonNodes[idx].active = !SimStateP0.paragonNodes[idx].active;
       simP0RenderParagonPanel();
+      simP0SaveToStorage();
       return;
     }
 
@@ -680,6 +769,7 @@ function simP0OpenSkillPicker(slotIdx) {
   _sp0PickerCallback = function(item) {
     SimStateP0.skillBar[slotIdx] = item;
     simP0RenderSkillBar();
+    simP0SaveToStorage();
     simP0ClosePicker();
   };
   _sp0PickerData = SimStateP0.activeSkills;
@@ -692,6 +782,7 @@ function simP0OpenRunePicker(slotIdx) {
   _sp0PickerCallback = function(item) {
     SimStateP0.runes[slotIdx] = item;
     simP0RenderRunePanel();
+    simP0SaveToStorage();
     simP0ClosePicker();
   };
   _sp0PickerData = SimStateP0.runeData;
@@ -704,6 +795,7 @@ function simP0OpenElixirPicker(slotIdx) {
   _sp0PickerCallback = function(item) {
     SimStateP0.elixirs[slotIdx] = item;
     simP0RenderElixirPanel();
+    simP0SaveToStorage();
     simP0ClosePicker();
   };
   _sp0PickerData = SimStateP0.elixirData;
@@ -715,6 +807,7 @@ function simP0OpenElixirPicker(slotIdx) {
 function simP0OpenPactPicker() {
   SimStateP0.pact = {name: '虚盾者'};
   simP0RenderPactPanel();
+  simP0SaveToStorage();
 }
 
 function simP0RenderPickerGrid(list) {

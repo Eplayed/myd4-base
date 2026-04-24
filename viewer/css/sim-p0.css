@@ -310,18 +310,28 @@
 
 .sp0-char-placeholder {
   text-align: center;
+  position: relative;
 }
 
 .sp0-char-silhouette {
   font-size: 68px;
-  opacity: 0.22;
+  opacity: 0.28;
   line-height: 1;
+  animation: sp0-pulse 3s ease-in-out infinite;
+}
+
+@keyframes sp0-pulse {
+  0%, 100% { opacity: 0.28; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(1.03); }
 }
 
 .sp0-char-label {
-  font-size: 13px;
-  color: rgba(255,255,255,0.38);
-  margin-top: 7px;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  margin-top: 10px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 20px rgba(255,255,255,0.2);
 }
 
 /* 威能浮动标签 */
