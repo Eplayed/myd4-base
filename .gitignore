@@ -16,3 +16,11 @@ __pycache__/
 # IDE
 .vscode/
 .idea/
+
+# Debug scripts
+_*.py
+_*.ps1
+_check*.py
+_diag*.py
+_fix*.py
+_verify*.py
