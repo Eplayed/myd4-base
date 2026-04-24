@@ -4,16 +4,16 @@
 // ============================================================
 
 const DATA_FILES = {
-  summon:    'data/summon_zhCN.json',
-  uniqueItem:'data/uniqueItem_zhCN.json',
-  aspect:    'data/aspect_zhCN.json',
-  affix:     'data/affix_zhCN.json',
-  skill:     'data/skills_zhCN.json',
-  rune:      'data/rune_zhCN.json',
-  gem:       'data/gem_zhCN.json',
-  elixir:    'data/elixir_zhCN.json',
-  builds:    'data/d4_builds_final_v2.json',
-  simulator: 'data/skills_zhCN.json'
+  summon:    '../data/summon_zhCN.json',
+  uniqueItem:'../data/uniqueItem_zhCN.json',
+  aspect:    '../data/aspect_zhCN.json',
+  affix:     '../data/affix_zhCN.json',
+  skill:     '../data/skills_zhCN.json',
+  rune:      '../data/rune_zhCN.json',
+  gem:       '../data/gem_zhCN.json',
+  elixir:    '../data/elixir_zhCN.json',
+  builds:    '../data/d4_builds_final_v2.json',
+  simulator: '../data/skills_zhCN.json'
 };
 
 let allData    = {};   // key: tab -> array
