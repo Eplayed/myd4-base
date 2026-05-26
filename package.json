@@ -1,0 +1,25 @@
+{
+  "name": "heros-base",
+  "version": "0.1.0",
+  "description": "Heroes of Might and Magic: Olden Era data pipeline for the mini program.",
+  "main": "crawlers/run.js",
+  "scripts": {
+    "crawl": "node crawlers/run.js",
+    "crawl:dev": "NODE_ENV=dev node crawlers/run.js",
+    "crawl:release": "NODE_ENV=production node crawlers/run.js",
+    "dashboard": "node dashboard/server.js",
+    "validate": "node scripts/validate-output.js",
+    "validate:dev": "NODE_ENV=dev node scripts/validate-output.js",
+    "validate:release": "NODE_ENV=production node scripts/validate-output.js"
+  },
+  "keywords": [
+    "heroes",
+    "olden-era",
+    "data"
+  ],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  }
+}

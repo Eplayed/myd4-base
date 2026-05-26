@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>上古纪元助手 - 首页概念稿</title>
+    <style>
+      :root {
+        --bg: #101114;
+        --panel: rgba(31, 30, 27, 0.88);
+        --paper: #efe1bf;
+        --paper-dark: #d6bf89;
+        --gold: #d6aa45;
+        --gold-light: #f2d37d;
+        --blue: #6aa4b8;
+        --green: #6b8b4f;
+        --text: #f6eedb;
+        --muted: #b9aa88;
+        --ink: #2b2419;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at 20% 5%, rgba(214, 170, 69, 0.2), transparent 28%),
+          radial-gradient(circle at 85% 18%, rgba(74, 112, 138, 0.22), transparent 30%),
+          linear-gradient(180deg, #17191f 0%, #0d0d0f 100%);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      .phone {
+        width: min(430px, 100vw);
+        min-height: 100vh;
+        margin: 0 auto;
+        background:
+          linear-gradient(180deg, rgba(13, 15, 19, 0.3), rgba(13, 13, 15, 0.95)),
+          url("https://www.olden-era.com/img/factions/temple.webp") 94% 82px / 120px auto no-repeat;
+        overflow: hidden;
+      }
+
+      .topbar {
+        height: 76px;
+        padding: 22px 20px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .brand small {
+        color: var(--gold-light);
+        font-size: 11px;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+      }
+
+      .brand strong {
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: 0.5px;
+      }
+
+      .version-pill {
+        padding: 8px 11px;
+        border: 1px solid rgba(214, 170, 69, 0.35);
+        border-radius: 999px;
+        color: var(--gold-light);
+        background: rgba(0, 0, 0, 0.28);
+        font-size: 12px;
+      }
+
+      .hero {
+        position: relative;
+        margin: 8px 16px 14px;
+        min-height: 210px;
+        padding: 20px;
+        border: 1px solid rgba(214, 170, 69, 0.32);
+        border-radius: 18px;
+        overflow: hidden;
+        background:
+          linear-gradient(90deg, rgba(11, 11, 12, 0.9), rgba(11, 11, 12, 0.35)),
+          url("https://www.olden-era.com/img/units/dungeon/black_dragon.webp") 116% 68% / 230px auto no-repeat,
+          linear-gradient(135deg, #262014, #101217 70%);
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.38);
+      }
+
+      .hero:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 28% 18%, rgba(242, 211, 125, 0.18), transparent 18%),
+          linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.35));
+        pointer-events: none;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        width: 65%;
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-size: 30px;
+        line-height: 1.12;
+      }
+
+      .hero p {
+        margin: 12px 0 18px;
+        color: #d8c8a3;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 9px;
+      }
+
+      .primary,
+      .secondary {
+        height: 36px;
+        border: 0;
+        border-radius: 9px;
+        padding: 0 13px;
+        font-weight: 800;
+      }
+
+      .primary {
+        color: #21180b;
+        background: linear-gradient(180deg, var(--gold-light), var(--gold));
+      }
+
+      .secondary {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .search {
+        margin: 0 16px 14px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 15px;
+        color: var(--muted);
+        border-radius: 14px;
+        background: rgba(239, 225, 191, 0.1);
+        border: 1px solid rgba(239, 225, 191, 0.14);
+      }
+
+      .search-icon {
+        color: var(--gold-light);
+        font-size: 18px;
+      }
+
+      .section {
+        margin: 18px 16px 0;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .section-title {
+        margin: 0;
+        font-size: 17px;
+      }
+
+      .section-link {
+        color: var(--gold-light);
+        font-size: 12px;
+      }
+
+      .factions {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+
+      .faction {
+        min-height: 96px;
+        position: relative;
+        padding: 12px;
+        border-radius: 14px;
+        overflow: hidden;
+        background: var(--panel);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .faction img {
+        position: absolute;
+        right: -10px;
+        bottom: -12px;
+        width: 78px;
+        opacity: 0.7;
+      }
+
+      .faction strong {
+        position: relative;
+        z-index: 1;
+        display: block;
+        font-size: 15px;
+      }
+
+      .faction span {
+        position: relative;
+        z-index: 1;
+        display: block;
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .tools {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 9px;
+      }
+
+      .tool {
+        min-height: 82px;
+        padding: 10px 6px;
+        text-align: center;
+        border-radius: 14px;
+        background: linear-gradient(180deg, rgba(239, 225, 191, 0.13), rgba(239, 225, 191, 0.06));
+        border: 1px solid rgba(239, 225, 191, 0.1);
+      }
+
+      .tool img {
+        width: 34px;
+        height: 34px;
+        object-fit: contain;
+      }
+
+      .tool span {
+        display: block;
+        margin-top: 7px;
+        font-size: 12px;
+        color: #ead9b4;
+      }
+
+      .cards {
+        display: grid;
+        gap: 12px;
+      }
+
+      .scroll-row {
+        display: flex;
+        gap: 10px;
+        overflow: hidden;
+      }
+
+      .feature-card {
+        flex: 0 0 76%;
+        display: grid;
+        grid-template-columns: 86px 1fr;
+        gap: 14px;
+        min-height: 124px;
+        padding: 12px;
+        border-radius: 16px;
+        color: var(--ink);
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.14)),
+          linear-gradient(180deg, var(--paper), var(--paper-dark));
+        box-shadow: inset 0 0 0 1px rgba(82, 58, 22, 0.12);
+      }
+
+      .feature-card img {
+        width: 86px;
+        height: 100px;
+        object-fit: contain;
+        align-self: center;
+      }
+
+      .feature-card small {
+        color: #7b6130;
+        font-weight: 800;
+      }
+
+      .feature-card h3 {
+        margin: 5px 0 8px;
+        font-size: 17px;
+      }
+
+      .feature-card p {
+        margin: 0;
+        color: #5b4d35;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .compare {
+        display: grid;
+        grid-template-columns: 1fr 36px 1fr;
+        align-items: center;
+        gap: 9px;
+        padding: 12px;
+        border-radius: 16px;
+        background: rgba(10, 10, 12, 0.45);
+        border: 1px solid rgba(214, 170, 69, 0.2);
+      }
+
+      .unit-mini {
+        text-align: center;
+      }
+
+      .unit-mini img {
+        width: 100%;
+        max-height: 95px;
+        object-fit: contain;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .unit-mini strong {
+        display: block;
+        margin-top: 8px;
+        font-size: 13px;
+      }
+
+      .vs {
+        color: var(--gold-light);
+        text-align: center;
+        font-weight: 900;
+      }
+
+      .bottom-space {
+        height: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone">
+      <div class="topbar">
+        <div class="brand">
+          <small>Olden Era Companion</small>
+          <strong>上古纪元助手</strong>
+        </div>
+        <div class="version-pill">0.80.16 数据</div>
+      </div>
+
+      <section class="hero">
+        <div class="hero-content">
+          <h1>你的战役<br />从这里开局</h1>
+          <p>查兵种、比升阶、配英雄路线。用数据把每一次招募变成选择。</p>
+          <div class="hero-actions">
+            <button class="primary">兵种对比</button>
+            <button class="secondary">阵营攻略</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="search">
+        <span class="search-icon">⌕</span>
+        <span>搜索英雄、兵种、魔法、神器效果</span>
+      </div>
+
+      <section class="section">
+        <div class="section-head">
+          <h2 class="section-title">六大阵营</h2>
+          <span class="section-link">查看全部</span>
+        </div>
+        <div class="factions">
+          <div class="faction"><strong>圣堂</strong><span>21 兵种</span><img src="https://www.olden-era.com/img/factions/temple.webp" alt="" /></div>
+          <div class="faction"><strong>墓园</strong><span>亡灵军团</span><img src="https://www.olden-era.com/img/factions/necropolis.webp" alt="" /></div>
+          <div class="faction"><strong>地下城</strong><span>黑龙巢穴</span><img src="https://www.olden-era.com/img/factions/dungeon.webp" alt="" /></div>
+          <div class="faction"><strong>裂隙</strong><span>异界军势</span><img src="https://www.olden-era.com/img/factions/schism.webp" alt="" /></div>
+          <div class="faction"><strong>树林</strong><span>自然召唤</span><img src="https://www.olden-era.com/img/factions/sylvan.webp" alt="" /></div>
+          <div class="faction"><strong>虫巢</strong><span>繁殖压制</span><img src="https://www.olden-era.com/img/factions/hive.webp" alt="" /></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h2 class="section-title">资料速查</h2>
+        </div>
+        <div class="tools">
+          <div class="tool"><img src="https://www.olden-era.com/img/units/temple/swordsman.webp" alt="" /><span>兵种</span></div>
+          <div class="tool"><img src="https://i.ibb.co/n8CDPFd9/niev.webp" alt="" /><span>英雄</span></div>
+          <div class="tool"><img src="https://www.olden-era.com/img/spells/primal/groundsight.webp" alt="" /><span>魔法</span></div>
+          <div class="tool"><img src="https://www.olden-era.com/img/artefacts/fish_to_the_face.webp" alt="" /><span>神器</span></div>
+          <div class="tool"><img src="https://www.olden-era.com/img/skills/basic_murmuring.webp" alt="" /><span>技能</span></div>
+          <div class="tool"><img src="https://www.olden-era.com/img/subclass/wellspring_of_vigor.webp" alt="" /><span>职业</span></div>
+          <div class="tool"><img src="https://www.olden-era.com/img/objects/chimerologyst.webp" alt="" /><span>宝屋</span></div>
+          <div class="tool"><img src="https://www.olden-era.com/img/stats/value.webp" alt="" /><span>排行</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h2 class="section-title">本周战术</h2>
+          <span class="section-link">基于版本数据</span>
+        </div>
+        <div class="scroll-row">
+          <article class="feature-card">
+            <img src="https://www.olden-era.com/img/units/temple/guardian_griffin.webp" alt="" />
+            <div>
+              <small>升阶选择</small>
+              <h3>狮鹫分支怎么选</h3>
+              <p>按速度、伤害、周产和技能联动，给出 PVE / PVP 两套推荐。</p>
+            </div>
+          </article>
+          <article class="feature-card">
+            <img src="https://www.olden-era.com/img/units/necropolis/vampire_lord.webp" alt="" />
+            <div>
+              <small>兵种强度</small>
+              <h3>同阶单位横向对比</h3>
+              <p>不只看数值，按金币效率、周产总伤害和能力评分排序。</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h2 class="section-title">快速对比</h2>
+          <span class="section-link">加入对比篮</span>
+        </div>
+        <div class="compare">
+          <div class="unit-mini">
+            <img src="https://www.olden-era.com/img/units/temple/swordsman.webp" alt="" />
+            <strong>剑士 · T1</strong>
+          </div>
+          <div class="vs">VS</div>
+          <div class="unit-mini">
+            <img src="https://www.olden-era.com/img/units/temple/suns_aegis.webp" alt="" />
+            <strong>太阳神盾 · T1</strong>
+          </div>
+        </div>
+      </section>
+
+      <div class="bottom-space"></div>
+    </div>
+  </body>
+</html>

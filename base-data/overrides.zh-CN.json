@@ -1,0 +1,32 @@
+{
+  "entries": {
+    "faction_temple": {
+      "zhName": "圣堂",
+      "aliases": ["Temple"]
+    },
+    "faction_necropolis": {
+      "zhName": "墓园",
+      "aliases": ["Necropolis"]
+    },
+    "faction_dungeon": {
+      "zhName": "地下城",
+      "aliases": ["Dungeon"]
+    },
+    "faction_schism": {
+      "zhName": "裂隙",
+      "aliases": ["Schism"]
+    },
+    "faction_hive": {
+      "zhName": "虫巢",
+      "aliases": ["Hive"]
+    },
+    "faction_sylvan": {
+      "zhName": "森林",
+      "aliases": ["Sylvan"]
+    },
+    "faction_neutral": {
+      "zhName": "中立",
+      "aliases": ["Neutral"]
+    }
+  }
+}
