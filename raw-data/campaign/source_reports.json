@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-05-28",
+  "reports": [
+    {
+      "id": "official_steam",
+      "name": "Steam Store",
+      "url": "https://store.steampowered.com/app/3105440/Heroes_of_Might__Magic_Olden_Era/",
+      "type": "official",
+      "usage": "mechanics_baseline",
+      "checkedAt": "2026-05-28",
+      "error": "",
+      "title": "Heroes of Might and Magic: Olden Era on Steam",
+      "wordCount": 2817,
+      "headings": [
+        {
+          "level": 2,
+          "text": "Early Access Game"
+        },
+        {
+          "level": 3,
+          "text": "Why Early Access?"
+        },
+        {
+          "level": 3,
+          "text": "Approximately how long will this game be in Early Access?"
+        },
+        {
+          "level": 3,
+          "text": "How is the full version planned to differ from the Early Access version?"
+        },
+        {
+          "level": 3,
+          "text": "What is the current state of the Early Access version?"
+        },
+        {
+          "level": 3,
+          "text": "Will the game be priced differently during and after Early Access?"
+        },
+        {
+          "level": 3,
+          "text": "How are you planning on involving the Community in your development process?"
+        },
+        {
+          "level": 2,
+          "text": "Buy Heroes of Might and Magic: Olden Era"
+        },
+        {
+          "level": 2,
+          "text": "Buy Hooded Horse Strategy RPG BUNDLE (?)"
+        },
+        {
+          "level": 2,
+          "text": "Buy Hooded Horse Publisher BUNDLE (?)"
+        },
+        {
+          "level": 2,
+          "text": "Reviews"
+        },
+        {
+          "level": 2,
+          "text": "About This Game"
+        },
+        {
+          "level": 2,
+          "text": "System Requirements"
+        },
+        {
+          "level": 2,
+          "text": "What Curators Say"
+        },
+        {
+          "level": 2,
+          "text": "Customer reviews for Heroes of Might and Magic: Olden Era See language breakdown About user reviews Your preferences"
+        },
+        {
+          "level": 2,
+          "text": "Popular user-defined tags for this product: (?)"
+        },
+        {
+          "level": 2,
+          "text": "Sign In"
+        }
+      ],
+      "excerpt": "Heroes of Might and Magic: Olden Era on Steam Sign in Store Home Discovery Queue Wishlist Points Shop News Charts Community Home Discussions Workshop Market Broadcasts About Support Change language Get the Steam Mobile App View desktop website © Valve Corporation. All rights reserved. All trademarks are property of their respective owners in the US and other countries. Privacy Policy | Legal | Accessibility | Steam Subscriber Agreement | Refunds | Cookies STORE Home Discovery Queue Wishlist Points Shop News"
+    },
+    {
+      "id": "hooded_horse_wiki",
+      "name": "Hooded Horse Wiki",
+      "url": "https://wiki.hoodedhorse.com/Heroes_of_Might_and_Magic_Olden_Era/Hero_Basics",
+      "type": "official_wiki",
+      "usage": "mechanics_baseline",
+      "checkedAt": "2026-05-28",
+      "error": "HTTP 403",
+      "title": "",
+      "wordCount": 0,
+      "headings": [],
+      "excerpt": ""
+    },
+    {
+      "id": "gamersky_campaign",
+      "name": "游民星空图文攻略",
+      "url": "https://www.gamersky.com/handbook/202604/2133773.shtml",
+      "type": "walkthrough",
+      "usage": "route_reference",
+      "checkedAt": "2026-05-28",
+      "error": "",
+      "title": "《魔法门之英雄无敌上古纪元》战役模式全关卡图文流程攻略 全任务详解+通关指南",
+      "wordCount": 359,
+      "headings": [],
+      "excerpt": "《魔法门之英雄无敌上古纪元》战役模式全关卡图文流程攻略 全任务详解+通关指南_加纳山丘-游民星空 GamerSky.com 首页 单机游戏 网络游戏 电视游戏 手机游戏 资讯 攻略 下载 找游戏 专区 网页游戏 1.76原始传奇 | 鬼服高爆版 | 盗墓笔记 | 霸者天下 | 传奇打金猪 | 微微三国 | 权利的游戏 | 道士三条狗 | 云中诀 | 神兵奇迹MU | 开天西游 | 新不良人 热门单机 生化危机4RE | 博德之门3 | 文明7 | 剑星 | 最后生还者2 | 王国之泪 | 只狼 | 羊蹄山之魂 | 无双起源 | 荒野大镖客2 | 巫师3 | 黑神话悟空 暗黑破坏神4 | 双影奇境 | 光与影 | 战神5 | 赛博朋克2077 | 丝之歌 | 宝可梦朱紫 | 艾尔登法环 | 上古卷轴5 | 明末渊虚之羽"
+    },
+    {
+      "id": "vgtimes_campaign",
+      "name": "VGTimes Campaign Walkthrough",
+      "url": "https://vgtimes.com/guides/156025-heroes-of-might-and-magic-olden-era-campaign-walkthrough-all-missions-guide.html",
+      "type": "walkthrough",
+      "usage": "route_reference",
+      "checkedAt": "2026-05-28",
+      "error": "HTTP 403",
+      "title": "",
+      "wordCount": 0,
+      "headings": [],
+      "excerpt": ""
+    },
+    {
+      "id": "gamesradar_scout",
+      "name": "GamesRadar Scout Guide",
+      "url": "https://www.gamesradar.com/games/strategy/heroes-olden-era-scout/",
+      "type": "walkthrough",
+      "usage": "mission_clue",
+      "checkedAt": "2026-05-28",
+      "error": "",
+      "title": "Where is the Scout in Heroes of Might and Magic Olden Era?",
+      "wordCount": 2284,
+      "headings": [
+        {
+          "level": 2,
+          "text": "Where is the Scout in Heroes Olden Era?"
+        }
+      ],
+      "excerpt": "Where is the Scout in Heroes of Might and Magic Olden Era? | GamesRadar+ Skip to main content Join The Community - Join our community JOIN NOW 11 Premium Benefits 24/7 Access Available 21K+ Active Members Commenting Join the discussion Exclusive Articles Coming Soon Member-only articles Weekly Newsletters Weekly gaming & entertainment news Member Badges Earn badges as you go Exclusive Competitions Members-only prize draws Curated Deals Coming Soon Tech and gaming deals worth grabbing GET COMMUNITY ACCESS QUICK For"
+    },
+    {
+      "id": "gamesradar_shard",
+      "name": "GamesRadar Shard of Serenity Guide",
+      "url": "https://www.gamesradar.com/games/strategy/shard-of-serenity-heroes-olden-era/",
+      "type": "walkthrough",
+      "usage": "mission_clue",
+      "checkedAt": "2026-05-28",
+      "error": "",
+      "title": "How to get the Shard of Serenity in Heroes Olden Era",
+      "wordCount": 2508,
+      "headings": [
+        {
+          "level": 2,
+          "text": "Where is the Shard of Serenity in Olden Era?"
+        },
+        {
+          "level": 2,
+          "text": "How to get the Olden Era Shard of Serenity"
+        }
+      ],
+      "excerpt": "How to get the Shard of Serenity in Heroes Olden Era | GamesRadar+ Skip to main content Join The Community - Join our community JOIN NOW 11 Premium Benefits 24/7 Access Available 21K+ Active Members Commenting Join the discussion Exclusive Articles Coming Soon Member-only articles Weekly Newsletters Weekly gaming & entertainment news Member Badges Earn badges as you go Exclusive Competitions Members-only prize draws Curated Deals Coming Soon Tech and gaming deals worth grabbing GET COMMUNITY ACCESS QUICK For the"
+    }
+  ]
+}

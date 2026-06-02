@@ -20,6 +20,7 @@ const REQUIRED_FILES = [
   'search_index.json',
   'unit_rankings.json',
   'upgrade_comparisons.json',
+  'campaigns.json',
 ];
 
 function readJson(file) {
@@ -73,6 +74,12 @@ function main() {
         if (!row.id || !row.baseUnitId || !Array.isArray(row.upgrades)) errors.push(`${item.file}: invalid comparison group`);
         continue;
       }
+      if (item.file === 'campaigns.json') {
+        if (!row.id || row.type !== 'campaign' || !row.title || !Array.isArray(row.objectives) || !Array.isArray(row.walkthrough)) {
+          errors.push(`${item.file}: invalid campaign ${row.id || '(missing id)'}`);
+        }
+        continue;
+      }
       if (!row.id || !row.name || !row.type) errors.push(`${item.file}: invalid row`);
       if (ids.has(row.id)) errors.push(`${item.file}: duplicate id ${row.id}`);
       ids.add(row.id);
@@ -99,6 +106,23 @@ function main() {
     for (const ability of detailed) {
       if (!abilityIds.has(ability.id)) errors.push(`units: missing ability ref ${ability.id} from ${unit.id}`);
       if (!ability.icon || !ability.description) errors.push(`units: incomplete ability ${ability.id} from ${unit.id}`);
+    }
+  }
+
+  const rankings = allRowsByFile['unit_rankings.json'] || [];
+  for (const group of rankings) {
+    for (const row of group.rows || []) {
+      if (!unitIds.has(row.unitId)) errors.push(`unit_rankings: missing unit ${row.unitId}`);
+      if (!Number.isFinite(Number(row.value))) errors.push(`unit_rankings: invalid value for ${row.unitId}`);
+    }
+  }
+
+  const comparisons = allRowsByFile['upgrade_comparisons.json'] || [];
+  for (const group of comparisons) {
+    if (!unitIds.has(group.baseUnitId)) errors.push(`upgrade_comparisons: missing base ${group.baseUnitId}`);
+    for (const upgrade of group.upgrades || []) {
+      if (!unitIds.has(upgrade.unitId)) errors.push(`upgrade_comparisons: missing upgrade ${upgrade.unitId}`);
+      if (!Array.isArray(upgrade.deltas)) errors.push(`upgrade_comparisons: missing deltas for ${upgrade.unitId}`);
     }
   }
 

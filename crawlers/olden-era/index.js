@@ -8,6 +8,7 @@ const { loadOverrides, markDetailError, mergeDetailItem, normalizeItem, slugify 
 const { attachUpgradeInfo, buildUpgradeGroups } = require('./upgrades');
 const { attachUnitMetrics, buildRankings, buildUpgradeComparisons } = require('./metrics');
 const { validateEntries, validateIndex } = require('./validate');
+const { buildCampaignData } = require('../campaigns');
 
 const DETAIL_CONCURRENCY = Number(process.env.DETAIL_CONCURRENCY || 8);
 
@@ -248,6 +249,7 @@ function buildSearchIndex(datasets, now) {
     ['classes', 'class', 'classes.json'],
     ['factions', 'faction', 'factions.json'],
     ['abilities', 'ability', 'abilities.json'],
+    ['campaigns', 'campaign', 'campaigns.json'],
   ];
 
   const items = [];
@@ -270,6 +272,10 @@ function buildSearchIndex(datasets, now) {
           row.description,
           row.zhDescription,
           row.summary,
+          row.subtitle,
+          ...(row.relatedSearch || []),
+          ...(row.objectives || []),
+          ...(row.tips || []),
           ...(row.aliases || []),
           ...flattenProperties(row.properties),
         ].filter(Boolean))).join(' ').toLowerCase(),
@@ -291,6 +297,7 @@ function buildSubtitle(row) {
   if (row.type === 'spell') return `${row.properties.magic_school || ''} T${row.properties.tier || ''}`.trim();
   if (row.type === 'artifact') return `${row.properties.rarity || ''} ${row.properties.slot || ''}`.trim();
   if (row.type === 'ability') return `${Array.isArray(row.unitIds) ? row.unitIds.length : 0} units`;
+  if (row.type === 'campaign') return `Act ${row.act || ''} ${row.subtitle || ''}`.trim();
   return row.type || '';
 }
 
@@ -310,6 +317,7 @@ async function buildOldenEraData() {
   let abilities = [];
   let unitRankings = null;
   let upgradeComparisons = null;
+  let campaignSources = null;
   const datasets = {};
 
   console.log('\n[zh-CN] loading Chinese names and ability text');
@@ -364,6 +372,32 @@ async function buildOldenEraData() {
     });
     console.log(`   ${entries.length} entries`);
   }
+
+  console.log('\n[campaigns] campaign walkthrough references');
+  const campaignData = await buildCampaignData(now);
+  datasets.campaigns = campaignData.campaigns;
+  campaignSources = campaignData.campaignSources;
+  writeJson('campaigns.json', campaignData.campaigns);
+  files.push({
+    key: 'campaigns',
+    type: 'campaign',
+    name: 'Campaign Walkthroughs',
+    file: 'campaigns.json',
+    count: campaignData.campaigns.length,
+  });
+  sources.push(...(campaignSources.reports || []).map(report => ({
+    key: `campaign_${report.id}`,
+    name: report.name,
+    url: report.url,
+    itemListName: report.title || '',
+    expectedCount: 1,
+    actualCount: report.error ? 0 : 1,
+    kind: report.type || 'campaign_reference',
+    error: report.error || '',
+    checkedAt: campaignSources.checkedAt,
+    confidence: report.type === 'official' || report.type === 'official_wiki' ? 'high' : 'medium',
+  })));
+  console.log(`   ${campaignData.campaigns.length} campaign entries`);
 
   const index = {
     game: 'Heroes of Might and Magic: Olden Era',
@@ -441,6 +475,7 @@ async function buildOldenEraData() {
   writeJson('search_index.json', searchIndex);
   writeJson('unit_rankings.json', unitRankings || { schemaVersion: 1, updatedAt: now, groups: [] });
   writeJson('upgrade_comparisons.json', upgradeComparisons || { schemaVersion: 1, updatedAt: now, groups: [] });
+  writeJson('campaign_sources.json', campaignSources || { schemaVersion: 1, updatedAt: now, sources: [], reports: [] });
 
   const missingZh = warnings.length;
   const detailFailures = files.reduce((sum, file) => {

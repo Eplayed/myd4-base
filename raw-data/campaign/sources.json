@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-05-28",
+  "sources": [
+    {
+      "id": "official_steam",
+      "name": "Steam Store",
+      "url": "https://store.steampowered.com/app/3105440/Heroes_of_Might__Magic_Olden_Era/",
+      "type": "official",
+      "usage": "mechanics_baseline"
+    },
+    {
+      "id": "hooded_horse_wiki",
+      "name": "Hooded Horse Wiki",
+      "url": "https://wiki.hoodedhorse.com/Heroes_of_Might_and_Magic_Olden_Era/Hero_Basics",
+      "type": "official_wiki",
+      "usage": "mechanics_baseline"
+    },
+    {
+      "id": "gamersky_campaign",
+      "name": "游民星空图文攻略",
+      "url": "https://www.gamersky.com/handbook/202604/2133773.shtml",
+      "type": "walkthrough",
+      "usage": "route_reference"
+    },
+    {
+      "id": "vgtimes_campaign",
+      "name": "VGTimes Campaign Walkthrough",
+      "url": "https://vgtimes.com/guides/156025-heroes-of-might-and-magic-olden-era-campaign-walkthrough-all-missions-guide.html",
+      "type": "walkthrough",
+      "usage": "route_reference"
+    },
+    {
+      "id": "gamesradar_scout",
+      "name": "GamesRadar Scout Guide",
+      "url": "https://www.gamesradar.com/games/strategy/heroes-olden-era-scout/",
+      "type": "walkthrough",
+      "usage": "mission_clue"
+    },
+    {
+      "id": "gamesradar_shard",
+      "name": "GamesRadar Shard of Serenity Guide",
+      "url": "https://www.gamesradar.com/games/strategy/shard-of-serenity-heroes-olden-era/",
+      "type": "walkthrough",
+      "usage": "mission_clue"
+    }
+  ]
+}
